@@ -1,15 +1,19 @@
 package src;
 
+import junit.framework.TestCase;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
-import static org.junit.Assert.*;
+public class TransferNativeTokenTest extends TestCase {
+    public void testAlfajoresToFantom() throws InterruptedException {
+        transferFromTo("Alfajores", "Fantom", "CELO", "0.3");
+    }
 
-public class ChromeExtUsingSelenium {
-    public static void main(String[] args) throws InterruptedException {
+    private void transferFromTo(String fromNetwork, String toNetwork, String asset, String amount) throws InterruptedException {
         ChromeOptions opt = new ChromeOptions();
         opt.setBinary("/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing");
         opt.addArguments("user-data-dir=/Users/tatjana.sadovska/Library/Application Support/Chromium");
@@ -50,7 +54,7 @@ public class ChromeExtUsingSelenium {
         driver.findElement(By.xpath("//*[text()='Select network']")).click();
         Thread.sleep(500);
 
-        driver.findElement(By.xpath("//*[text()='Alfajores']")).click();
+        driver.findElement(By.xpath("//*[text()='"+fromNetwork+"']")).click();
         Thread.sleep(500);
 
         driver.findElement(By.xpath("//*[text()='Select network']")).click();
@@ -64,16 +68,16 @@ public class ChromeExtUsingSelenium {
 
         Thread.sleep(1000);
 
-        driver.findElement(By.xpath("//*[text()='CELO']")).findElement(By.xpath("../../..")).click();
+        driver.findElement(By.xpath("//*[text()='"+asset+"']")).findElement(By.xpath("../../..")).click();
         Thread.sleep(500);
 
-        driver.findElement(By.tagName("input")).sendKeys("0.3");
+        driver.findElement(By.tagName("input")).sendKeys(amount);
 
         Thread.sleep(3000);
 
         driver.findElement(By.xpath("//*[text()='BSC']")).click();
         Thread.sleep(500);
-        driver.findElement(By.xpath("//*[text()='Fantom']")).click();
+        driver.findElement(By.xpath("//*[text()='"+toNetwork+"']")).click();
 
         Thread.sleep(3000);
 
@@ -121,9 +125,12 @@ public class ChromeExtUsingSelenium {
             Thread.sleep(1000);
             if (driver.getWindowHandles().toArray().length > 1) {
                 driver.switchTo().window((String) driver.getWindowHandles().toArray()[1]);
-                metamaskFooterButton = driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
-                if (metamaskFooterButton.isDisplayed()) {
-                    buttonText = metamaskFooterButton.getText();
+                try {
+                    metamaskFooterButton = driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
+                    if (metamaskFooterButton.isDisplayed()) {
+                        buttonText = metamaskFooterButton.getText();
+                    }
+                } catch (NoSuchElementException ex) {
                 }
             }
             tries = tries - 1;
@@ -131,11 +138,18 @@ public class ChromeExtUsingSelenium {
 
         driver.switchTo().window((String) driver.getWindowHandles().toArray()[0]);
 
-        WebElement CeloExplorerLink = driver.findElement(By.xpath("//*[text()='Celo Explorer']"));
-        WebElement FtmScanLink = driver.findElement(By.xpath("//*[text()='FtmScan']"));
-
-        assertTrue(CeloExplorerLink.isDisplayed());
-        assertTrue(FtmScanLink.isDisplayed());
+        if (fromNetwork.equals("Alfajores")) {
+            WebElement sendFromLink = driver.findElement(By.xpath("//*[text()='Celo Explorer']"));
+            assertTrue(sendFromLink.isDisplayed());
+        }
+        if (toNetwork.equals("Fantom")) {
+            WebElement sendToLink = driver.findElement(By.xpath("//*[text()='FtmScan']"));
+            assertTrue(sendToLink.isDisplayed());
+        }
+        if (toNetwork.equals("Moonbase")) {
+            WebElement sendToLink = driver.findElement(By.xpath("//*[text()='Moonscan']"));
+            assertTrue(sendToLink.isDisplayed());
+        }
 
         System.out.println("Finished");
     }
