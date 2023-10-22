@@ -20,6 +20,8 @@ public class ChromeExtUsingSelenium {
         driver.get("https://wormhole-connect.netlify.app/");
 
         Thread.sleep(1000);
+        driver.findElement(By.cssSelector("form [type='password']")).sendKeys(System.getenv("WH_PASSWORD"));
+        driver.findElement(By.cssSelector("form button.button")).click();
 
         WebElement element = driver.findElement(By.xpath("//*[text()='Connect wallet']"));
         element.click();
