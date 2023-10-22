@@ -9,16 +9,19 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
 public class TransferNativeTokenTest extends TestCase {
-    public void testAlfajoresToFantom() throws InterruptedException {
-        transferFromTo("Alfajores", "Fantom", "CELO", "0.3");
-    }
 
-    private void transferFromTo(String fromNetwork, String toNetwork, String asset, String amount) throws InterruptedException {
+    private ChromeDriver driver;
+    private boolean success;
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+
         ChromeOptions opt = new ChromeOptions();
         opt.setBinary("/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing");
         opt.addArguments("user-data-dir=/Users/tatjana.sadovska/Library/Application Support/Chromium");
         opt.addArguments("profile-directory=Default");
-        ChromeDriver driver = new ChromeDriver(opt);
+        driver = new ChromeDriver(opt);
 
         driver.get("https://wormhole-connect.netlify.app/");
 
@@ -26,6 +29,27 @@ public class TransferNativeTokenTest extends TestCase {
         driver.findElement(By.cssSelector("form [type='password']")).sendKeys(System.getenv("WH_PASSWORD"));
         driver.findElement(By.cssSelector("form button.button")).click();
 
+        success = false;
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
+
+        if (success) {
+            driver.quit();
+        }
+    }
+
+    public void testAlfajoresToFantom() throws InterruptedException {
+        transferFromTo("Alfajores", "Fantom", "CELO", "0.3");
+    }
+
+    public void testAlfajoresToMoonbase() throws InterruptedException {
+        transferFromTo("Alfajores", "Moonbase", "CELO", "0.3");
+    }
+
+    private void transferFromTo(String fromNetwork, String toNetwork, String asset, String amount) throws InterruptedException {
         WebElement element = driver.findElement(By.xpath("//*[text()='Connect wallet']"));
         element.click();
 
@@ -152,5 +176,7 @@ public class TransferNativeTokenTest extends TestCase {
         }
 
         System.out.println("Finished");
+
+        success = true;
     }
 }
