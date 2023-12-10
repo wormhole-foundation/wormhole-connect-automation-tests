@@ -141,7 +141,7 @@ public class TransferNativeTokenTest extends TestCase {
                 Thread.sleep(12000);
             } else if (buttonText.equals("Confirm")) {
                 metamaskFooterButton.click();
-                Thread.sleep(25000);
+                Thread.sleep(50000);
                 break;
             }
 
