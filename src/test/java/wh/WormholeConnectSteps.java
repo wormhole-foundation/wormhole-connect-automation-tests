@@ -86,16 +86,14 @@ public class WormholeConnectSteps {
         Browser.scrollToElement(metamaskFooterButton);
 
         String buttonText = metamaskFooterButton.getText();
-        int tries = 10;
+        int tries = 60;
         do {
             System.out.println(formatter.format(new Date()) + " Metamask button text: " + buttonText);
 
             if (buttonText.equals("Next")) {
-                tries = 10;
                 metamaskFooterButton.click();
                 // Browser.waitForMetamaskWindowToDisappear();
             } else if (buttonText.equals("Approve")) {
-                tries = 10;
                 metamaskFooterButton.click();
                 Browser.waitForMetamaskWindowToDisappear();
             } else if (buttonText.equals("Confirm")) {
