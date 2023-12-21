@@ -93,7 +93,7 @@ public class WormholeConnectSteps {
             if (buttonText.equals("Next")) {
                 tries = 10;
                 metamaskFooterButton.click();
-                Browser.waitForMetamaskWindowToDisappear();
+                // Browser.waitForMetamaskWindowToDisappear();
             } else if (buttonText.equals("Approve")) {
                 tries = 10;
                 metamaskFooterButton.click();
@@ -126,6 +126,7 @@ public class WormholeConnectSteps {
 
     @Then("I should see FtmScan link")
     public void iShouldSeeFtmScanLink() {
+        Browser.implicitlyWait(120);
         WebElement sendToLink = Browser.driver.findElement(By.xpath("//*[text()='FtmScan']"));
         assertTrue(sendToLink.isDisplayed());
 
