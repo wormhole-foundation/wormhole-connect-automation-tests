@@ -141,4 +141,60 @@ public class WormholeConnectSteps {
 
         success = true;
     }
+
+    @Then("I claim token")
+    public void iClaimToken() throws InterruptedException {
+        Browser.implicitlyWait(180);
+        Browser.driver.findElement(By.xpath("//*[text()='Claim']")).click();
+        Browser.implicitlyWait();
+
+        Browser.waitForMetamaskWindowToAppear();
+        Browser.switchToMetamaskWindow();
+
+        Browser.driver.findElement(By.xpath("//*[text()='Switch network']")).click();
+
+        Thread.sleep(5000);
+
+        Browser.waitForMetamaskWindowToAppear();
+        Browser.switchToMetamaskWindow();
+
+        WebElement metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
+        Browser.scrollToElement(metamaskFooterButton);
+
+        String buttonText = metamaskFooterButton.getText();
+        int tries = 60;
+        do {
+            System.out.println(formatter.format(new Date()) + " Metamask button text: " + buttonText);
+
+            if (buttonText.equals("Next")) {
+                metamaskFooterButton.click();
+                // Browser.waitForMetamaskWindowToDisappear();
+            } else if (buttonText.equals("Approve")) {
+                metamaskFooterButton.click();
+                Browser.waitForMetamaskWindowToDisappear();
+            } else if (buttonText.equals("Confirm")) {
+                metamaskFooterButton.click();
+                Browser.waitForMetamaskWindowToDisappear();
+                break;
+            }
+
+            buttonText = "<no button>";
+            Thread.sleep(1000);
+            if (Browser.metamaskWindowIsOpened()) {
+                Browser.switchToMetamaskWindow();
+                try {
+                    Browser.noImplicitWait();
+                    metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
+                    if (metamaskFooterButton.isDisplayed()) {
+                        buttonText = metamaskFooterButton.getText();
+                    }
+                } catch (NoSuchElementException ignored) {
+                }
+                Browser.implicitlyWait();
+            }
+            tries = tries - 1;
+        } while (tries > 0);
+
+        Browser.switchToMainWindow();
+    }
 }
