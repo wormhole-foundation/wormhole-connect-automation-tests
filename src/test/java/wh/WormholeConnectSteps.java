@@ -82,6 +82,15 @@ public class WormholeConnectSteps {
         Browser.waitForMetamaskWindowToAppear();
         Browser.switchToMetamaskWindow();
 
+        try {
+            Browser.driver.findElement(By.xpath("//*[text()='Switch network']")).click();
+            Thread.sleep(5000);
+        } catch (NoSuchElementException ignore) {
+        }
+
+        Browser.waitForMetamaskWindowToAppear();
+        Browser.switchToMetamaskWindow();
+
         WebElement metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
         Browser.scrollToElement(metamaskFooterButton);
 
