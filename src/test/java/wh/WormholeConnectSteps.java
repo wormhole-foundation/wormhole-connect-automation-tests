@@ -70,6 +70,11 @@ public class WormholeConnectSteps {
         Browser.switchToMetamaskWindow();
 
         try {
+            Browser.driver.findElement(By.xpath("//*[text()='Approve']")).click();
+            Thread.sleep(5000);
+        } catch (NoSuchElementException ignore) {
+        }
+        try {
             Browser.driver.findElement(By.xpath("//*[text()='Switch network']")).click();
             Thread.sleep(5000);
         } catch (NoSuchElementException ignore) {
