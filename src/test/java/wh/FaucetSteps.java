@@ -7,16 +7,6 @@ import org.openqa.selenium.By;
 import support.Browser;
 
 public class FaucetSteps {
-    @Before
-    public void startBrowser() {
-        Browser.launch();
-    }
-
-    @After
-    public void quitBrowser() {
-        Browser.quit();
-    }
-
     @Given("I request CELO tokens on faucet.celo.org")
     public void iRequestCELOTokensOnFaucetCeloOrg() throws InterruptedException {
         Browser.driver.get("https://faucet.celo.org/alfajores");

@@ -19,19 +19,6 @@ import static junit.framework.TestCase.assertTrue;
 public class WormholeConnectSteps {
 
     SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
-    boolean success = false;
-
-    @Before
-    public void startBrowser() {
-        Browser.launch();
-    }
-
-    @After
-    public void quitBrowser() {
-        if (success) {
-            Browser.quit();
-        }
-    }
 
     @Given("I open WH main page and enter password")
     public void iOpenWHMainPageAndEnterPassword() throws InterruptedException {
@@ -138,8 +125,6 @@ public class WormholeConnectSteps {
         assertTrue(sendToLink.isDisplayed());
 
         System.out.println("Finished");
-
-        success = true;
     }
 
     @Then("I claim token")

@@ -19,9 +19,6 @@ public class Browser {
     }
 
     public static void launch() {
-        if (driver != null) {
-            return;
-        }
         System.out.println("Browser.launch");
 
         ChromeOptions opt = new ChromeOptions();
