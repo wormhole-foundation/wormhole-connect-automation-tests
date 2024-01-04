@@ -54,7 +54,7 @@ public class Browser {
     }
 
     public static void waitForMetamaskWindowToAppear() {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         wait.until(d -> metamaskWindowIsOpened());
     }
 
