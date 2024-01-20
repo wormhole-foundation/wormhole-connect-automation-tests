@@ -33,7 +33,7 @@ public class WormholeConnectSteps {
         WebElement element = Browser.driver.findElement(By.xpath("//*[text()='Connect wallet']"));
         element.click();
 
-        Browser.driver.findElement(By.xpath("//*[text()='Metamask']")).click();
+        Browser.driver.findElement(By.xpath("//*[text()='MetaMask']")).click();
 
         Browser.waitForMetamaskWindowToAppear();
         Browser.switchToMetamaskWindow();
@@ -45,7 +45,7 @@ public class WormholeConnectSteps {
         Browser.switchToMainWindow();
 
         Browser.driver.findElement(By.xpath("//*[text()='Connect wallet']")).click();
-        Browser.driver.findElement(By.xpath("//*[text()='Metamask']")).click();
+        Browser.driver.findElement(By.xpath("//*[text()='MetaMask']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='Select network']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='" + fromNetwork + "']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='Select network']")).click();
@@ -89,7 +89,7 @@ public class WormholeConnectSteps {
         String buttonText = metamaskFooterButton.getText();
         int tries = 60;
         do {
-            System.out.println(formatter.format(new Date()) + " Metamask button text: " + buttonText);
+            System.out.println(formatter.format(new Date()) + " MetaMask button text: " + buttonText);
 
             if (buttonText.equals("Next")) {
                 metamaskFooterButton.click();
