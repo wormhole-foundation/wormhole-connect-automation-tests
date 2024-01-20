@@ -1,7 +1,5 @@
 package wh;
 
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -20,6 +18,9 @@ public class WormholeConnectSteps {
 
     SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
+    String fromWallet = "";
+    String toWallet = "";
+
     @Given("I open WH main page and enter password")
     public void iOpenWHMainPageAndEnterPassword() throws InterruptedException {
         Browser.driver.get("https://wormhole-connect.netlify.app/");
@@ -28,24 +29,40 @@ public class WormholeConnectSteps {
         Browser.driver.findElement(By.cssSelector("form button.button")).click();
     }
 
-    @And("I prepare to send {string} {string} from {string} to {string}")
-    public void iPrepareToSendFromTo(String amount, String asset, String fromNetwork, String toNetwork) throws InterruptedException {
+    @And("I prepare to send {string} {string} from {string} using {string} to {string} using {string}")
+    public void iPrepareToSendFromTo(String amount, String asset, String fromNetwork, String fromWallet, String toNetwork, String toWallet) throws InterruptedException {
         WebElement element = Browser.driver.findElement(By.xpath("//*[text()='Connect wallet']"));
         element.click();
 
-        Browser.driver.findElement(By.xpath("//*[text()='MetaMask']")).click();
+        Browser.driver.findElement(By.xpath("//*[text()='" + fromWallet + "']")).click();
 
-        Browser.waitForMetamaskWindowToAppear();
-        Browser.switchToMetamaskWindow();
+        if (fromWallet.equals("MetaMask")) {
+            Browser.waitForMetamaskWindowToAppear();
+            Browser.switchToMetamaskWindow();
 
         Browser.driver.findElement(By.cssSelector("[data-testid='unlock-password']")).sendKeys(System.getenv("METAMASK_PASSWORD"));
-        Browser.driver.findElement(By.cssSelector("[data-testid='unlock-submit']")).click();
+            Browser.driver.findElement(By.cssSelector("[data-testid='unlock-submit']")).click();
 
-        Browser.waitForMetamaskWindowToDisappear();
-        Browser.switchToMainWindow();
+            Browser.waitForMetamaskWindowToDisappear();
+            Browser.switchToMainWindow();
+        }
+
+        Thread.sleep(1000);
 
         Browser.driver.findElement(By.xpath("//*[text()='Connect wallet']")).click();
-        Browser.driver.findElement(By.xpath("//*[text()='MetaMask']")).click();
+        Browser.driver.findElement(By.xpath("//*[text()='" + toWallet + "']")).click();
+
+        if (!fromWallet.equals("MetaMask") && toWallet.equals("MetaMask")) {
+            Browser.waitForMetamaskWindowToAppear();
+            Browser.switchToMetamaskWindow();
+
+            Browser.driver.findElement(By.cssSelector("[data-testid='unlock-password']")).sendKeys("automation123");
+            Browser.driver.findElement(By.cssSelector("[data-testid='unlock-submit']")).click();
+
+            Browser.waitForMetamaskWindowToDisappear();
+            Browser.switchToMainWindow();
+        }
+
         Browser.driver.findElement(By.xpath("//*[text()='Select network']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='" + fromNetwork + "']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='Select network']")).click();
@@ -53,10 +70,21 @@ public class WormholeConnectSteps {
         Browser.driver.findElement(By.xpath("//*[text()='Select']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='" + asset + "']")).findElement(By.xpath("../../..")).click();
         Browser.driver.findElement(By.tagName("input")).sendKeys(amount);
+
+        Thread.sleep(1000);
+        try {
+            // close popup
+            Browser.driver.findElement(By.cssSelector("[data-testid='CloseIcon']")).click();
+        } catch (Exception ignore) {
+        }
+
         Browser.driver.findElement(By.xpath("//*[text()='BSC']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='" + toNetwork + "']")).click();
 
         Thread.sleep(3000); // wait UI to settle
+
+        this.fromWallet = fromWallet;
+        this.toWallet = toWallet;
     }
 
     @When("I submit transfer")
@@ -69,56 +97,65 @@ public class WormholeConnectSteps {
         Browser.waitForMetamaskWindowToAppear();
         Browser.switchToMetamaskWindow();
 
-        try {
-            Browser.driver.findElement(By.xpath("//*[text()='Approve']")).click();
-            Thread.sleep(5000);
-        } catch (NoSuchElementException ignore) {
-        }
-        try {
-            Browser.driver.findElement(By.xpath("//*[text()='Switch network']")).click();
-            Thread.sleep(5000);
-        } catch (NoSuchElementException ignore) {
-        }
+        if (this.fromWallet.equals("MetaMask")) {
+            try {
+                Browser.driver.findElement(By.xpath("//*[text()='Approve']")).click();
+                Thread.sleep(5000);
+            } catch (NoSuchElementException ignore) {
+            }
+            try {
+                Browser.driver.findElement(By.xpath("//*[text()='Switch network']")).click();
+                Thread.sleep(5000);
+            } catch (NoSuchElementException ignore) {
+            }
 
-        Browser.waitForMetamaskWindowToAppear();
-        Browser.switchToMetamaskWindow();
+            Browser.waitForMetamaskWindowToAppear();
+            Browser.switchToMetamaskWindow();
 
-        WebElement metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
-        Browser.scrollToElement(metamaskFooterButton);
+            WebElement metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
+            Browser.scrollToElement(metamaskFooterButton);
 
         String buttonText = metamaskFooterButton.getText();
         int tries = 60;
         do {
             System.out.println(formatter.format(new Date()) + " MetaMask button text: " + buttonText);
 
-            if (buttonText.equals("Next")) {
-                metamaskFooterButton.click();
-                // Browser.waitForMetamaskWindowToDisappear();
-            } else if (buttonText.equals("Approve")) {
-                metamaskFooterButton.click();
-                Browser.waitForMetamaskWindowToDisappear();
-            } else if (buttonText.equals("Confirm")) {
-                metamaskFooterButton.click();
-                Browser.waitForMetamaskWindowToDisappear();
-                break;
-            }
-
-            buttonText = "<no button>";
-            Thread.sleep(1000);
-            if (Browser.metamaskWindowIsOpened()) {
-                Browser.switchToMetamaskWindow();
-                try {
-                    Browser.noImplicitWait();
-                    metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
-                    if (metamaskFooterButton.isDisplayed()) {
-                        buttonText = metamaskFooterButton.getText();
-                    }
-                } catch (NoSuchElementException ignored) {
+                if (buttonText.equals("Next")) {
+                    metamaskFooterButton.click();
+                    // Browser.waitForMetamaskWindowToDisappear();
+                } else if (buttonText.equals("Approve")) {
+                    metamaskFooterButton.click();
+                    Browser.waitForMetamaskWindowToDisappear();
+                } else if (buttonText.equals("Confirm")) {
+                    metamaskFooterButton.click();
+                    Browser.waitForMetamaskWindowToDisappear();
+                    break;
                 }
-                Browser.implicitlyWait();
-            }
-            tries = tries - 1;
-        } while (tries > 0);
+
+                buttonText = "<no button>";
+                Thread.sleep(1000);
+                if (Browser.metamaskWindowIsOpened()) {
+                    Browser.switchToMetamaskWindow();
+                    try {
+                        Browser.noImplicitWait();
+                        metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
+                        if (metamaskFooterButton.isDisplayed()) {
+                            buttonText = metamaskFooterButton.getText();
+                        }
+                    } catch (NoSuchElementException ignored) {
+                    }
+                    Browser.implicitlyWait();
+                }
+                tries = tries - 1;
+            } while (tries > 0);
+        } else if (this.fromWallet.equals("Phantom")) {
+            Browser.driver.findElement(By.cssSelector("[data-testid='unlock-form-password-input']")).sendKeys("automation123");
+            Browser.driver.findElement(By.cssSelector("[data-testid='unlock-form-submit-button']")).click();
+
+            Browser.driver.findElement(By.cssSelector("[data-testid='primary-button']")).click(); // Confirm
+
+            Browser.waitForMetamaskWindowToDisappear();
+        }
 
         Browser.switchToMainWindow();
     }
