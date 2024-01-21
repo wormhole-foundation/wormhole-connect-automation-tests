@@ -1,5 +1,8 @@
 package support;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,6 +11,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.Duration;
 
@@ -75,5 +80,18 @@ public class Browser {
         Actions actions = new Actions(Browser.driver);
         actions.moveToElement(element);
         actions.perform();
+    }
+
+    public static void takeScreenshot() {
+        File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File destination = new File("screenshots/test_failed.png");
+
+        try {
+            FileUtils.copyFile(screenshotFile, destination);
+
+            System.out.println("Saved screenshot to: " + destination.getAbsolutePath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
