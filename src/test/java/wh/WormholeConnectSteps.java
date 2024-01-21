@@ -20,6 +20,10 @@ public class WormholeConnectSteps {
 
     String fromWallet = "";
     String toWallet = "";
+    String fromNetwork = "";
+    String toNetwork = "";
+    String amount = "";
+    String asset = "";
 
     @Given("I open WH main page and enter password")
     public void iOpenWHMainPageAndEnterPassword() throws InterruptedException {
@@ -83,6 +87,10 @@ public class WormholeConnectSteps {
 
         this.fromWallet = fromWallet;
         this.toWallet = toWallet;
+        this.fromNetwork = fromNetwork;
+        this.toNetwork = toNetwork;
+        this.amount = amount;
+        this.asset = asset;
     }
 
     @When("I submit transfer")
@@ -173,7 +181,11 @@ public class WormholeConnectSteps {
 
         String fromTx = sendFromLink.findElement(By.xpath("..")).getAttribute("href");
         String toTx = sendToLink.findElement(By.xpath("..")).getAttribute("href");
-        Browser.saveResults(fromTx, toTx);
+
+        String scenarioText = "Sent " + this.amount + " " + this.asset +
+                " from " + this.fromNetwork + " using " + this.fromWallet +
+                " to " + this.toNetwork + " using " + this.toWallet;
+        Browser.saveResults(scenarioText, fromTx, toTx);
 
         System.out.println("Finished");
     }
