@@ -36,6 +36,12 @@ git clone https://github.com/tsadovska/wh-automation-tests.git
 12. Setup Phantom wallet:
 - Install from https://chromewebstore.google.com/detail/phantom/bfnaelmomeimhlpmgjnjophhpkkoljpa?hl=en-US
 - Enable "Testnet Mode" in Settings > Developer Settings
+13. Setup Leap wallet:
+- Install from https://chromewebstore.google.com/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg?hl=en
+- Change "Network" to "Testnet" in Settings
+14. Setup Sui wallet:
+- Install from https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil
+- Change "Network" to "Testnet" in Settings
 
 
 # Run Tests
@@ -48,6 +54,7 @@ NOTE: when tests are run for the first time, please confirm new networks in Meta
 # Faucets
 
 Account address: 0x6FBd5A25aa9a2f40E3b013db720c7b46f22C6116
+Cosmos address: cosmos12fzew36jwpwe0vgsrsxyquf0aurnfmwd0lw5du
 
 - https://faucet.celo.org/alfajores (login with Github, gives ~5 CELO, worked on 2023-12-10)
 - https://stakely.io/en/faucet/celo-celo (worked on 2023-12-10)
