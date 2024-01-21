@@ -1,10 +1,7 @@
 package support;
 
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -87,14 +84,16 @@ public class Browser {
     }
 
     public static void takeScreenshot() {
-        File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        String date = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File destination = new File("screenshots/" + date + "_test_failed.png");
-
         try {
+            File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            String date = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            File destination = new File("screenshots/" + date + "_test_failed.png");
+
             FileUtils.copyFile(screenshotFile, destination);
 
             System.out.println("Saved screenshot to: " + destination.getAbsolutePath());
+        } catch (WebDriverException e) {
+            System.err.println("Could not save screenshot");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
