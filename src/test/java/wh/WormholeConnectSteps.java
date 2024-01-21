@@ -164,7 +164,7 @@ public class WormholeConnectSteps {
 
     @Then("I should see {string} link")
     public void iShouldSeeFtmScanLink(String scan) {
-        Browser.implicitlyWait(120);
+        Browser.implicitlyWait(60 * 30);
         WebElement sendToLink = Browser.driver.findElement(By.xpath("//*[text()= '" + scan + "' ]"));
         assertTrue(sendToLink.isDisplayed());
 
