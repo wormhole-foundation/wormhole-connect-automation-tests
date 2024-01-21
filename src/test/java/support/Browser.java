@@ -45,14 +45,15 @@ public class Browser {
     }
 
     public static void noImplicitWait() {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+        implicitlyWait(0);
     }
 
     public static void implicitlyWait() {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        implicitlyWait(10);
     }
 
     public static void implicitlyWait(int seconds) {
+        System.out.println("Implicit wait set to " + seconds + "s");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
     }
 
@@ -61,7 +62,11 @@ public class Browser {
     }
 
     public static void waitForMetamaskWindowToAppear() {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+        waitForMetamaskWindowToAppear(60);
+    }
+
+    public static void waitForMetamaskWindowToAppear(int seconds) {
+        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
         wait.until(d -> metamaskWindowIsOpened());
         switchToMetamaskWindow();
     }
@@ -134,9 +139,13 @@ public class Browser {
         } catch (NoSuchElementException ignore) {
         }
 
+        System.out.println("Waiting for MetaMask window to appear...");
+        Browser.waitForMetamaskWindowToAppear(180);
+
         WebElement metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
         Browser.scrollToElement(metamaskFooterButton);
 
+        System.out.println("Confirming transaction in MetaMask...");
         String buttonText = metamaskFooterButton.getText();
         int tries = 60;
         do {
@@ -144,7 +153,6 @@ public class Browser {
 
             if (buttonText.equals("Next")) {
                 metamaskFooterButton.click();
-                // Browser.waitForMetamaskWindowToDisappear();
             } else if (buttonText.equals("Approve")) {
                 metamaskFooterButton.click();
                 Browser.waitForMetamaskWindowToDisappear();
@@ -171,6 +179,7 @@ public class Browser {
             tries = tries - 1;
         } while (tries > 0);
 
+        System.out.println("Transaction was confirmed in MetaMask");
         Browser.switchToMainWindow();
     }
 }
