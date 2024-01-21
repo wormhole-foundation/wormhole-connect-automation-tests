@@ -19,6 +19,7 @@ import java.util.Date;
 
 public class Browser {
     public static ChromeDriver driver;
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
     public static void main(String[] args) {
         launch();
@@ -62,11 +63,13 @@ public class Browser {
     public static void waitForMetamaskWindowToAppear() {
         Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         wait.until(d -> metamaskWindowIsOpened());
+        switchToMetamaskWindow();
     }
 
     public static void waitForMetamaskWindowToDisappear() {
         Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(d -> !metamaskWindowIsOpened());
+        switchToMainWindow();
     }
 
     public static void switchToMetamaskWindow() {
@@ -113,5 +116,61 @@ public class Browser {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    public static void confirmTransactionInMetaMask() throws InterruptedException {
+        Browser.waitForMetamaskWindowToAppear();
+
+        System.out.println("Going to Approve adding new network (if MetaMask requires it)...");
+        try {
+            Browser.driver.findElement(By.xpath("//*[text()='Approve']")).click();
+            Thread.sleep(5000);
+        } catch (NoSuchElementException ignore) {
+        }
+        System.out.println("Going to Switch network (if MetaMask requires it)...");
+        try {
+            Browser.driver.findElement(By.xpath("//*[text()='Switch network']")).click();
+            Thread.sleep(5000);
+        } catch (NoSuchElementException ignore) {
+        }
+
+        WebElement metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
+        Browser.scrollToElement(metamaskFooterButton);
+
+        String buttonText = metamaskFooterButton.getText();
+        int tries = 60;
+        do {
+            System.out.println(formatter.format(new Date()) + " MetaMask button text: " + buttonText);
+
+            if (buttonText.equals("Next")) {
+                metamaskFooterButton.click();
+                // Browser.waitForMetamaskWindowToDisappear();
+            } else if (buttonText.equals("Approve")) {
+                metamaskFooterButton.click();
+                Browser.waitForMetamaskWindowToDisappear();
+            } else if (buttonText.equals("Confirm")) {
+                metamaskFooterButton.click();
+                Browser.waitForMetamaskWindowToDisappear();
+                break;
+            }
+
+            buttonText = "<no button>";
+            Thread.sleep(1000);
+            if (Browser.metamaskWindowIsOpened()) {
+                Browser.switchToMetamaskWindow();
+                try {
+                    Browser.noImplicitWait();
+                    metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
+                    if (metamaskFooterButton.isDisplayed()) {
+                        buttonText = metamaskFooterButton.getText();
+                    }
+                } catch (NoSuchElementException ignored) {
+                }
+                Browser.implicitlyWait();
+            }
+            tries = tries - 1;
+        } while (tries > 0);
+
+        Browser.switchToMainWindow();
     }
 }
