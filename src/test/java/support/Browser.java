@@ -13,7 +13,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
@@ -95,6 +97,19 @@ public class Browser {
             System.out.println("Saved screenshot to: " + destination.getAbsolutePath());
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void saveResults(String fromTx, String toTx) {
+        String date = (new Date()).toString();
+        String s = date + "\n" + "Send from tx: " + fromTx + "\n" + "Send to tx: " + toTx + "\n";
+        try {
+            File f = new File("results/results.txt");
+            f.getParentFile().mkdirs();
+            f.createNewFile();
+            Files.write(f.toPath(), s.getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
     }
 }

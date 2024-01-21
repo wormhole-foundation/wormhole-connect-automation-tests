@@ -162,11 +162,18 @@ public class WormholeConnectSteps {
         Browser.switchToMainWindow();
     }
 
-    @Then("I should see {string} link")
-    public void iShouldSeeFtmScanLink(String scan) {
+    @Then("I should see send from {string} link and send to {string} link")
+    public void iShouldSeeFtmScanLink(String scanFrom, String scanTo) {
         Browser.implicitlyWait(60 * 30);
-        WebElement sendToLink = Browser.driver.findElement(By.xpath("//*[text()= '" + scan + "' ]"));
+
+        WebElement sendFromLink = Browser.driver.findElement(By.xpath("//*[text()= '" + scanFrom + "' ]"));
+        WebElement sendToLink = Browser.driver.findElement(By.xpath("//*[text()= '" + scanTo + "' ]"));
+
         assertTrue(sendToLink.isDisplayed());
+
+        String fromTx = sendFromLink.findElement(By.xpath("..")).getAttribute("href");
+        String toTx = sendToLink.findElement(By.xpath("..")).getAttribute("href");
+        Browser.saveResults(fromTx, toTx);
 
         System.out.println("Finished");
     }
