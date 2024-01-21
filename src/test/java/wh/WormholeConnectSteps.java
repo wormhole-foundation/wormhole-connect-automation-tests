@@ -94,21 +94,25 @@ public class WormholeConnectSteps {
 
         approveButton.click();
 
+        System.out.println("Waiting for MetaMask window to appear...");
         Browser.waitForMetamaskWindowToAppear();
         Browser.switchToMetamaskWindow();
 
         if (this.fromWallet.equals("MetaMask")) {
+            System.out.println("Going to Approve adding new network (if MetaMask requires it)...");
             try {
                 Browser.driver.findElement(By.xpath("//*[text()='Approve']")).click();
                 Thread.sleep(5000);
             } catch (NoSuchElementException ignore) {
             }
+            System.out.println("Going to Switch network (if MetaMask requires it)...");
             try {
                 Browser.driver.findElement(By.xpath("//*[text()='Switch network']")).click();
                 Thread.sleep(5000);
             } catch (NoSuchElementException ignore) {
             }
 
+            System.out.println("Waiting for MetaMask window to appear...");
             Browser.waitForMetamaskWindowToAppear();
             Browser.switchToMetamaskWindow();
 
