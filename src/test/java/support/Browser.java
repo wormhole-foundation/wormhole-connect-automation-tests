@@ -14,7 +14,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 
 public class Browser {
     public static ChromeDriver driver;
@@ -84,7 +86,8 @@ public class Browser {
 
     public static void takeScreenshot() {
         File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        File destination = new File("screenshots/test_failed.png");
+        String date = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File destination = new File("screenshots/" + date + "_test_failed.png");
 
         try {
             FileUtils.copyFile(screenshotFile, destination);
