@@ -65,8 +65,6 @@ public class WormholeConnectSteps {
 
         Browser.driver.findElement(By.xpath("//*[text()='Select network']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='" + fromNetwork + "']")).click();
-        Browser.driver.findElement(By.xpath("//*[text()='Select network']")).click();
-        Browser.driver.findElement(By.xpath("//*[text()='BSC']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='Select']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='" + asset + "']")).findElement(By.xpath("../../..")).click();
         Browser.driver.findElement(By.tagName("input")).sendKeys(amount);
@@ -78,7 +76,7 @@ public class WormholeConnectSteps {
         } catch (Exception ignore) {
         }
 
-        Browser.driver.findElement(By.xpath("//*[text()='BSC']")).click();
+        Browser.driver.findElement(By.xpath("//*[text()='Select network']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='" + toNetwork + "']")).click();
 
         Thread.sleep(3000); // wait UI to settle
