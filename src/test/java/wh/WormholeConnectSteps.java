@@ -121,13 +121,12 @@ public class WormholeConnectSteps {
         } else if (this.route.equals("manual")) {
             Browser.implicitlyWait(60 * 30);
             Browser.driver.findElement(By.xpath("//*[text()='Claim']")).click();
+            Browser.implicitlyWait();
 
             Browser.confirmTransactionInMetaMask();
 
             Browser.implicitlyWait(60 * 3);
-            Browser.driver.findElement(By.xpath("//*[text()= '" + scanTo + "' ]"));
         }
-        Browser.implicitlyWait();
 
         WebElement sendFromLink = Browser.driver.findElement(By.xpath("//*[text()= '" + scanFrom + "' ]"));
         WebElement sendToLink = Browser.driver.findElement(By.xpath("//*[text()= '" + scanTo + "' ]"));
