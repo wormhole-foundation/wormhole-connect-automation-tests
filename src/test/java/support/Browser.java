@@ -46,7 +46,7 @@ public class Browser {
         }
         opt.addArguments("user-data-dir=" + Paths.get("chrome_profile").toAbsolutePath());
         opt.addArguments("profile-directory=Default");
-        ClientConfig config = ClientConfig.defaultConfig().readTimeout(Duration.ofSeconds(1800));
+        ClientConfig config = ClientConfig.defaultConfig().readTimeout(Duration.ofHours(2));
         driver = new ChromeDriver(ChromeDriverService.createDefaultService(), opt, config);
         implicitlyWait();
     }

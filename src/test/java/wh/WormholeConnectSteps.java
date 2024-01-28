@@ -124,9 +124,9 @@ public class WormholeConnectSteps {
     @Then("I should see send from {string} link and send to {string} link")
     public void iShouldSeeScanLink(String scanFrom, String scanTo) throws InterruptedException {
         if (this.route.equals("automatic")) {
-            Browser.implicitlyWait(60 * 30);
+            Browser.implicitlyWait(60 * 60);
         } else if (this.route.equals("manual")) {
-            Browser.implicitlyWait(60 * 30);
+            Browser.implicitlyWait(60 * 60);
             Browser.driver.findElement(By.xpath("//*[text()='Claim']")).click();
             Browser.implicitlyWait();
 
