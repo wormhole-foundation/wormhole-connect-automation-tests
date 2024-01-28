@@ -22,9 +22,9 @@ public class WormholeConnectSteps {
 
     @Given("I open WH main page and enter password")
     public void iOpenWHMainPageAndEnterPassword() throws InterruptedException {
-        Browser.driver.get("https://wormhole-connect.netlify.app/");
+        Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_TESTNET"));
 
-        Browser.driver.findElement(By.cssSelector("form [type='password']")).sendKeys(System.getenv("WH_PASSWORD"));
+        Browser.driver.findElement(By.cssSelector("form [type='password']")).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
         Browser.driver.findElement(By.cssSelector("form button.button")).click();
     }
 
@@ -46,7 +46,7 @@ public class WormholeConnectSteps {
         if (this.fromWallet.equals("MetaMask")) {
             Browser.waitForMetamaskWindowToAppear();
 
-        Browser.driver.findElement(By.cssSelector("[data-testid='unlock-password']")).sendKeys(System.getenv("METAMASK_PASSWORD"));
+            Browser.driver.findElement(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
             Browser.driver.findElement(By.cssSelector("[data-testid='unlock-submit']")).click();
 
             Browser.waitForMetamaskWindowToDisappear();
@@ -60,7 +60,7 @@ public class WormholeConnectSteps {
         if (!this.fromWallet.equals("MetaMask") && this.toWallet.equals("MetaMask")) {
             Browser.waitForMetamaskWindowToAppear();
 
-            Browser.driver.findElement(By.cssSelector("[data-testid='unlock-password']")).sendKeys("automation123");
+            Browser.driver.findElement(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
             Browser.driver.findElement(By.cssSelector("[data-testid='unlock-submit']")).click();
 
             Browser.waitForMetamaskWindowToDisappear();
@@ -105,7 +105,7 @@ public class WormholeConnectSteps {
             Browser.confirmTransactionInMetaMask();
 
         } else if (this.fromWallet.equals("Phantom")) {
-            Browser.driver.findElement(By.cssSelector("[data-testid='unlock-form-password-input']")).sendKeys("automation123");
+            Browser.driver.findElement(By.cssSelector("[data-testid='unlock-form-password-input']")).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
             Browser.driver.findElement(By.cssSelector("[data-testid='unlock-form-submit-button']")).click();
 
             Browser.driver.findElement(By.cssSelector("[data-testid='primary-button']")).click(); // Confirm

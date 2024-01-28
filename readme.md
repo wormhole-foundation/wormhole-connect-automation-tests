@@ -27,7 +27,8 @@ git clone https://github.com/tsadovska/wh-automation-tests.git
 4. Open chrome://extensions/
 5. Enable Developer mode
 6. Drag and drop `metamask-chrome-10.34.5.crx` from IntelliJ IDEA into Chrome
-7. Setup metamask wallet.
+7. Setup metamask wallet:
+- Put wallet unlock password to `.env` file
 8. Enable Test networks in MetaMask
 9. Open https://faucet.celo.org/alfajores , login with Github
 10. Open https://wormhole-connect.netlify.app/ , send 0.1 CELO from Alfajores to Fantom (this is required to make sure that metamask is properly configured)
@@ -35,12 +36,15 @@ git clone https://github.com/tsadovska/wh-automation-tests.git
 12. Setup Phantom wallet:
 - Install from https://chromewebstore.google.com/detail/phantom/bfnaelmomeimhlpmgjnjophhpkkoljpa?hl=en-US
 - Enable "Testnet Mode" in Settings > Developer Settings
+- Put wallet unlock password to `.env` file
 13. Setup Leap wallet:
 - Install from https://chromewebstore.google.com/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg?hl=en
-- Change "Network" to "Testnet" in Settings
+- Change "Network" to "Testnet"
+- Put wallet unlock password to `.env` file
 14. Setup Sui wallet:
 - Install from https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil
-- Change "Network" to "Testnet" in Settings
+- Change "Network" to "Testnet"
+- Put wallet unlock password to `.env` file
 
 
 # Run Tests

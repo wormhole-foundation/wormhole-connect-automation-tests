@@ -1,5 +1,6 @@
 package support;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,6 +20,7 @@ import java.util.Date;
 
 public class Browser {
     public static ChromeDriver driver;
+    public static Dotenv env;
     private static final SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
     public static void main(String[] args) {
@@ -27,6 +29,8 @@ public class Browser {
 
     public static void launch() {
         System.out.println("Browser.launch");
+
+        env = Dotenv.load();
 
         ChromeOptions opt = new ChromeOptions();
         if (System.getProperty("os.name").startsWith("Windows")) {
