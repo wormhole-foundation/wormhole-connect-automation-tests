@@ -1,7 +1,7 @@
 Feature: Smoke tests
 
-  Scenario Outline: Smoke tests
-    Given I open WH main page and enter password
+  Scenario Outline: Wormhole-connect testnet manual smoke
+    Given I open wormhole-connect TESTNET and enter password
     And I prepare to send "<amount>" "<asset>" from "<from>" using "<from_wallet>" to "<to>" using "<to_wallet>" via "<route>"
     When I submit transfer
     Then I should see send from "<scan_from>" link and send to "<scan_to>" link

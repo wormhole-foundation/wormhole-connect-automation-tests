@@ -20,9 +20,16 @@ public class WormholeConnectSteps {
     String asset = "";
     String route = "";
 
-    @Given("I open WH main page and enter password")
-    public void iOpenWHMainPageAndEnterPassword() throws InterruptedException {
+    @Given("I open wormhole-connect TESTNET and enter password")
+    public void iOpenWormholeConnectTestnetPageAndEnterPassword() throws InterruptedException {
         Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_TESTNET"));
+
+        Browser.driver.findElement(By.cssSelector("form [type='password']")).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
+        Browser.driver.findElement(By.cssSelector("form button.button")).click();
+    }
+    @Given("I open wormhole-connect MAINNET and enter password")
+    public void iOpenWormholeConnectMainnetPageAndEnterPassword() throws InterruptedException {
+        Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_MAINNET"));
 
         Browser.driver.findElement(By.cssSelector("form [type='password']")).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
         Browser.driver.findElement(By.cssSelector("form button.button")).click();
@@ -115,7 +122,7 @@ public class WormholeConnectSteps {
     }
 
     @Then("I should see send from {string} link and send to {string} link")
-    public void iShouldSeeFtmScanLink(String scanFrom, String scanTo) throws InterruptedException {
+    public void iShouldSeeScanLink(String scanFrom, String scanTo) throws InterruptedException {
         if (this.route.equals("automatic")) {
             Browser.implicitlyWait(60 * 30);
         } else if (this.route.equals("manual")) {
