@@ -7,9 +7,8 @@ cd <path to unzipped chrome-mac-arm64>
 sudo xattr -cr 'Google Chrome for Testing.app'
 ```
 4. Copy 'Google Chrome for Testing.app' to Applications
-5. Install Xcode from App Store
-6. Install IntelliJ IDEA CE
-7. Install Rosetta:
+5. Install IntelliJ IDEA CE
+6. Install Rosetta:
 ```
 /usr/sbin/softwareupdate --install-rosetta --agree-to-license
 ```
