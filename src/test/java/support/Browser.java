@@ -4,8 +4,10 @@ import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -44,7 +46,8 @@ public class Browser {
         }
         opt.addArguments("user-data-dir=" + Paths.get("chrome_profile").toAbsolutePath());
         opt.addArguments("profile-directory=Default");
-        driver = new ChromeDriver(opt);
+        ClientConfig config = ClientConfig.defaultConfig().readTimeout(Duration.ofSeconds(1800));
+        driver = new ChromeDriver(ChromeDriverService.createDefaultService(), opt, config);
         implicitlyWait();
     }
 
