@@ -140,6 +140,12 @@ public class Browser {
             Thread.sleep(5000);
         } catch (NoSuchElementException ignore) {
         }
+        System.out.println("Going to confirm warning on Moonbase network (if MetaMask requires it)...");
+        try {
+            Browser.driver.findElement(By.xpath("//*[text()='Got it']")).click();
+            Thread.sleep(5000);
+        } catch (NoSuchElementException ignore) {
+        }
         System.out.println("Going to Switch network (if MetaMask requires it)...");
         try {
             Browser.driver.findElement(By.xpath("//*[text()='Switch network']")).click();
