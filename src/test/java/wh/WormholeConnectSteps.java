@@ -88,8 +88,12 @@ public class WormholeConnectSteps {
         Thread.sleep(1000);
 
         if (route.equals("automatic")) {
+            Browser.driver.findElement(By.xpath("//*[contains(text(),'Automatic Bridge')]"));
+            Thread.sleep(2000);
             Browser.driver.findElement(By.xpath("//*[contains(text(),'Automatic Bridge')]")).click();
         } else if (route.equals("manual")) {
+            Browser.driver.findElement(By.xpath("//*[contains(text(),'Manual Bridge')]"));
+            Thread.sleep(2000);
             Browser.driver.findElement(By.xpath("//*[contains(text(),'Manual Bridge')]")).click();
         }
 
@@ -100,9 +104,9 @@ public class WormholeConnectSteps {
     public void iSubmitTransfer() throws InterruptedException {
         WebElement approveButton = Browser.driver.findElement(By.xpath("//*[text()='Approve and proceed with transaction']"));
         Browser.scrollToElement(approveButton);
-
+        Thread.sleep(5000);
         approveButton.click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         System.out.println("Waiting for MetaMask window to appear...");
         Browser.waitForMetamaskWindowToAppear();
@@ -135,6 +139,9 @@ public class WormholeConnectSteps {
         if (Browser.route.equals("manual")) {
             Browser.implicitlyWait(60 * 60);
             System.out.println("Waiting for the Claim button...");
+            Browser.driver.findElement(By.xpath("//*[text()='Claim']"));
+            System.out.println("Waiting to click on Claim button...");
+            Thread.sleep(5000);
             Browser.driver.findElement(By.xpath("//*[text()='Claim']")).click();
             Thread.sleep(2000);
             Browser.implicitlyWait();
