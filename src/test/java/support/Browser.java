@@ -89,6 +89,7 @@ public class Browser {
     }
 
     public static void switchToMetamaskWindow() {
+        System.out.println("Switching to MetaMask window...");
         driver.switchTo().window((String) driver.getWindowHandles().toArray()[1]);
     }
 
@@ -118,12 +119,9 @@ public class Browser {
         }
     }
 
-    public static void saveResults(String scenarioText, String fromTx, String toTx) {
+    public static void saveResults(String message) {
         String date = (new Date()).toString();
-        String s = date + "\n" +
-                scenarioText + "\n" +
-                "Send from tx: " + fromTx + "\n" +
-                "Send to tx: " + toTx + "\n";
+        String s = "[" + date + "] " + message + "\n";
         try {
             File f = new File("results/results.txt");
             f.getParentFile().mkdirs();

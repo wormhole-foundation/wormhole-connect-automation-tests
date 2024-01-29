@@ -45,6 +45,12 @@ public class WormholeConnectSteps {
         this.asset = asset;
         this.route = route;
 
+        String scenarioText = "Send " + this.amount + " " + this.asset +
+                " from " + this.fromNetwork + " (" + this.fromWallet + ")" +
+                " to " + this.toNetwork + " (" + this.toWallet + "). " +
+                "Route: " + this.route;
+        Browser.saveResults(scenarioText);
+
         WebElement element = Browser.driver.findElement(By.xpath("//*[text()='Connect wallet']"));
         element.click();
 
@@ -123,10 +129,19 @@ public class WormholeConnectSteps {
 
     @Then("I should see send from {string} link and send to {string} link")
     public void iShouldSeeScanLink(String scanFrom, String scanTo) throws InterruptedException {
+        Browser.implicitlyWait(60 * 60);
+        System.out.println("Waiting for the send from link...");
+        WebElement sendFromLink = Browser.driver.findElement(By.xpath("//*[text()= '" + scanFrom + "' ]"));
+        Browser.implicitlyWait();
+
+        String fromTx = sendFromLink.findElement(By.xpath("..")).getAttribute("href");
+        Browser.saveResults("Send from tx: " + fromTx);
+
         if (this.route.equals("automatic")) {
             Browser.implicitlyWait(60 * 60);
         } else if (this.route.equals("manual")) {
             Browser.implicitlyWait(60 * 60);
+            System.out.println("Waiting for the Claim button...");
             Browser.driver.findElement(By.xpath("//*[text()='Claim']")).click();
             Browser.implicitlyWait();
 
@@ -135,19 +150,14 @@ public class WormholeConnectSteps {
             Browser.implicitlyWait(60 * 3);
         }
 
-        WebElement sendFromLink = Browser.driver.findElement(By.xpath("//*[text()= '" + scanFrom + "' ]"));
-        WebElement sendToLink = Browser.driver.findElement(By.xpath("//*[text()= '" + scanTo + "' ]"));
+        System.out.println("Waiting for the send to link...");
+        WebElement sendToLink = Browser.driver.findElement(By.xpath("//*[text()='" + scanTo + "']"));
 
         assertTrue(sendToLink.isDisplayed());
 
-        String fromTx = sendFromLink.findElement(By.xpath("..")).getAttribute("href");
         String toTx = sendToLink.findElement(By.xpath("..")).getAttribute("href");
 
-        String scenarioText = "Sent " + this.amount + " " + this.asset +
-                " from " + this.fromNetwork + " (" + this.fromWallet + ")" +
-                " to " + this.toNetwork + " (" + this.toWallet + "). " +
-                "Route: " + this.route;
-        Browser.saveResults(scenarioText, fromTx, toTx);
+        Browser.saveResults("Send to tx: " + toTx);
 
         System.out.println("Finished");
     }
