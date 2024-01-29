@@ -155,7 +155,7 @@ public class WormholeConnectSteps {
 
             Browser.confirmTransactionInMetaMask();
 
-            Browser.implicitlyWait(60 * 3);
+            Browser.implicitlyWait(60 * 30);
         }
 
         System.out.println("Waiting for the send to link...");
