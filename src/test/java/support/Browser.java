@@ -32,6 +32,8 @@ public class Browser {
     public static String amount = "";
     public static String asset = "";
     public static String route = "";
+    public static String txFrom = "";
+    public static String txTo = "";
 
     public static void main(String[] args) {
         launch();
@@ -127,11 +129,16 @@ public class Browser {
         }
     }
 
-    public static void saveResults(String message) {
+    public static void saveResults(String status) {
         String date = (new Date()).toString();
-        String s = "[" + date + "] " + message + "\n";
+        String s = date + ";" +
+                Browser.route + ";" +
+                Browser.amount + ";" + Browser.asset + ";" +
+                Browser.fromNetwork + ";" + Browser.fromWallet + ";" +
+                Browser.toNetwork + ";" + Browser.toWallet + ";" +
+                status + "\n";
         try {
-            File f = new File("results/results.txt");
+            File f = new File("results/results.csv");
             f.getParentFile().mkdirs();
             f.createNewFile();
             Files.write(f.toPath(), s.getBytes(), StandardOpenOption.APPEND);

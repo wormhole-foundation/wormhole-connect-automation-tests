@@ -21,6 +21,9 @@ public class CucumberTests {
         if (scenario.isFailed()) {
             Browser.takeScreenshot();
         }
+
+        Browser.saveResults(scenario.isFailed() ? "fail" : "pass");
+
         Browser.quit();
     }
 }

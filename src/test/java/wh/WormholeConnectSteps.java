@@ -37,12 +37,6 @@ public class WormholeConnectSteps {
         Browser.asset = asset;
         Browser.route = route;
 
-        String scenarioText = "Send " + Browser.amount + " " + Browser.asset +
-                " from " + Browser.fromNetwork + " (" + Browser.fromWallet + ")" +
-                " to " + Browser.toNetwork + " (" + Browser.toWallet + "). " +
-                "Route: " + Browser.route;
-        Browser.saveResults(scenarioText);
-
         WebElement element = Browser.driver.findElement(By.xpath("//*[text()='Connect wallet']"));
         element.click();
 
@@ -133,8 +127,7 @@ public class WormholeConnectSteps {
         WebElement sendFromLink = Browser.driver.findElement(By.xpath("//*[text()= '" + scanFrom + "' ]"));
         Browser.implicitlyWait();
 
-        String fromTx = sendFromLink.findElement(By.xpath("..")).getAttribute("href");
-        Browser.saveResults("Send from tx: " + fromTx);
+        Browser.txFrom = sendFromLink.findElement(By.xpath("..")).getAttribute("href");
     }
 
     @Then("I should claim assets")
@@ -163,9 +156,7 @@ public class WormholeConnectSteps {
 
         assertTrue(sendToLink.isDisplayed());
 
-        String toTx = sendToLink.findElement(By.xpath("..")).getAttribute("href");
-
-        Browser.saveResults("Send to tx: " + toTx);
+        Browser.txTo = sendToLink.findElement(By.xpath("..")).getAttribute("href");
 
         System.out.println("Finished");
     }
