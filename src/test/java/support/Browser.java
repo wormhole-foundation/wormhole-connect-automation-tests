@@ -138,24 +138,25 @@ public class Browser {
         System.out.println("Going to Approve adding new network (if MetaMask requires it)...");
         try {
             Browser.driver.findElement(By.xpath("//*[text()='Approve']")).click();
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
         System.out.println("Going to confirm warning on Moonbase network (if MetaMask requires it)...");
         try {
             Browser.driver.findElement(By.xpath("//*[text()='Got it']")).click();
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
         System.out.println("Going to Switch network (if MetaMask requires it)...");
         try {
+            Thread.sleep(3000);
             Browser.driver.findElement(By.xpath("//*[text()='Switch network']")).click();
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
 
         System.out.println("Waiting for MetaMask window to appear...");
-        Browser.waitForMetamaskWindowToAppear(180);
+        Browser.waitForMetamaskWindowToAppear(600);
 
         WebElement metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
         Browser.scrollToElement(metamaskFooterButton);

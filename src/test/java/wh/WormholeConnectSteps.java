@@ -80,9 +80,13 @@ public class WormholeConnectSteps {
         }
 
         Browser.driver.findElement(By.xpath("//*[text()='Select network']")).click();
+        Thread.sleep(1000);
         Browser.driver.findElement(By.xpath("//*[text()='" + fromNetwork + "']")).click();
+        Thread.sleep(1000);
         Browser.driver.findElement(By.xpath("//*[text()='Select']")).click();
+        Thread.sleep(1000);
         Browser.driver.findElement(By.xpath("//*[text()='" + asset + "']")).findElement(By.xpath("../../..")).click();
+        Thread.sleep(1000);
         Browser.driver.findElement(By.tagName("input")).sendKeys(amount);
 
         Thread.sleep(1000);
@@ -93,7 +97,9 @@ public class WormholeConnectSteps {
         }
 
         Browser.driver.findElement(By.xpath("//*[text()='Select network']")).click();
+        Thread.sleep(1000);
         Browser.driver.findElement(By.xpath("//*[text()='" + toNetwork + "']")).click();
+        Thread.sleep(1000);
 
         if (route.equals("automatic")) {
             Browser.driver.findElement(By.xpath("//*[contains(text(),'Automatic Bridge')]")).click();
@@ -101,7 +107,7 @@ public class WormholeConnectSteps {
             Browser.driver.findElement(By.xpath("//*[contains(text(),'Manual Bridge')]")).click();
         }
 
-        Thread.sleep(3000); // wait UI to settle
+        Thread.sleep(7000); // wait UI to settle
     }
 
     @When("I submit transfer")
@@ -110,6 +116,7 @@ public class WormholeConnectSteps {
         Browser.scrollToElement(approveButton);
 
         approveButton.click();
+        Thread.sleep(1000);
 
         System.out.println("Waiting for MetaMask window to appear...");
         Browser.waitForMetamaskWindowToAppear();
@@ -143,6 +150,7 @@ public class WormholeConnectSteps {
             Browser.implicitlyWait(60 * 60);
             System.out.println("Waiting for the Claim button...");
             Browser.driver.findElement(By.xpath("//*[text()='Claim']")).click();
+            Thread.sleep(2000);
             Browser.implicitlyWait();
 
             Browser.confirmTransactionInMetaMask();
