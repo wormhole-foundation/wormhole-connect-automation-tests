@@ -12,14 +12,6 @@ import static junit.framework.TestCase.assertTrue;
 
 public class WormholeConnectSteps {
 
-    String fromWallet = "";
-    String toWallet = "";
-    String fromNetwork = "";
-    String toNetwork = "";
-    String amount = "";
-    String asset = "";
-    String route = "";
-
     @Given("I open wormhole-connect TESTNET and enter password")
     public void iOpenWormholeConnectTestnetPageAndEnterPassword() throws InterruptedException {
         Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_TESTNET"));
@@ -37,18 +29,18 @@ public class WormholeConnectSteps {
 
     @And("I prepare to send {string} {string} from {string} using {string} to {string} using {string} via {string}")
     public void iPrepareToSendFromTo(String amount, String asset, String fromNetwork, String fromWallet, String toNetwork, String toWallet, String route) throws InterruptedException {
-        this.fromWallet = fromWallet;
-        this.toWallet = toWallet;
-        this.fromNetwork = fromNetwork;
-        this.toNetwork = toNetwork;
-        this.amount = amount;
-        this.asset = asset;
-        this.route = route;
+        Browser.fromWallet = fromWallet;
+        Browser.toWallet = toWallet;
+        Browser.fromNetwork = fromNetwork;
+        Browser.toNetwork = toNetwork;
+        Browser.amount = amount;
+        Browser.asset = asset;
+        Browser.route = route;
 
-        String scenarioText = "Send " + this.amount + " " + this.asset +
-                " from " + this.fromNetwork + " (" + this.fromWallet + ")" +
-                " to " + this.toNetwork + " (" + this.toWallet + "). " +
-                "Route: " + this.route;
+        String scenarioText = "Send " + Browser.amount + " " + Browser.asset +
+                " from " + Browser.fromNetwork + " (" + Browser.fromWallet + ")" +
+                " to " + Browser.toNetwork + " (" + Browser.toWallet + "). " +
+                "Route: " + Browser.route;
         Browser.saveResults(scenarioText);
 
         WebElement element = Browser.driver.findElement(By.xpath("//*[text()='Connect wallet']"));
@@ -56,7 +48,7 @@ public class WormholeConnectSteps {
 
         Browser.driver.findElement(By.xpath("//*[text()='" + fromWallet + "']")).click();
 
-        if (this.fromWallet.equals("MetaMask")) {
+        if (Browser.fromWallet.equals("MetaMask")) {
             Browser.waitForMetamaskWindowToAppear();
 
             Browser.driver.findElement(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
@@ -70,7 +62,7 @@ public class WormholeConnectSteps {
         Browser.driver.findElement(By.xpath("//*[text()='Connect wallet']")).click();
         Browser.driver.findElement(By.xpath("//*[text()='" + toWallet + "']")).click();
 
-        if (!this.fromWallet.equals("MetaMask") && this.toWallet.equals("MetaMask")) {
+        if (!Browser.fromWallet.equals("MetaMask") && Browser.toWallet.equals("MetaMask")) {
             Browser.waitForMetamaskWindowToAppear();
 
             Browser.driver.findElement(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
@@ -121,10 +113,10 @@ public class WormholeConnectSteps {
         System.out.println("Waiting for MetaMask window to appear...");
         Browser.waitForMetamaskWindowToAppear();
 
-        if (this.fromWallet.equals("MetaMask")) {
+        if (Browser.fromWallet.equals("MetaMask")) {
             Browser.confirmTransactionInMetaMask();
 
-        } else if (this.fromWallet.equals("Phantom")) {
+        } else if (Browser.fromWallet.equals("Phantom")) {
             Browser.driver.findElement(By.cssSelector("[data-testid='unlock-form-password-input']")).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
             Browser.driver.findElement(By.cssSelector("[data-testid='unlock-form-submit-button']")).click();
 
@@ -147,7 +139,7 @@ public class WormholeConnectSteps {
 
     @Then("I should claim assets")
     public void iShouldClaimAssets() throws InterruptedException {
-        if (this.route.equals("manual")) {
+        if (Browser.route.equals("manual")) {
             Browser.implicitlyWait(60 * 60);
             System.out.println("Waiting for the Claim button...");
             Browser.driver.findElement(By.xpath("//*[text()='Claim']")).click();
@@ -160,7 +152,7 @@ public class WormholeConnectSteps {
 
     @Then("I should see send to {string} link")
     public void iShouldSeeSendToLink(String scanTo) {
-        if (this.route.equals("automatic")) {
+        if (Browser.route.equals("automatic")) {
             Browser.implicitlyWait(60 * 60);
         } else {
             Browser.implicitlyWait(60 * 30);

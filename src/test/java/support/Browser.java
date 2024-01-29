@@ -25,6 +25,14 @@ public class Browser {
     public static Dotenv env;
     private static final SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
+    public static String fromWallet = "";
+    public static String toWallet = "";
+    public static String fromNetwork = "";
+    public static String toNetwork = "";
+    public static String amount = "";
+    public static String asset = "";
+    public static String route = "";
+
     public static void main(String[] args) {
         launch();
 
@@ -149,12 +157,10 @@ public class Browser {
         }
         System.out.println("Going to Switch network (if MetaMask requires it)...");
         try {
-            Thread.sleep(3000);
             Browser.driver.findElement(By.xpath("//*[text()='Switch network']")).click();
             Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
-
         System.out.println("Waiting for MetaMask window to appear...");
         Browser.waitForMetamaskWindowToAppear(600);
 
