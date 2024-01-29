@@ -134,8 +134,8 @@ public class WormholeConnectSteps {
         }
     }
 
-    @Then("I should see send from {string} link and send to {string} link")
-    public void iShouldSeeScanLink(String scanFrom, String scanTo) throws InterruptedException {
+    @Then("I should see send from {string} link")
+    public void iShouldSeeSendFromLink(String scanFrom) {
         Browser.implicitlyWait(60 * 60);
         System.out.println("Waiting for the send from link...");
         WebElement sendFromLink = Browser.driver.findElement(By.xpath("//*[text()= '" + scanFrom + "' ]"));
@@ -143,10 +143,11 @@ public class WormholeConnectSteps {
 
         String fromTx = sendFromLink.findElement(By.xpath("..")).getAttribute("href");
         Browser.saveResults("Send from tx: " + fromTx);
+    }
 
-        if (this.route.equals("automatic")) {
-            Browser.implicitlyWait(60 * 60);
-        } else if (this.route.equals("manual")) {
+    @Then("I should claim assets")
+    public void iShouldClaimAssets() throws InterruptedException {
+        if (this.route.equals("manual")) {
             Browser.implicitlyWait(60 * 60);
             System.out.println("Waiting for the Claim button...");
             Browser.driver.findElement(By.xpath("//*[text()='Claim']")).click();
@@ -154,7 +155,14 @@ public class WormholeConnectSteps {
             Browser.implicitlyWait();
 
             Browser.confirmTransactionInMetaMask();
+        }
+    }
 
+    @Then("I should see send to {string} link")
+    public void iShouldSeeSendToLink(String scanTo) {
+        if (this.route.equals("automatic")) {
+            Browser.implicitlyWait(60 * 60);
+        } else {
             Browser.implicitlyWait(60 * 30);
         }
 
