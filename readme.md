@@ -69,3 +69,4 @@ Run faucet.feature to request assets from faucet.celo.org automatically.
 # Troubleshooting
 - Run Browser, check that there are no pending requests in MetaMask
 - Run Browser, check that MetaMask network is Alfajores
+- Make sure "Require password after screen saver begins or displayed is turned off" setting is set to 1 hour or more 
