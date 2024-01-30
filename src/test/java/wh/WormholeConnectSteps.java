@@ -36,6 +36,8 @@ public class WormholeConnectSteps {
         Browser.amount = amount;
         Browser.asset = asset;
         Browser.route = route;
+        Browser.txFrom = "";
+        Browser.txTo = "";
 
         WebElement element = Browser.findElementAndWait(By.xpath("//*[text()='Connect wallet']"));
         element.click();

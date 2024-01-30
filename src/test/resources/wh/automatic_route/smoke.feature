@@ -14,4 +14,4 @@ Feature: Smoke tests
       | manual    | 0.3    | CELO  | Alfajores    | Fantom     | MetaMask    | MetaMask  | Celo Explorer   | FtmScan  |
       | manual    | 0.01   | WAVAX | Goerli       | Moonbase   | MetaMask    | MetaMask  | Etherscan       | Moonscan |
       | automatic | 0.01   | SOL   | Solana       | Fantom     | Phantom     | MetaMask  | Solana Explorer | FtmScan  |
-      | automatic | 0.001  | MATIC | Mumbai       | BSC        | MetaMask    | MetaMask  | Polygonscan     | BscScan  |
+      | manual    | 0.001  | MATIC | Mumbai       | BSC        | MetaMask    | MetaMask  | Polygonscan     | BscScan  |
