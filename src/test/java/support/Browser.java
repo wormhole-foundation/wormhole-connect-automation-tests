@@ -2,7 +2,13 @@ package support;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -148,31 +154,40 @@ public class Browser {
         }
     }
 
+    public static WebElement findElementAndWait(By locator) throws InterruptedException {
+        WebElement element = Browser.driver.findElement(locator);
+        Thread.sleep(500);
+        return element;
+    }
+
     public static void confirmTransactionInMetaMask() throws InterruptedException {
         Browser.waitForMetamaskWindowToAppear();
 
+        Browser.implicitlyWait(2);
         System.out.println("Going to Approve adding new network (if MetaMask requires it)...");
         try {
-            Browser.driver.findElement(By.xpath("//*[text()='Approve']")).click();
+            Browser.findElementAndWait(By.xpath("//*[text()='Approve']")).click();
             Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
         System.out.println("Going to confirm warning on Moonbase network (if MetaMask requires it)...");
         try {
-            Browser.driver.findElement(By.xpath("//*[text()='Got it']")).click();
+            Browser.findElementAndWait(By.xpath("//*[text()='Got it']")).click();
             Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
         System.out.println("Going to Switch network (if MetaMask requires it)...");
         try {
-            Browser.driver.findElement(By.xpath("//*[text()='Switch network']")).click();
+            Browser.findElementAndWait(By.xpath("//*[text()='Switch network']")).click();
             Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
+        Browser.implicitlyWait();
+
         System.out.println("Waiting for MetaMask window to appear...");
         Browser.waitForMetamaskWindowToAppear(600);
 
-        WebElement metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
+        WebElement metamaskFooterButton = Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-next']"));
         Browser.scrollToElement(metamaskFooterButton);
 
         System.out.println("Confirming transaction in MetaMask...");
@@ -198,7 +213,7 @@ public class Browser {
                 Browser.switchToMetamaskWindow();
                 try {
                     Browser.noImplicitWait();
-                    metamaskFooterButton = Browser.driver.findElement(By.cssSelector("[data-testid='page-container-footer-next']"));
+                    metamaskFooterButton = Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-next']"));
                     if (metamaskFooterButton.isDisplayed()) {
                         buttonText = metamaskFooterButton.getText();
                     }
