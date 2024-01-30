@@ -136,6 +136,7 @@ public class Browser {
                 Browser.amount + ";" + Browser.asset + ";" +
                 Browser.fromNetwork + ";" + Browser.fromWallet + ";" +
                 Browser.toNetwork + ";" + Browser.toWallet + ";" +
+                Browser.txFrom + ";" + Browser.txTo + ";" +
                 status + "\n";
         try {
             File f = new File("results/results.csv");
