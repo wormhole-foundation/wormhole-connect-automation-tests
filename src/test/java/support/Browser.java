@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -40,6 +41,8 @@ public class Browser {
     public static String route = "";
     public static String txFrom = "";
     public static String txTo = "";
+
+    public static int waitSeconds = 0;
 
     public static void main(String[] args) {
         launch();
@@ -81,7 +84,7 @@ public class Browser {
 
     public static void implicitlyWait(int seconds) {
         System.out.println("Implicit wait set to " + seconds + "s");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
+        Browser.waitSeconds = seconds;
     }
 
     public static boolean metamaskWindowIsOpened() {
@@ -154,10 +157,18 @@ public class Browser {
         }
     }
 
-    public static WebElement findElementAndWait(By locator) throws InterruptedException {
-        WebElement element = Browser.driver.findElement(locator);
-        Thread.sleep(500);
-        return element;
+    public static WebElement findElementAndWait(By locator) throws NoSuchElementException, InterruptedException {
+        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(Browser.waitSeconds));
+        try {
+            WebElement el = webDriverWait
+                    .until((webDriver) -> {
+                        return Browser.driver.findElement(locator);
+                    });
+            Thread.sleep(500);
+            return el;
+        } catch (TimeoutException ex) {
+            throw new NoSuchElementException("Element was not found.", ex);
+        }
     }
 
     public static void confirmTransactionInMetaMask() throws InterruptedException {
