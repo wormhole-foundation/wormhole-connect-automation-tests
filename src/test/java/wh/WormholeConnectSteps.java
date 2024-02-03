@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import support.Browser;
 
@@ -19,6 +20,7 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(By.cssSelector("form [type='password']")).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
         Browser.findElementAndWait(By.cssSelector("form button.button")).click();
     }
+
     @Given("I open wormhole-connect MAINNET and enter password")
     public void iOpenWormholeConnectMainnetPageAndEnterPassword() throws InterruptedException {
         Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_MAINNET"));
@@ -122,6 +124,21 @@ public class WormholeConnectSteps {
 
             Browser.findElementAndWait(By.cssSelector("[data-testid='primary-button']")).click(); // Confirm
 
+            Browser.waitForMetamaskWindowToDisappear();
+        } else if (Browser.fromWallet.equals("Sui")) {
+            Browser.findElementAndWait(By.xpath("//*[text()='Unlock to Approve']/..")).click();
+
+            Browser.findElementAndWait(By.xpath("//*[@name='password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
+            Browser.findElementAndWait(By.xpath("//*[@role='dialog']//*[text()='Unlock']/..")).click();
+            Thread.sleep(1000);
+
+            Browser.findElementAndWait(By.xpath("//*[text()='Approve']/..")).click();
+            Thread.sleep(1000);
+
+            try {
+                Browser.findElementAndWait(By.xpath("//*[@role='dialog']//*[text()='Approve']/..")).click();
+            } catch (NoSuchElementException ignore) {
+            }
             Browser.waitForMetamaskWindowToDisappear();
         }
     }
