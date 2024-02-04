@@ -118,7 +118,7 @@ public class WormholeConnectSteps {
         Thread.sleep(7000); // wait UI to settle
     }
 
-    @Then("I check final balance")
+    @Then("I check balance on destination chain")
     public void iCheckFinalBalance() throws InterruptedException {
         Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_TESTNET"));
 
@@ -134,14 +134,17 @@ public class WormholeConnectSteps {
         Browser.toFinalBalance = Browser.findElementAndWait(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
     }
 
-    @When("I submit transfer")
-    public void iSubmitTransfer() throws InterruptedException {
+    @When("I click on Approve button")
+    public void iApproveTransfer() throws InterruptedException {
         WebElement approveButton = Browser.findElementAndWait(By.xpath("//*[text()='Approve and proceed with transaction']"));
         Browser.scrollToElement(approveButton);
         Thread.sleep(5000);
         approveButton.click();
         Thread.sleep(2000);
+    }
 
+    @When("I approve wallet notifications")
+    public void iApproveWalletNotification() throws InterruptedException {
         System.out.println("Waiting for MetaMask window to appear...");
         Browser.waitForMetamaskWindowToAppear();
 

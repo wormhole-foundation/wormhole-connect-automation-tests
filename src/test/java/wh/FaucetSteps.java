@@ -11,7 +11,7 @@ public class FaucetSteps {
     public void iRequestCELOTokensOnFaucetCeloOrg() throws InterruptedException {
         Browser.driver.get("https://faucet.celo.org/alfajores");
         Browser.driver.findElement(By.cssSelector("form input[type=text]")).clear();
-        Browser.driver.findElement(By.cssSelector("form input[type=text]")).sendKeys("0x6FBd5A25aa9a2f40E3b013db720c7b46f22C6116");
+        Browser.driver.findElement(By.cssSelector("form input[type=text]")).sendKeys("0x0a370E7c5F7F944d451B48bc151a7BEC454bc185");
         Browser.driver.findElement(By.cssSelector("form button[type=submit]")).click();
 
         Browser.implicitlyWait(60);
