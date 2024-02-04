@@ -35,8 +35,8 @@ public class WormholeConnectSteps {
         Browser.toWallet = toWallet;
         Browser.fromNetwork = fromNetwork;
         Browser.toNetwork = toNetwork;
-        Browser.amount = amount;
-        Browser.asset = asset;
+        Browser.fromAmount = amount;
+        Browser.fromAsset = asset;
         Browser.route = route;
         Browser.txFrom = "";
         Browser.txTo = "";
@@ -100,6 +100,9 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(By.xpath("//*[text()='" + toNetwork + "']")).click();
         Thread.sleep(1000);
 
+        Browser.toAsset = Browser.findElementAndWait(By.xpath("(//*[text()='Asset']/following-sibling::*)[2]")).getText();
+        Browser.toAsset = Browser.toAsset.split("\n")[0]; // "CELO\n(Alfajores)" -> "CELO"
+        Browser.toAmount = Browser.findElementAndWait(By.xpath("(//*[text()='Amount']/following-sibling::*/input)[2]")).getAttribute("value");
         Browser.toBalance = Browser.findElementAndWait(By.xpath("(//*[text()='Balance']/following-sibling::*)[2]")).getText();
 
         if (route.equals("automatic")) {
@@ -126,7 +129,7 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(By.xpath("//*[text()='Select network']")).click();
         Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.toNetwork + "']")).click();
         Browser.findElementAndWait(By.xpath("//*[text()='Select']")).click();
-        Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.asset + "']")).findElement(By.xpath("../../..")).click();
+        Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.toAsset + "']")).findElement(By.xpath("../../..")).click();
 
         Browser.toFinalBalance = Browser.findElementAndWait(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
     }

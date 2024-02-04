@@ -36,8 +36,10 @@ public class Browser {
     public static String toWallet = "";
     public static String fromNetwork = "";
     public static String toNetwork = "";
-    public static String amount = "";
-    public static String asset = "";
+    public static String fromAmount = "";
+    public static String toAmount = "";
+    public static String fromAsset = "";
+    public static String toAsset = "";
     public static String route = "";
     public static String txFrom = "";
     public static String txTo = "";
@@ -145,9 +147,10 @@ public class Browser {
         String date = (new Date()).toString();
         String s = date + ";" +
                 Browser.route + ";" +
-                Browser.amount + ";" + Browser.asset + ";" +
                 Browser.fromNetwork + ";" + Browser.fromWallet + ";" +
                 Browser.toNetwork + ";" + Browser.toWallet + ";" +
+                Browser.fromAmount + ";" + Browser.fromAsset + ";" +
+                Browser.toAmount + ";" + Browser.toAsset + ";" +
                 Browser.txFrom + ";" + Browser.txTo + ";" +
                 Browser.fromBalance + ";" +
                 Browser.toBalance + ";" +
