@@ -41,8 +41,7 @@ public class WormholeConnectSteps {
         Browser.txFrom = "";
         Browser.txTo = "";
 
-        WebElement element = Browser.findElementAndWait(By.xpath("//*[text()='Connect wallet']"));
-        element.click();
+        Browser.findElementAndWait(By.xpath("//*[text()='Connect wallet']")).click();
 
         Browser.findElementAndWait(By.xpath("//*[text()='" + fromWallet + "']")).click();
 
@@ -86,8 +85,10 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(By.xpath("//*[text()='" + asset + "']")).findElement(By.xpath("../../..")).click();
         Thread.sleep(1000);
         Browser.findElementAndWait(By.tagName("input")).sendKeys(amount);
-
         Thread.sleep(1000);
+
+        Browser.fromBalance = Browser.findElementAndWait(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
+
         try {
             // close popup
             Browser.findElementAndWait(By.cssSelector("[data-testid='CloseIcon']")).click();
@@ -98,6 +99,8 @@ public class WormholeConnectSteps {
         Thread.sleep(1000);
         Browser.findElementAndWait(By.xpath("//*[text()='" + toNetwork + "']")).click();
         Thread.sleep(1000);
+
+        Browser.toBalance = Browser.findElementAndWait(By.xpath("(//*[text()='Balance']/following-sibling::*)[2]")).getText();
 
         if (route.equals("automatic")) {
             Browser.findElementAndWait(By.xpath("//*[contains(text(),'Automatic Bridge')]"));
@@ -110,6 +113,22 @@ public class WormholeConnectSteps {
         }
 
         Thread.sleep(7000); // wait UI to settle
+    }
+
+    @Then("I check final balance")
+    public void iCheckFinalBalance() throws InterruptedException {
+        Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_TESTNET"));
+
+        Browser.findElementAndWait(By.xpath("//*[text()='Connect wallet']")).click();
+
+        Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.toWallet + "']")).click();
+
+        Browser.findElementAndWait(By.xpath("//*[text()='Select network']")).click();
+        Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.toNetwork + "']")).click();
+        Browser.findElementAndWait(By.xpath("//*[text()='Select']")).click();
+        Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.asset + "']")).findElement(By.xpath("../../..")).click();
+
+        Browser.toFinalBalance = Browser.findElementAndWait(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
     }
 
     @When("I submit transfer")

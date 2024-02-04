@@ -41,6 +41,9 @@ public class Browser {
     public static String route = "";
     public static String txFrom = "";
     public static String txTo = "";
+    public static String fromBalance = "";
+    public static String toBalance = "";
+    public static String toFinalBalance = "";
 
     public static int waitSeconds = 0;
 
@@ -146,6 +149,9 @@ public class Browser {
                 Browser.fromNetwork + ";" + Browser.fromWallet + ";" +
                 Browser.toNetwork + ";" + Browser.toWallet + ";" +
                 Browser.txFrom + ";" + Browser.txTo + ";" +
+                Browser.fromBalance + ";" +
+                Browser.toBalance + ";" +
+                Browser.toFinalBalance + ";" +
                 status + "\n";
         try {
             File f = new File("results/results.csv");

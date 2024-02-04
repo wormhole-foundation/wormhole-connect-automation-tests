@@ -7,6 +7,7 @@ Feature: EVM manual testnet
     Then I should see send from "<scan_from>" link
     Then I should claim assets
     Then I should see send to "<scan_to>" link
+    Then I check final balance
 
     Examples:
       | route  | amount | asset | from_network    | to_network      | from_wallet | to_wallet | scan_from                | scan_to                  |
