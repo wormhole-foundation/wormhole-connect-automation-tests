@@ -23,14 +23,14 @@ git clone https://github.com/tsadovska/wormhole-connect-automation-tests
 # Setup (Chrome for Testing)
 
 1. Metamask extension
-   1) Open project in IntelliJ IDEA 
-   2) Open Maven toolbar -> Click "Reload All Maven Projects" button 
-   3) Right click "src/test/java/support/Browser" -> "Run Browser.main()"
-   4) Open chrome://extensions/ 
-   5) Enable Developer mode 
-   6) Drag and drop `metamask-chrome-10.34.5.crx` from IntelliJ IDEA into Chrome
-   7) Enable Test networks in MetaMask
-   8) Put wallet unlock password to `.env` file
+   * Open project in IntelliJ IDEA 
+   * Open Maven toolbar -> Click "Reload All Maven Projects" button 
+   * Right click "src/test/java/support/Browser" -> "Run Browser.main()"
+   * Open chrome://extensions/ 
+   * Enable Developer mode 
+   * Drag and drop `metamask-chrome-10.34.5.crx` from IntelliJ IDEA into Chrome
+   * Enable Test networks in MetaMask
+   * Put wallet unlock password to `.env` file
 2. Setup Phantom wallet:
 - Install from https://chromewebstore.google.com/detail/phantom/bfnaelmomeimhlpmgjnjophhpkkoljpa?hl=en-US
 - Enable "Testnet Mode" in Settings > Developer Settings
