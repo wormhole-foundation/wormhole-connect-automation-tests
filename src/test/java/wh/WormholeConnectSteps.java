@@ -4,6 +4,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -132,6 +133,8 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.toAsset + "']")).findElement(By.xpath("../../..")).click();
 
         Browser.toFinalBalance = Browser.findElementAndWait(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
+
+        Assert.assertTrue("Balance should have increased", Double.parseDouble(Browser.toFinalBalance) > Double.parseDouble(Browser.toBalance));
     }
 
     @When("I click on Approve button")
