@@ -52,6 +52,14 @@ public class WormholeConnectSteps {
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-submit']")).click();
 
+            try {
+                System.out.println("Going to Reject a pending transaction (if it exists)...");
+                Browser.implicitlyWait(3);
+                Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-cancel']")).click();
+                Browser.implicitlyWait();
+            } catch (NoSuchElementException ignore) {
+            }
+
             Browser.waitForMetamaskWindowToDisappear();
         }
 
