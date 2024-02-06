@@ -179,8 +179,10 @@ public class WormholeConnectSteps {
         }
     }
 
-    @Then("I should see send from {string} link")
-    public void iShouldSeeSendFromLink(String scanFrom) throws InterruptedException {
+    @Then("I should see Send From link")
+    public void iShouldSeeSendFromLink() throws InterruptedException {
+        String scanFrom = Browser.getScanLinkTextByNetworkName(Browser.fromNetwork);
+
         Browser.implicitlyWait(60 * 60);
         System.out.println("Waiting for the send from link...");
         WebElement sendFromLink = Browser.findElementAndWait(By.xpath("//*[text()= '" + scanFrom + "' ]"));
@@ -205,8 +207,10 @@ public class WormholeConnectSteps {
         }
     }
 
-    @Then("I should see send to {string} link")
-    public void iShouldSeeSendToLink(String scanTo) throws InterruptedException {
+    @Then("I should see Send To link")
+    public void iShouldSeeSendToLink() throws InterruptedException {
+        String scanTo = Browser.getScanLinkTextByNetworkName(Browser.toNetwork);
+
         if (Browser.route.equals("automatic")) {
             Browser.implicitlyWait(60 * 60);
         } else {

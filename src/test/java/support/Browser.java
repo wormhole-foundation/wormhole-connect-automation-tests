@@ -247,4 +247,30 @@ public class Browser {
         System.out.println("Transaction was confirmed in MetaMask");
         Browser.switchToMainWindow();
     }
+
+    public static String getScanLinkTextByNetworkName(String network) {
+        switch (network) {
+            case "Goerli":
+                return "Etherscan";
+            case "Mumbai":
+                return "Polygonscan";
+            case "BSC":
+                return "BscScan";
+            case "Fuji":
+                return "Avascan";
+            case "Fantom":
+                return "FtmScan";
+            case "Alfajores":
+                return "Celo Explorer";
+            case "Moonbase":
+                return "Moonscan";
+            case "Base Goerli":
+                return "BaseScan";
+            case "Arbitrum Goerli":
+                return "Arbitrum Goerli Explorer";
+            case "Optimism Goerli":
+                return "Optimism Goerli";
+        }
+        throw new RuntimeException("Unsupported network: " + network);
+    }
 }
