@@ -88,7 +88,7 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(By.tagName("input")).sendKeys(amount);
         Thread.sleep(1000);
 
-        Browser.fromBalance = Browser.findElementAndWait(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
+        Browser.fromBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
 
         try {
             // close popup
@@ -104,7 +104,7 @@ public class WormholeConnectSteps {
         Browser.toAsset = Browser.findElementAndWait(By.xpath("(//*[text()='Asset']/following-sibling::*)[2]")).getText();
         Browser.toAsset = Browser.toAsset.split("\n")[0]; // "CELO\n(Alfajores)" -> "CELO"
         Browser.toAmount = Browser.findElementAndWait(By.xpath("(//*[text()='Amount']/following-sibling::*/input)[2]")).getAttribute("value");
-        Browser.toBalance = Browser.findElementAndWait(By.xpath("(//*[text()='Balance']/following-sibling::*)[2]")).getText();
+        Browser.toBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[2]")).getText();
 
         if (route.equals("automatic")) {
             Browser.findElementAndWait(By.xpath("//*[contains(text(),'Automatic Bridge')]"));
@@ -132,7 +132,7 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(By.xpath("//*[text()='Select']")).click();
         Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.toAsset + "']")).findElement(By.xpath("../../..")).click();
 
-        Browser.toFinalBalance = Browser.findElementAndWait(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
+        Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
 
         Assert.assertTrue("Balance should have increased", Double.parseDouble(Browser.toFinalBalance) > Double.parseDouble(Browser.toBalance));
     }

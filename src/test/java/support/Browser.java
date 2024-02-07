@@ -15,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.http.ClientConfig;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -180,6 +181,33 @@ public class Browser {
         }
     }
 
+    public static void waitToBeClickable(WebElement el) throws NoSuchElementException {
+        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(Browser.waitSeconds));
+        try {
+            webDriverWait
+                    .until(ExpectedConditions.elementToBeClickable(el));
+        } catch (TimeoutException ex) {
+            throw new NoSuchElementException("Element cannot be clicked.", ex);
+        }
+    }
+
+    public static WebElement findElementAndWaitToHaveNumber(By locator) throws NoSuchElementException, InterruptedException {
+        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(60));
+        try {
+            WebElement el = webDriverWait.
+                    ignoring(NumberFormatException.class)
+                    .until(webDriver -> {
+                        WebElement found = webDriver.findElement(locator);
+                        Double.parseDouble(found.getText());
+                        return found;
+                    });
+            Thread.sleep(500);
+            return el;
+        } catch (TimeoutException ex) {
+            throw new NoSuchElementException("Element does not contain a number.", ex);
+        }
+    }
+
     public static void confirmTransactionInMetaMask() throws InterruptedException {
         Browser.waitForMetamaskWindowToAppear();
 
@@ -222,6 +250,7 @@ public class Browser {
                 metamaskFooterButton.click();
                 Browser.waitForMetamaskWindowToDisappear();
             } else if (buttonText.equals("Confirm")) {
+                Browser.waitToBeClickable(metamaskFooterButton);
                 metamaskFooterButton.click();
                 Browser.waitForMetamaskWindowToDisappear();
                 break;
