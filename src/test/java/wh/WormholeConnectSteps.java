@@ -222,6 +222,8 @@ public class WormholeConnectSteps {
 
         assertTrue(sendToLink.isDisplayed());
 
+        Browser.implicitlyWait();
+
         Browser.txTo = sendToLink.findElement(By.xpath("..")).getAttribute("href");
 
         System.out.println("Finished");
