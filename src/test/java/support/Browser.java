@@ -302,4 +302,16 @@ public class Browser {
         }
         throw new RuntimeException("Unsupported network: " + network);
     }
+
+    public static void moveSliderByOffset(int xOffset) throws InterruptedException {
+        WebElement slider = Browser.findElementAndWait(By.cssSelector(".MuiSlider-thumb"));
+        Browser.scrollToElement(slider);
+
+        (new Actions(Browser.driver))
+                .clickAndHold(slider)
+                .moveByOffset(xOffset, 0)
+                .release()
+                .build()
+                .perform();
+    }
 }

@@ -107,16 +107,18 @@ public class WormholeConnectSteps {
         Browser.toBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[2]")).getText();
 
         if (route.equals("automatic")) {
-            Browser.findElementAndWait(By.xpath("//*[contains(text(),'Automatic Bridge')]"));
-            Thread.sleep(2000);
+            // choose Manual and then again Automatic to enable native gas section
             Browser.findElementAndWait(By.xpath("//*[contains(text(),'Automatic Bridge')]")).click();
+            Thread.sleep(1000);
+            Browser.findElementAndWait(By.xpath("//*[contains(text(),'Manual Bridge')]")).click();
+            Thread.sleep(1000);
+            Browser.findElementAndWait(By.xpath("//*[contains(text(),'Automatic Bridge')]")).click();
+            Thread.sleep(1000);
         } else if (route.equals("manual")) {
-            Browser.findElementAndWait(By.xpath("//*[contains(text(),'Manual Bridge')]"));
-            Thread.sleep(2000);
             Browser.findElementAndWait(By.xpath("//*[contains(text(),'Manual Bridge')]")).click();
         }
 
-        Thread.sleep(7000); // wait UI to settle
+        Thread.sleep(3000); // wait UI to settle
     }
 
     @Then("I check balance on destination chain")
@@ -227,5 +229,10 @@ public class WormholeConnectSteps {
         Browser.txTo = sendToLink.findElement(By.xpath("..")).getAttribute("href");
 
         System.out.println("Finished");
+    }
+
+    @And("I move slider")
+    public void iMoveSlider() throws InterruptedException {
+        Browser.moveSliderByOffset(220);
     }
 }
