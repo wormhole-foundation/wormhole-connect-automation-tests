@@ -14,10 +14,13 @@ import static junit.framework.TestCase.assertTrue;
 
 public class WormholeConnectSteps {
 
-    @Given("I open wormhole-connect TESTNET and enter password")
-    public void iOpenWormholeConnectTestnetPageAndEnterPassword() throws InterruptedException {
+    @Given("I open wormhole-connect TESTNET")
+    public void iOpenWormholeConnectTestnetPage() throws InterruptedException {
         Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_TESTNET"));
+    }
 
+    @Given("I enter page password")
+    public void iEnterPassword() throws InterruptedException {
         Browser.findElementAndWait(By.cssSelector("form [type='password']")).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
         Browser.findElementAndWait(By.cssSelector("form button.button")).click();
     }
@@ -42,33 +45,12 @@ public class WormholeConnectSteps {
         Browser.txFrom = "";
         Browser.txTo = "";
 
-        Browser.findElementAndWait(By.xpath("//*[text()='Connect wallet']")).click();
-
-        Browser.findElementAndWait(By.xpath("//*[text()='" + fromWallet + "']")).click();
-
-        if (Browser.fromWallet.equals("MetaMask")) {
-            Browser.waitForMetamaskWindowToAppear();
-
-            Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
-            Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-submit']")).click();
-
-            try {
-                System.out.println("Going to Reject a pending transaction (if it exists)...");
-                Browser.implicitlyWait(3);
-                Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-cancel']")).click();
-                Browser.implicitlyWait();
-            } catch (NoSuchElementException ignore) {
-            }
-
-            Browser.waitForMetamaskWindowToDisappear();
-        }
-
-        Thread.sleep(1000);
+        Browser.selectAssetInFromSection(Browser.fromWallet, Browser.fromNetwork, Browser.fromAsset);
 
         Browser.findElementAndWait(By.xpath("//*[text()='Connect wallet']")).click();
         Browser.findElementAndWait(By.xpath("//*[text()='" + toWallet + "']")).click();
 
-        if (!Browser.fromWallet.equals("MetaMask") && Browser.toWallet.equals("MetaMask")) {
+        if (!Browser.fromWallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
             Browser.waitForMetamaskWindowToAppear();
 
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
@@ -77,14 +59,6 @@ public class WormholeConnectSteps {
             Browser.waitForMetamaskWindowToDisappear();
         }
 
-        Browser.findElementAndWait(By.xpath("//*[text()='Select network']")).click();
-        Thread.sleep(1000);
-        Browser.findElementAndWait(By.xpath("//*[text()='" + fromNetwork + "']")).click();
-        Thread.sleep(1000);
-        Browser.findElementAndWait(By.xpath("//*[text()='Select']")).click();
-        Thread.sleep(1000);
-        Browser.findElementAndWait(By.xpath("//*[text()='" + asset + "']")).findElement(By.xpath("../../..")).click();
-        Thread.sleep(1000);
         Browser.findElementAndWait(By.tagName("input")).sendKeys(amount);
         Thread.sleep(1000);
 
@@ -121,22 +95,30 @@ public class WormholeConnectSteps {
         Thread.sleep(3000); // wait UI to settle
     }
 
-    @Then("I check balance on destination chain")
+    @Then("I check balance has increased on destination chain")
     public void iCheckFinalBalance() throws InterruptedException {
         Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_TESTNET"));
 
-        Browser.findElementAndWait(By.xpath("//*[text()='Connect wallet']")).click();
-
-        Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.toWallet + "']")).click();
-
-        Browser.findElementAndWait(By.xpath("//*[text()='Select network']")).click();
-        Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.toNetwork + "']")).click();
-        Browser.findElementAndWait(By.xpath("//*[text()='Select']")).click();
-        Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.toAsset + "']")).findElement(By.xpath("../../..")).click();
+        Browser.selectAssetInFromSection(Browser.toWallet, Browser.toNetwork, Browser.toAsset);
 
         Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
 
-        Assert.assertTrue("Balance should have increased", Double.parseDouble(Browser.toFinalBalance) > Double.parseDouble(Browser.toBalance));
+        if (Browser.route.equals("automatic")) {
+            Browser.findElementAndWait(By.xpath("//*[contains(text(), '" + Browser.toAsset + "')]")).click();
+            Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.getNativeAssetByNetworkName(Browser.toNetwork) + "']")).findElement(By.xpath("../../..")).click();
+
+            Browser.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
+
+            Assert.assertTrue("Balance should have increased", Double.parseDouble(Browser.toFinalBalance) > Double.parseDouble(Browser.toBalance));
+            Assert.assertTrue("Native balance should have increased", Double.parseDouble(Browser.toFinalNativeBalance) > Double.parseDouble(Browser.toNativeBalance));
+        }
+    }
+
+    @And("I check native balance on {string} using {string}")
+    public void iCheckNativeBalanceOnUsing(String toNetwork, String toWallet) throws InterruptedException {
+        Browser.selectAssetInFromSection(toWallet, toNetwork, Browser.getNativeAssetByNetworkName(toNetwork));
+
+        Browser.toNativeBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
     }
 
     @When("I click on Approve button")
@@ -235,4 +217,5 @@ public class WormholeConnectSteps {
     public void iMoveSlider() throws InterruptedException {
         Browser.moveSliderByOffset(220);
     }
+
 }

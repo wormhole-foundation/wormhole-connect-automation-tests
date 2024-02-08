@@ -49,6 +49,9 @@ public class Browser {
     public static String toFinalBalance = "";
 
     public static int waitSeconds = 0;
+    public static String toNativeBalance = "";
+    public static String toFinalNativeBalance = "";
+    public static boolean metaMaskWasUnlocked = false;
 
     public static void main(String[] args) {
         launch();
@@ -145,8 +148,8 @@ public class Browser {
     }
 
     public static void saveResults(String status) {
-        String date = (new Date()).toString();
-        String s = date + ";" +
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String s = dt.format(new Date()) + ";" +
                 Browser.route + ";" +
                 Browser.fromNetwork + ";" + Browser.fromWallet + ";" +
                 Browser.toNetwork + ";" + Browser.toWallet + ";" +
@@ -156,6 +159,8 @@ public class Browser {
                 Browser.fromBalance + ";" +
                 Browser.toBalance + ";" +
                 Browser.toFinalBalance + ";" +
+                Browser.toNativeBalance + ";" +
+                Browser.toFinalNativeBalance + ";" +
                 status + "\n";
         try {
             File f = new File("results/results.csv");
@@ -301,6 +306,67 @@ public class Browser {
                 return "Optimism Goerli";
         }
         throw new RuntimeException("Unsupported network: " + network);
+    }
+
+
+    public static String getNativeAssetByNetworkName(String network) {
+        switch (network) {
+            case "Goerli":
+                return "ETH";
+            case "Mumbai":
+                return "MATIC";
+            case "BSC":
+                return "BNB";
+            case "Fuji":
+                return "AVAX";
+            case "Fantom":
+                return "FTM";
+            case "Alfajores":
+                return "CELO";
+            case "Moonbase":
+                return "GLMR";
+            case "Base Goerli":
+                return "ETH";
+            case "Arbitrum Goerli":
+                return "ETH";
+            case "Optimism Goerli":
+                return "ETH";
+        }
+        throw new RuntimeException("Unsupported network: " + network);
+    }
+
+    public static void selectAssetInFromSection(String wallet, String network, String asset) throws InterruptedException {
+        Browser.findElementAndWait(By.xpath("//*[text()='Connect wallet']")).click();
+        Browser.findElementAndWait(By.xpath("//*[text()='" + wallet + "']")).click();
+
+        if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
+            Browser.waitForMetamaskWindowToAppear();
+
+            Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
+            Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-submit']")).click();
+
+            try {
+                System.out.println("Going to Reject a pending transaction (if it exists)...");
+                Browser.implicitlyWait(3);
+                Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-cancel']")).click();
+                Browser.implicitlyWait();
+            } catch (NoSuchElementException ignore) {
+            }
+
+            Browser.waitForMetamaskWindowToDisappear();
+            Thread.sleep(1000);
+
+            Browser.metaMaskWasUnlocked = true;
+        }
+
+        Browser.findElementAndWait(By.xpath("//*[text()='Select network']")).click();
+        Thread.sleep(1000);
+        Browser.findElementAndWait(By.xpath("//*[text()='" + network + "']")).click();
+        Thread.sleep(1000);
+        Browser.findElementAndWait(By.xpath("//*[text()='Select']")).click();
+        Thread.sleep(1000);
+        Browser.findElementAndWait(By.xpath("//*[text()='" + asset + "']")).findElement(By.xpath("../../..")).click();
+        Thread.sleep(1000);
     }
 
     public static void moveSliderByOffset(int xOffset) throws InterruptedException {
