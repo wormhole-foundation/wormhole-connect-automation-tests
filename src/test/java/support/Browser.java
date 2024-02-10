@@ -153,8 +153,8 @@ public class Browser {
 
     public static void saveResults(String status) {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String s = Browser.url + ";" +
-                status + ";" +
+        String s = status + ";" +
+                Browser.url + ";" +
                 dt.format(Browser.startedAt) + ";" + dt.format(Browser.finishedAt) + ";" +
                 Browser.route + ";" +
                 Browser.fromNetwork + ";" + Browser.fromWallet + ";" +

@@ -230,7 +230,11 @@ public class WormholeConnectSteps {
         if (Browser.route.equals("automatic")) {
             Browser.implicitlyWait(60 * 60);
         } else {
-            Browser.implicitlyWait(60 * 30);
+            if (Browser.toWallet.equals("Phantom")) {
+                Browser.implicitlyWait();
+            } else {
+                Browser.implicitlyWait(60 * 30);
+            }
         }
 
         System.out.println("Waiting for the send to link...");
