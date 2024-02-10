@@ -7,7 +7,6 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import support.Browser;
@@ -57,12 +56,12 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(By.xpath("//*[text()='" + toWallet + "']")).click();
 
         if (Browser.toWallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
-            Browser.waitForMetamaskWindowToAppear();
+            Browser.waitForExtensionWindowToAppear();
 
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-submit']")).click();
 
-            Browser.waitForMetamaskWindowToDisappear();
+            Browser.waitForExtensionWindowToDisappear();
         }
 
         Browser.findElementAndWait(By.tagName("input")).sendKeys(amount);
@@ -144,16 +143,16 @@ public class WormholeConnectSteps {
             Browser.confirmTransactionInMetaMask();
 
         } else if (Browser.fromWallet.equals("Phantom")) {
-            Browser.waitForMetamaskWindowToAppear();
+            Browser.waitForExtensionWindowToAppear();
 
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-password-input']")).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-submit-button']")).click();
 
             Browser.findElementAndWait(By.cssSelector("[data-testid='primary-button']")).click(); // Confirm
 
-            Browser.waitForMetamaskWindowToDisappear();
+            Browser.waitForExtensionWindowToDisappear();
         } else if (Browser.fromWallet.equals("Sui")) {
-            Browser.waitForMetamaskWindowToAppear();
+            Browser.waitForExtensionWindowToAppear();
             Browser.findElementAndWait(By.xpath("//*[text()='Unlock to Approve']/..")).click();
 
             Browser.findElementAndWait(By.xpath("//*[@name='password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
@@ -167,7 +166,7 @@ public class WormholeConnectSteps {
                 Browser.findElementAndWait(By.xpath("//*[@role='dialog']//*[text()='Approve']/..")).click();
             } catch (NoSuchElementException ignore) {
             }
-            Browser.waitForMetamaskWindowToDisappear();
+            Browser.waitForExtensionWindowToDisappear();
         }
     }
 
@@ -196,7 +195,7 @@ public class WormholeConnectSteps {
             Browser.implicitlyWait();
 
             if (Browser.toWallet.equals("Phantom")) {
-                Browser.waitForMetamaskWindowToAppear();
+                Browser.waitForExtensionWindowToAppear();
 
                 Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-password-input']")).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
                 Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-submit-button']")).click();
@@ -204,8 +203,8 @@ public class WormholeConnectSteps {
                 WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(900));
                 webDriverWait
                         .until(webDriver -> {
-                            if (Browser.metamaskWindowIsOpened()) {
-                                Browser.switchToMetamaskWindow();
+                            if (Browser.extensionWindowIsOpened()) {
+                                Browser.switchToExtensionWindow();
                                 Browser.findElementAndWait(By.cssSelector("[data-testid='primary-button']")).click(); // Confirm
                                 try {
                                     Thread.sleep(2000);
@@ -217,7 +216,7 @@ public class WormholeConnectSteps {
                             return Browser.driver.findElement(By.xpath("//*[text()='The bridge is now complete.']"));
                         });
 
-                Browser.waitForMetamaskWindowToDisappear();
+                Browser.waitForExtensionWindowToDisappear();
             } else {
                 Browser.confirmTransactionInMetaMask();
             }

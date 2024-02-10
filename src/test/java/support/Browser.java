@@ -100,28 +100,28 @@ public class Browser {
         Browser.waitSeconds = seconds;
     }
 
-    public static boolean metamaskWindowIsOpened() {
+    public static boolean extensionWindowIsOpened() {
         return driver.getWindowHandles().toArray().length > 1;
     }
 
-    public static void waitForMetamaskWindowToAppear() {
-        waitForMetamaskWindowToAppear(60);
+    public static void waitForExtensionWindowToAppear() {
+        waitForExtensionWindowToAppear(60);
     }
 
-    public static void waitForMetamaskWindowToAppear(int seconds) {
+    public static void waitForExtensionWindowToAppear(int seconds) {
         Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
-        wait.until(d -> metamaskWindowIsOpened());
-        switchToMetamaskWindow();
+        wait.until(d -> extensionWindowIsOpened());
+        switchToExtensionWindow();
     }
 
-    public static void waitForMetamaskWindowToDisappear() {
+    public static void waitForExtensionWindowToDisappear() {
         Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(d -> !metamaskWindowIsOpened());
+        wait.until(d -> !extensionWindowIsOpened());
         switchToMainWindow();
     }
 
-    public static void switchToMetamaskWindow() {
-        System.out.println("Switching to MetaMask window...");
+    public static void switchToExtensionWindow() {
+        System.out.println("Switching to extension window...");
         driver.switchTo().window((String) driver.getWindowHandles().toArray()[1]);
     }
 
@@ -222,7 +222,7 @@ public class Browser {
     }
 
     public static void confirmTransactionInMetaMask() throws InterruptedException {
-        Browser.waitForMetamaskWindowToAppear();
+        Browser.waitForExtensionWindowToAppear();
 
         Browser.implicitlyWait(2);
         System.out.println("Going to Approve adding new network (if MetaMask requires it)...");
@@ -246,7 +246,7 @@ public class Browser {
         Browser.implicitlyWait();
 
         System.out.println("Waiting for MetaMask window to appear...");
-        Browser.waitForMetamaskWindowToAppear(600);
+        Browser.waitForExtensionWindowToAppear(600);
 
         WebElement metamaskFooterButton = Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-next']"));
         Browser.scrollToElement(metamaskFooterButton);
@@ -261,18 +261,18 @@ public class Browser {
                 metamaskFooterButton.click();
             } else if (buttonText.equals("Approve")) {
                 metamaskFooterButton.click();
-                Browser.waitForMetamaskWindowToDisappear();
+                Browser.waitForExtensionWindowToDisappear();
             } else if (buttonText.equals("Confirm")) {
                 Browser.waitToBeClickable(metamaskFooterButton);
                 metamaskFooterButton.click();
-                Browser.waitForMetamaskWindowToDisappear();
+                Browser.waitForExtensionWindowToDisappear();
                 break;
             }
 
             buttonText = "<no button>";
             Thread.sleep(1000);
-            if (Browser.metamaskWindowIsOpened()) {
-                Browser.switchToMetamaskWindow();
+            if (Browser.extensionWindowIsOpened()) {
+                Browser.switchToExtensionWindow();
                 try {
                     Browser.noImplicitWait();
                     metamaskFooterButton = Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-next']"));
@@ -351,7 +351,7 @@ public class Browser {
         Browser.findElementAndWait(By.xpath("//*[text()='" + wallet + "']")).click();
 
         if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
-            Browser.waitForMetamaskWindowToAppear();
+            Browser.waitForExtensionWindowToAppear();
 
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-submit']")).click();
@@ -364,7 +364,7 @@ public class Browser {
             } catch (NoSuchElementException ignore) {
             }
 
-            Browser.waitForMetamaskWindowToDisappear();
+            Browser.waitForExtensionWindowToDisappear();
             Thread.sleep(1000);
 
             Browser.metaMaskWasUnlocked = true;
