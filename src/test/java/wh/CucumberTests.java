@@ -17,6 +17,7 @@ public class CucumberTests {
     public void startBrowser() {
         Browser.launch();
 
+        Browser.metaMaskWasUnlocked = false;
         Browser.startedAt = new Date();
     }
 
