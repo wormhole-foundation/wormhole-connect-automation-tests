@@ -33,6 +33,8 @@ public class Browser {
     public static Dotenv env;
     private static final SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
+    public static Date startedAt;
+    public static Date finishedAt;
     public static String fromWallet = "";
     public static String toWallet = "";
     public static String fromNetwork = "";
@@ -149,7 +151,7 @@ public class Browser {
 
     public static void saveResults(String status) {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String s = dt.format(new Date()) + ";" +
+        String s = dt.format(Browser.startedAt) + ";" + dt.format(Browser.finishedAt) + ";" +
                 Browser.route + ";" +
                 Browser.fromNetwork + ";" + Browser.fromWallet + ";" +
                 Browser.toNetwork + ";" + Browser.toWallet + ";" +

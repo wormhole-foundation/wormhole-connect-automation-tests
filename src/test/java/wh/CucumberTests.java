@@ -8,12 +8,16 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 import support.Browser;
 
+import java.util.Date;
+
 @RunWith(Cucumber.class)
 @CucumberOptions()
 public class CucumberTests {
     @Before
     public void startBrowser() {
         Browser.launch();
+
+        Browser.startedAt = new Date();
     }
 
     @After
@@ -22,6 +26,7 @@ public class CucumberTests {
             Browser.takeScreenshot();
         }
 
+        Browser.finishedAt = new Date();
         Browser.saveResults(scenario.isFailed() ? "fail" : "pass");
 
         Browser.quit();
