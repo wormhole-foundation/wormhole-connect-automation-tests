@@ -153,8 +153,8 @@ public class Browser {
 
     public static void saveResults(String status) {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String s =
-                Browser.url + ";" +
+        String s = Browser.url + ";" +
+                status + ";" +
                 dt.format(Browser.startedAt) + ";" + dt.format(Browser.finishedAt) + ";" +
                 Browser.route + ";" +
                 Browser.fromNetwork + ";" + Browser.fromWallet + ";" +
@@ -166,8 +166,7 @@ public class Browser {
                 Browser.toBalance + ";" +
                 Browser.toFinalBalance + ";" +
                 Browser.toNativeBalance + ";" +
-                Browser.toFinalNativeBalance + ";" +
-                status + "\n";
+                Browser.toFinalNativeBalance + "\n";
         try {
             File f = new File("results/results.csv");
             f.getParentFile().mkdirs();
