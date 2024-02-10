@@ -196,18 +196,17 @@ public class Browser {
         }
     }
 
-    public static WebElement findElementAndWaitToHaveNumber(By locator) throws NoSuchElementException, InterruptedException {
+    public static String findElementAndWaitToHaveNumber(By locator) throws NoSuchElementException, InterruptedException {
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(60));
         try {
-            WebElement el = webDriverWait.
+            return webDriverWait.
                     ignoring(NumberFormatException.class)
                     .until(webDriver -> {
                         WebElement found = webDriver.findElement(locator);
-                        Double.parseDouble(found.getText());
-                        return found;
+                        String text = found.getText().replaceAll("\n.*", "");
+                        Double.parseDouble(text);
+                        return text;
                     });
-            Thread.sleep(500);
-            return el;
         } catch (TimeoutException ex) {
             throw new NoSuchElementException("Element does not contain a number.", ex);
         }

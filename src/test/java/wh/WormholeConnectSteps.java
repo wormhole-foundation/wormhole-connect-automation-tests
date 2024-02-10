@@ -62,7 +62,7 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(By.tagName("input")).sendKeys(amount);
         Thread.sleep(1000);
 
-        Browser.fromBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
+        Browser.fromBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]"));
 
         try {
             // close popup
@@ -78,7 +78,7 @@ public class WormholeConnectSteps {
         Browser.toAsset = Browser.findElementAndWait(By.xpath("(//*[text()='Asset']/following-sibling::*)[2]")).getText();
         Browser.toAsset = Browser.toAsset.split("\n")[0]; // "CELO\n(Alfajores)" -> "CELO"
         Browser.toAmount = Browser.findElementAndWait(By.xpath("(//*[text()='Amount']/following-sibling::*/input)[2]")).getAttribute("value");
-        Browser.toBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[2]")).getText();
+        Browser.toBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[2]"));
 
         if (route.equals("automatic")) {
             // choose Manual and then again Automatic to enable native gas section
@@ -101,13 +101,13 @@ public class WormholeConnectSteps {
 
         Browser.selectAssetInFromSection(Browser.toWallet, Browser.toNetwork, Browser.toAsset);
 
-        Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
+        Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]"));
 
         if (Browser.route.equals("automatic")) {
             Browser.findElementAndWait(By.xpath("//*[contains(text(), '" + Browser.toAsset + "')]")).click();
             Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.getNativeAssetByNetworkName(Browser.toNetwork) + "']")).findElement(By.xpath("../../..")).click();
 
-            Browser.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
+            Browser.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]"));
 
             Assert.assertTrue("Balance should have increased", Double.parseDouble(Browser.toFinalBalance) > Double.parseDouble(Browser.toBalance));
             Assert.assertTrue("Native balance should have increased", Double.parseDouble(Browser.toFinalNativeBalance) > Double.parseDouble(Browser.toNativeBalance));
@@ -118,7 +118,7 @@ public class WormholeConnectSteps {
     public void iCheckNativeBalanceOnUsing(String toNetwork, String toWallet) throws InterruptedException {
         Browser.selectAssetInFromSection(toWallet, toNetwork, Browser.getNativeAssetByNetworkName(toNetwork));
 
-        Browser.toNativeBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]")).getText();
+        Browser.toNativeBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]"));
     }
 
     @When("I click on Approve button")
