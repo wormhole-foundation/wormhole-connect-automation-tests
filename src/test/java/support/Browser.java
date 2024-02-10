@@ -245,46 +245,34 @@ public class Browser {
         }
         Browser.implicitlyWait();
 
-        System.out.println("Waiting for MetaMask window to appear...");
-        Browser.waitForExtensionWindowToAppear(600);
-
-        WebElement metamaskFooterButton = Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-next']"));
-        Browser.scrollToElement(metamaskFooterButton);
-
         System.out.println("Confirming transaction in MetaMask...");
-        String buttonText = metamaskFooterButton.getText();
-        int tries = 60;
-        do {
-            System.out.println(formatter.format(new Date()) + " MetaMask button text: " + buttonText);
 
-            if (buttonText.equals("Next")) {
-                metamaskFooterButton.click();
-            } else if (buttonText.equals("Approve")) {
-                metamaskFooterButton.click();
-                Browser.waitForExtensionWindowToDisappear();
-            } else if (buttonText.equals("Confirm")) {
-                Browser.waitToBeClickable(metamaskFooterButton);
-                metamaskFooterButton.click();
-                Browser.waitForExtensionWindowToDisappear();
-                break;
-            }
+        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(900));
+        webDriverWait
+                .until(webDriver -> {
+                    if (Browser.extensionWindowIsOpened()) {
+                        Browser.switchToExtensionWindow();
+                        WebElement metamaskFooterButton = Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-next']"));
+                        String buttonText = metamaskFooterButton.getText();
+                        if (buttonText.equals("Next")) {
+                            metamaskFooterButton.click();
+                        } else if (buttonText.equals("Approve")) {
+                            metamaskFooterButton.click();
+                            Browser.waitForExtensionWindowToDisappear();
+                        } else if (buttonText.equals("Confirm")) {
+                            Browser.waitToBeClickable(metamaskFooterButton);
+                            metamaskFooterButton.click();
+                            Browser.waitForExtensionWindowToDisappear();
+                            return metamaskFooterButton;
+                        }
 
-            buttonText = "<no button>";
-            Thread.sleep(1000);
-            if (Browser.extensionWindowIsOpened()) {
-                Browser.switchToExtensionWindow();
-                try {
-                    Browser.noImplicitWait();
-                    metamaskFooterButton = Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-next']"));
-                    if (metamaskFooterButton.isDisplayed()) {
-                        buttonText = metamaskFooterButton.getText();
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException ignore) {
+                        }
                     }
-                } catch (NoSuchElementException ignored) {
-                }
-                Browser.implicitlyWait();
-            }
-            tries = tries - 1;
-        } while (tries > 0);
+                    return null;
+                });
 
         System.out.println("Transaction was confirmed in MetaMask");
         Browser.switchToMainWindow();
