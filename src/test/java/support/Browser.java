@@ -280,12 +280,15 @@ public class Browser {
     public static String getScanLinkTextByNetworkName(String network) {
         switch (network) {
             case "Goerli":
+            case "Ethereum":
                 return "Etherscan";
             case "Mumbai":
+            case "Polygon":
                 return "Polygonscan";
             case "BSC":
                 return "BscScan";
             case "Fuji":
+            case "Avalanche":
                 return "Avascan";
             case "Fantom":
                 return "FtmScan";
@@ -293,12 +296,16 @@ public class Browser {
             case "Celo":
                 return "Celo Explorer";
             case "Moonbase":
+            case "Moonbeam":
                 return "Moonscan";
             case "Base Goerli":
+            case "Base":
                 return "BaseScan";
             case "Arbitrum Goerli":
+            case "Arbitrum":
                 return "Arbitrum Goerli Explorer";
             case "Optimism Goerli":
+            case "Optimism":
                 return "Optimism Goerli";
             case "Solana":
                 return "Solana Explorer";
