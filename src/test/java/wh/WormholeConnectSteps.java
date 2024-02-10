@@ -234,8 +234,7 @@ public class WormholeConnectSteps {
         }
 
         System.out.println("Waiting for the send to link...");
-        WebElement sendToSection = Browser.findElementAndWait(By.xpath("//*[text()='Send to']/../following-sibling::*"));
-        WebElement sendToLink = sendToSection.findElement(By.xpath("//*[text()='" + scanTo + "']"));
+        WebElement sendToLink = Browser.findElementAndWait(By.xpath("//*[text()='Send to']/../following-sibling::*//*[text()='" + scanTo + "']"));
 
         assertTrue(sendToLink.isDisplayed());
 
