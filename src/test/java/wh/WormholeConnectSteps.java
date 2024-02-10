@@ -7,27 +7,33 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import support.Browser;
+
+import java.time.Duration;
 
 import static junit.framework.TestCase.assertTrue;
 
 public class WormholeConnectSteps {
 
-    @Given("I open wormhole-connect TESTNET")
-    public void iOpenWormholeConnectTestnetPage() throws InterruptedException {
-        Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_TESTNET"));
+    @Given("I open wormhole-connect testnet")
+    public void iOpenWormholeConnectTestnetPage() {
+        Browser.url = Browser.env.get("URL_WORMHOLE_CONNECT_TESTNET");
+        Browser.driver.get(Browser.url);
     }
 
     @Given("I enter page password")
-    public void iEnterPassword() throws InterruptedException {
+    public void iEnterPassword() {
         Browser.findElementAndWait(By.cssSelector("form [type='password']")).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
         Browser.findElementAndWait(By.cssSelector("form button.button")).click();
     }
 
-    @Given("I open wormhole-connect MAINNET and enter password")
-    public void iOpenWormholeConnectMainnetPageAndEnterPassword() throws InterruptedException {
-        Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_MAINNET"));
+    @Given("I open wormhole-connect mainnet and enter password")
+    public void iOpenWormholeConnectMainnetPageAndEnterPassword() {
+        Browser.url = Browser.env.get("URL_WORMHOLE_CONNECT_MAINNET");
+        Browser.driver.get(Browser.url);
 
         Browser.findElementAndWait(By.cssSelector("form [type='password']")).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
         Browser.findElementAndWait(By.cssSelector("form button.button")).click();
@@ -50,7 +56,7 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(By.xpath("//*[text()='Connect wallet']")).click();
         Browser.findElementAndWait(By.xpath("//*[text()='" + toWallet + "']")).click();
 
-        if (!Browser.fromWallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
+        if (Browser.toWallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
             Browser.waitForMetamaskWindowToAppear();
 
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
@@ -97,7 +103,7 @@ public class WormholeConnectSteps {
 
     @Then("I check balance has increased on destination chain")
     public void iCheckFinalBalance() throws InterruptedException {
-        Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_TESTNET"));
+        Browser.driver.get(Browser.url);
 
         Browser.selectAssetInFromSection(Browser.toWallet, Browser.toNetwork, Browser.toAsset);
 
@@ -132,13 +138,14 @@ public class WormholeConnectSteps {
 
     @When("I approve wallet notifications")
     public void iApproveWalletNotification() throws InterruptedException {
-        System.out.println("Waiting for MetaMask window to appear...");
-        Browser.waitForMetamaskWindowToAppear();
+        System.out.println("Going to confirm transaction...");
 
         if (Browser.fromWallet.equals("MetaMask")) {
             Browser.confirmTransactionInMetaMask();
 
         } else if (Browser.fromWallet.equals("Phantom")) {
+            Browser.waitForMetamaskWindowToAppear();
+
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-password-input']")).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
             Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-submit-button']")).click();
 
@@ -146,6 +153,7 @@ public class WormholeConnectSteps {
 
             Browser.waitForMetamaskWindowToDisappear();
         } else if (Browser.fromWallet.equals("Sui")) {
+            Browser.waitForMetamaskWindowToAppear();
             Browser.findElementAndWait(By.xpath("//*[text()='Unlock to Approve']/..")).click();
 
             Browser.findElementAndWait(By.xpath("//*[@name='password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
@@ -164,7 +172,7 @@ public class WormholeConnectSteps {
     }
 
     @Then("I should see Send From link")
-    public void iShouldSeeSendFromLink() throws InterruptedException {
+    public void iShouldSeeSendFromLink() {
         String scanFrom = Browser.getScanLinkTextByNetworkName(Browser.fromNetwork);
 
         Browser.implicitlyWait(60 * 60);
@@ -187,12 +195,37 @@ public class WormholeConnectSteps {
             Thread.sleep(2000);
             Browser.implicitlyWait();
 
-            Browser.confirmTransactionInMetaMask();
+            if (Browser.toWallet.equals("Phantom")) {
+                Browser.waitForMetamaskWindowToAppear();
+
+                Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-password-input']")).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
+                Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-submit-button']")).click();
+
+                WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(900));
+                webDriverWait
+                        .until(webDriver -> {
+                            if (Browser.metamaskWindowIsOpened()) {
+                                Browser.switchToMetamaskWindow();
+                                Browser.findElementAndWait(By.cssSelector("[data-testid='primary-button']")).click(); // Confirm
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException ignore) {
+                                }
+                                return null;
+                            }
+                            Browser.switchToMainWindow();
+                            return Browser.driver.findElement(By.xpath("//*[text()='The bridge is now complete.']"));
+                        });
+
+                Browser.waitForMetamaskWindowToDisappear();
+            } else {
+                Browser.confirmTransactionInMetaMask();
+            }
         }
     }
 
     @Then("I should see Send To link")
-    public void iShouldSeeSendToLink() throws InterruptedException {
+    public void iShouldSeeSendToLink() {
         String scanTo = Browser.getScanLinkTextByNetworkName(Browser.toNetwork);
 
         if (Browser.route.equals("automatic")) {
@@ -202,7 +235,8 @@ public class WormholeConnectSteps {
         }
 
         System.out.println("Waiting for the send to link...");
-        WebElement sendToLink = Browser.findElementAndWait(By.xpath("//*[text()='" + scanTo + "']"));
+        WebElement sendToSection = Browser.findElementAndWait(By.xpath("//*[text()='Send to']/../following-sibling::*"));
+        WebElement sendToLink = sendToSection.findElement(By.xpath("//*[text()='" + scanTo + "']"));
 
         assertTrue(sendToLink.isDisplayed());
 

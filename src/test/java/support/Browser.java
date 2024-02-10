@@ -33,6 +33,7 @@ public class Browser {
     public static Dotenv env;
     private static final SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
+    public static String url;
     public static Date startedAt;
     public static Date finishedAt;
     public static String fromWallet = "";
@@ -54,6 +55,7 @@ public class Browser {
     public static String toNativeBalance = "";
     public static String toFinalNativeBalance = "";
     public static boolean metaMaskWasUnlocked = false;
+    public static boolean phantomWasUnlocked = false;
 
     public static void main(String[] args) {
         launch();
@@ -151,7 +153,9 @@ public class Browser {
 
     public static void saveResults(String status) {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String s = dt.format(Browser.startedAt) + ";" + dt.format(Browser.finishedAt) + ";" +
+        String s =
+                Browser.url + ";" +
+                dt.format(Browser.startedAt) + ";" + dt.format(Browser.finishedAt) + ";" +
                 Browser.route + ";" +
                 Browser.fromNetwork + ";" + Browser.fromWallet + ";" +
                 Browser.toNetwork + ";" + Browser.toWallet + ";" +
@@ -174,14 +178,17 @@ public class Browser {
         }
     }
 
-    public static WebElement findElementAndWait(By locator) throws NoSuchElementException, InterruptedException {
+    public static WebElement findElementAndWait(By locator) throws NoSuchElementException {
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(Browser.waitSeconds));
         try {
             WebElement el = webDriverWait
                     .until((webDriver) -> {
                         return Browser.driver.findElement(locator);
                     });
-            Thread.sleep(500);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignore) {
+            }
             return el;
         } catch (TimeoutException ex) {
             throw new NoSuchElementException("Element was not found.", ex);
@@ -198,7 +205,7 @@ public class Browser {
         }
     }
 
-    public static String findElementAndWaitToHaveNumber(By locator) throws NoSuchElementException, InterruptedException {
+    public static String findElementAndWaitToHaveNumber(By locator) throws NoSuchElementException {
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(60));
         try {
             return webDriverWait.
@@ -296,6 +303,7 @@ public class Browser {
             case "Fantom":
                 return "FtmScan";
             case "Alfajores":
+            case "Celo":
                 return "Celo Explorer";
             case "Moonbase":
                 return "Moonscan";
@@ -305,6 +313,8 @@ public class Browser {
                 return "Arbitrum Goerli Explorer";
             case "Optimism Goerli":
                 return "Optimism Goerli";
+            case "Solana":
+                return "Solana Explorer";
         }
         throw new RuntimeException("Unsupported network: " + network);
     }
