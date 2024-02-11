@@ -33,6 +33,7 @@ public class Browser {
     public static Dotenv env;
     private static final SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
+    public static boolean isMainnet = false;
     public static String url = "";
     public static Date startedAt;
     public static Date finishedAt;
@@ -301,6 +302,9 @@ public class Browser {
             case "Avalanche":
                 return "Avascan";
             case "Fantom":
+                if (Browser.isMainnet) {
+                    return "FTMscan";
+                }
                 return "FtmScan";
             case "Alfajores":
             case "Celo":

@@ -15,6 +15,7 @@ import java.util.Date;
 public class CucumberTests {
     @Before
     public void before() {
+        Browser.isMainnet = false;
         Browser.url = "";
         Browser.startedAt = new Date();
         Browser.finishedAt = null;

@@ -25,6 +25,7 @@ public class WormholeConnectSteps {
 
     @Given("I launch mainnet browser")
     public void iLaunchMainnetBrowser() {
+        Browser.isMainnet = true;
         BrowserMainnet.launch();
     }
 
