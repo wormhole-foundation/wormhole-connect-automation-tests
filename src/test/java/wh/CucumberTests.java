@@ -17,9 +17,27 @@ public class CucumberTests {
     public void startBrowser() {
         Browser.launch();
 
+        Browser.url = "";
+        Browser.startedAt = new Date();
+        Browser.finishedAt = null;
+        Browser.fromWallet = "";
+        Browser.toWallet = "";
+        Browser.fromNetwork = "";
+        Browser.toNetwork = "";
+        Browser.fromAmount = "";
+        Browser.toAmount = "";
+        Browser.fromAsset = "";
+        Browser.toAsset = "";
+        Browser.route = "";
+        Browser.txFrom = "";
+        Browser.txTo = "";
+        Browser.fromBalance = "";
+        Browser.toBalance = "";
+        Browser.toFinalBalance = "";
+        Browser.toNativeBalance = "";
+        Browser.toFinalNativeBalance = "";
         Browser.metaMaskWasUnlocked = false;
         Browser.phantomWasUnlocked = false;
-        Browser.startedAt = new Date();
     }
 
     @After
