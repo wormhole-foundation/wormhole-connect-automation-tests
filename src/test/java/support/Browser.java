@@ -158,26 +158,27 @@ public class Browser {
 
     public static void saveResults(String status) {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String s = status + ";" +
-                Browser.fromNetwork + ";" +
-                Browser.toNetwork + ";" +
-                Browser.route + ";" +
-                Browser.url + ";" +
-                Browser.fromAmount + ";" +
-                Browser.fromAsset + ";" +
-                Browser.fromBalance + ";" +
-                Browser.toAmount + ";" +
-                Browser.toAsset + ";" +
-                Browser.toBalance + ";" +
-                Browser.txFrom + ";" +
-                Browser.txTo + ";" +
-                Browser.toFinalBalance + ";" +
-                Browser.toNativeBalance + ";" +
-                Browser.toFinalNativeBalance + ";" +
-                Browser.fromWallet + ";" +
-                Browser.toWallet + ";" +
-                dt.format(Browser.startedAt) + ";" +
-                dt.format(Browser.finishedAt) + ";" + "\n";
+        String s = status +
+                ";" + Browser.fromNetwork +
+                ";" + Browser.toNetwork +
+                ";" + Browser.route +
+                ";" + Browser.url +
+                ";" + Browser.fromAmount +
+                ";" + Browser.fromAsset +
+                ";" + Browser.fromBalance +
+                ";" + Browser.toAmount +
+                ";" + Browser.toAsset +
+                ";" + Browser.toBalance +
+                ";" + Browser.txFrom +
+                ";" + Browser.txTo +
+                ";" + Browser.toFinalBalance +
+                ";" + Browser.toNativeBalance +
+                ";" + Browser.toFinalNativeBalance +
+                ";" + Browser.fromWallet +
+                ";" + Browser.toWallet +
+                ";" + dt.format(Browser.startedAt) +
+                ";" + dt.format(Browser.finishedAt) +
+                "\n";
         try {
             File f = new File("results/results.csv");
             f.getParentFile().mkdirs();
