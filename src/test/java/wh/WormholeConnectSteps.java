@@ -10,12 +10,23 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import support.Browser;
+import support.BrowserMainnet;
 
 import java.time.Duration;
 
 import static junit.framework.TestCase.assertTrue;
 
 public class WormholeConnectSteps {
+
+    @Given("I launch testnet browser")
+    public void iLaunchBrowser() {
+        Browser.launch();
+    }
+
+    @Given("I launch mainnet browser")
+    public void iLaunchMainnetBrowser() {
+        BrowserMainnet.launch();
+    }
 
     @Given("I open wormhole-connect testnet")
     public void iOpenWormholeConnectTestnetPage() {
@@ -253,5 +264,4 @@ public class WormholeConnectSteps {
     public void iMoveSlider() throws InterruptedException {
         Browser.moveSliderByOffset(220);
     }
-
 }

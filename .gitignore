@@ -33,3 +33,4 @@ bin/
 /screenshots/
 /results/
 .env
+/chrome_profile*/

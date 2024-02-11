@@ -66,7 +66,11 @@ public class Browser {
     }
 
     public static void launch() {
-        System.out.println("Browser.launch");
+        launch("chrome_profile_testnet");
+    }
+
+    public static void launch(String profile) {
+        System.out.println("Browser.launch (" + profile + ")");
 
         env = Dotenv.load();
 
@@ -76,7 +80,7 @@ public class Browser {
         } else {
             opt.setBinary("/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing");
         }
-        opt.addArguments("user-data-dir=" + Paths.get("chrome_profile").toAbsolutePath());
+        opt.addArguments("user-data-dir=" + Paths.get(profile).toAbsolutePath());
         opt.addArguments("profile-directory=Default");
         ClientConfig config = ClientConfig.defaultConfig().readTimeout(Duration.ofHours(2));
         driver = new ChromeDriver(ChromeDriverService.createDefaultService(), opt, config);

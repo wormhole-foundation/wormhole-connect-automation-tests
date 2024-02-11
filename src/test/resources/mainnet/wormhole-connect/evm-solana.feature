@@ -1,6 +1,7 @@
 Feature: EVM manual testnet
 
   Scenario Outline: EVM manual testnet
+    Given I launch mainnet browser
     Given I open wormhole-connect mainnet and enter password
     And I prepare to send "<amount>" "<asset>" from "<from_network>" using "<from_wallet>" to "<to_network>" using "<to_wallet>" via "<route>"
     When I click on Approve button

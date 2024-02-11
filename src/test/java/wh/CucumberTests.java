@@ -14,9 +14,7 @@ import java.util.Date;
 @CucumberOptions()
 public class CucumberTests {
     @Before
-    public void startBrowser() {
-        Browser.launch();
-
+    public void before() {
         Browser.url = "";
         Browser.startedAt = new Date();
         Browser.finishedAt = null;
@@ -41,7 +39,7 @@ public class CucumberTests {
     }
 
     @After
-    public void quitBrowser(Scenario scenario) {
+    public void after(Scenario scenario) {
         if (scenario.isFailed()) {
             Browser.takeScreenshot();
         }

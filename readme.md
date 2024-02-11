@@ -44,6 +44,8 @@ git clone https://github.com/tsadovska/wormhole-connect-automation-tests
 - Change "Network" to "Testnet"
 - Put wallet unlock password to `.env` file
 
+For mainnet testing, do the same steps with BrowserMainnet.
+To start mainnet browser: right click "src/test/java/support/BrowserMainnet" -> "Run BrowserMainnet.main()".
 
 # Run Tests
 

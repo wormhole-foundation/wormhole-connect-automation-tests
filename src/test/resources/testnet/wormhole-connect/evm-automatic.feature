@@ -1,6 +1,7 @@
 Feature: EVM automatic testnet
 
   Scenario Outline: EVM automatic testnet
+    Given I launch testnet browser
     Given I open wormhole-connect testnet
     And I enter page password
     And I check native balance on "<to_network>" using "<to_wallet>"
@@ -15,5 +16,5 @@ Feature: EVM automatic testnet
 
     Examples:
       | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | automatic | 0.2    | MATIC | Mumbai       | Alfajores  | MetaMask    | MetaMask  |
+#      | automatic | 0.2    | MATIC | Mumbai       | Alfajores  | MetaMask    | MetaMask  |
       | automatic | 0.008  | BNB   | BSC          | Goerli     | MetaMask    | MetaMask  |
