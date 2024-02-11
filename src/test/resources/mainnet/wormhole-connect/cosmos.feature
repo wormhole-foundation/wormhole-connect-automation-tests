@@ -1,9 +1,9 @@
 Feature: Cosmos mainnet
 
-  Scenario Outline: Cosmos
+  Scenario Outline: Cosmos mainnet
     Given I launch mainnet browser
     Given I open wormhole-connect mainnet and enter password
-    And I prepare to send "<amount>" "<asset>" from "<from_network>" using "<from_wallet>" to "<to_network>" using "<to_wallet>" via "<route>"
+    And I prepare to send "<amount>" "<asset>" from "<from_network>"("<from_wallet>") to "<to_network>"("<to_wallet>") with "<route>" route
 
 
     Examples:

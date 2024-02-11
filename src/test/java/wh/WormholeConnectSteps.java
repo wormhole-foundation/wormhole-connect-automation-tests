@@ -50,7 +50,7 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(By.cssSelector("form button.button")).click();
     }
 
-    @And("I prepare to send {string} {string} from {string} using {string} to {string} using {string} via {string}")
+    @And("I prepare to send {string} {string} from {string}\\({string}) to {string}\\({string}) with {string} route")
     public void iPrepareToSendFromTo(String amount, String asset, String fromNetwork, String fromWallet, String toNetwork, String toWallet, String route) throws InterruptedException {
         Browser.fromWallet = fromWallet;
         Browser.toWallet = toWallet;
