@@ -221,9 +221,9 @@ public class WormholeConnectSteps {
                                     Thread.sleep(2000);
                                 } catch (InterruptedException ignore) {
                                 }
+                                Browser.switchToMainWindow();
                                 return null;
                             }
-                            Browser.switchToMainWindow();
                             return Browser.driver.findElement(By.xpath("//*[text()='The bridge is now complete.']"));
                         });
 
