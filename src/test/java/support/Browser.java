@@ -171,8 +171,8 @@ public class Browser {
                 Browser.toFinalNativeBalance +
                 Browser.fromWallet + ";" +
                 Browser.toWallet + ";" +
-                dt.format(Browser.startedAt) + ";"
-                + dt.format(Browser.finishedAt) + ";" +  "\n";
+                dt.format(Browser.startedAt) + ";" +
+                dt.format(Browser.finishedAt) + ";" + "\n";
         try {
             File f = new File("results/results.csv");
             f.getParentFile().mkdirs();
