@@ -152,7 +152,7 @@ public class WormholeConnectSteps {
         System.out.println("Going to confirm transaction...");
 
         if (Browser.fromWallet.equals("MetaMask")) {
-            Browser.confirmTransactionInMetaMask();
+            Browser.confirmTransactionInMetaMask(Browser.route.equals("automatic"));
 
         } else if (Browser.fromWallet.equals("Phantom")) {
             Browser.waitForExtensionWindowToAppear();
@@ -230,7 +230,7 @@ public class WormholeConnectSteps {
 
                 Browser.waitForExtensionWindowToDisappear();
             } else {
-                Browser.confirmTransactionInMetaMask();
+                Browser.confirmTransactionInMetaMask(true);
             }
         }
     }

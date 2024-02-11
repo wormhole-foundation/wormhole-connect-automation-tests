@@ -231,7 +231,7 @@ public class Browser {
         }
     }
 
-    public static void confirmTransactionInMetaMask() throws InterruptedException {
+    public static void confirmTransactionInMetaMask(boolean isClaimStep) throws InterruptedException {
         Browser.waitForExtensionWindowToAppear();
 
         Browser.implicitlyWait(2);
@@ -273,6 +273,9 @@ public class Browser {
                             Browser.waitToBeClickable(metamaskFooterButton);
                             metamaskFooterButton.click();
                             Browser.waitForExtensionWindowToDisappear();
+                            if (isClaimStep) {
+                                return null; // do not stop, wait for "The bridge is now complete." message
+                            }
                             return metamaskFooterButton;
                         }
 
@@ -280,6 +283,10 @@ public class Browser {
                             Thread.sleep(2000);
                         } catch (InterruptedException ignore) {
                         }
+                        return null;
+                    }
+                    if (isClaimStep) {
+                        return Browser.driver.findElement(By.xpath("//*[text()='The bridge is now complete.']"));
                     }
                     return null;
                 });
