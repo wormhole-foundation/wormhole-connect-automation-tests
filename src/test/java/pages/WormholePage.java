@@ -3,7 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import support.Browser;
 
-public class Page {
+public class WormholePage {
     public static final By THE_BRIDGE_IS_NOW_COMPLETE_TEXT = By.xpath("//*[text()='The bridge is now complete.']");
     public static final By CONNECT_SOURCE_WALLET = By.xpath("//*[text()='Connect wallet']");
     public static final By CONNECT_DESTINATION_WALLET = By.xpath("//*[text()='Connect wallet']");

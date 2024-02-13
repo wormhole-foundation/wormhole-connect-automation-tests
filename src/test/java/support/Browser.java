@@ -20,7 +20,7 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.ExtensionPage;
 import pages.PasswordPage;
-import pages.Page;
+import pages.WormholePage;
 
 import java.io.File;
 import java.io.IOException;
@@ -290,7 +290,7 @@ public class Browser {
                         return null;
                     }
                     if (isClaimStep) {
-                        return Browser.driver.findElement(Page.THE_BRIDGE_IS_NOW_COMPLETE_TEXT);
+                        return Browser.driver.findElement(WormholePage.THE_BRIDGE_IS_NOW_COMPLETE_TEXT);
                     }
                     return null;
                 });
@@ -366,8 +366,8 @@ public class Browser {
     }
 
     public static void selectAssetInFromSection(String wallet, String network, String asset) throws InterruptedException {
-        Browser.findElementAndWait(Page.CONNECT_SOURCE_WALLET).click();
-        Browser.findElementAndWait(Page.CHOOSE_FROM_WALLET()).click();
+        Browser.findElementAndWait(WormholePage.CONNECT_SOURCE_WALLET).click();
+        Browser.findElementAndWait(WormholePage.CHOOSE_FROM_WALLET()).click();
 
         if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
             Browser.waitForExtensionWindowToAppear();
@@ -389,18 +389,18 @@ public class Browser {
             Browser.metaMaskWasUnlocked = true;
         }
 
-        Browser.findElementAndWait(Page.SELECT_NETWORK).click();
+        Browser.findElementAndWait(WormholePage.SELECT_NETWORK).click();
         Thread.sleep(1000);
-        Browser.findElementAndWait(Page.CHOOSE_FROM_NETWORK(network)).click();
+        Browser.findElementAndWait(WormholePage.CHOOSE_FROM_NETWORK(network)).click();
         Thread.sleep(1000);
-        Browser.findElementAndWait(Page.SELECT_SOURCE_ASSET).click();
+        Browser.findElementAndWait(WormholePage.SELECT_SOURCE_ASSET).click();
         Thread.sleep(1000);
-        Browser.findElementAndWait(Page.CHOOSE_ASSET(asset)).click();
+        Browser.findElementAndWait(WormholePage.CHOOSE_ASSET(asset)).click();
         Thread.sleep(1000);
     }
 
     public static void moveSliderByOffset(int xOffset) throws InterruptedException {
-        WebElement slider = Browser.findElementAndWait(Page.SLIDER_THUMB);
+        WebElement slider = Browser.findElementAndWait(WormholePage.SLIDER_THUMB);
         Browser.scrollToElement(slider);
 
         (new Actions(Browser.driver))
