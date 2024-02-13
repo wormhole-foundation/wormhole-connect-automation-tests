@@ -290,7 +290,7 @@ public class Browser {
                         return null;
                     }
                     if (isClaimStep) {
-                        return Browser.driver.findElement(WormholePage.THE_BRIDGE_IS_NOW_COMPLETE_TEXT);
+                        return Browser.driver.findElement(WormholePage.TRANSACTION_COMPLETE_MESSAGE);
                     }
                     return null;
                 });
@@ -366,7 +366,7 @@ public class Browser {
     }
 
     public static void selectAssetInFromSection(String wallet, String network, String asset) throws InterruptedException {
-        Browser.findElementAndWait(WormholePage.CONNECT_SOURCE_WALLET).click();
+        Browser.findElementAndWait(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
         Browser.findElementAndWait(WormholePage.CHOOSE_WALLET(wallet)).click();
 
         if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
@@ -389,11 +389,11 @@ public class Browser {
             Browser.metaMaskWasUnlocked = true;
         }
 
-        Browser.findElementAndWait(WormholePage.SELECT_NETWORK).click();
+        Browser.findElementAndWait(WormholePage.SOURCE_SELECT_NETWORK_BUTTON).click();
         Thread.sleep(1000);
         Browser.findElementAndWait(WormholePage.CHOOSE_NETWORK(network)).click();
         Thread.sleep(1000);
-        Browser.findElementAndWait(WormholePage.SELECT_SOURCE_ASSET).click();
+        Browser.findElementAndWait(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();
         Thread.sleep(1000);
         Browser.findElementAndWait(WormholePage.CHOOSE_ASSET(asset)).click();
         Thread.sleep(1000);

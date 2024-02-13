@@ -66,8 +66,8 @@ public class WormholeConnectSteps {
 
         Browser.selectAssetInFromSection(Browser.fromWallet, Browser.fromNetwork, Browser.fromAsset);
 
-        Browser.findElementAndWait(WormholePage.CONNECT_DESTINATION_WALLET).click();
-        Browser.findElementAndWait(WormholePage.CHOOSE_TO_WALLET()).click();
+        Browser.findElementAndWait(WormholePage.DESTINATION_CONNECT_WALLET_BUTTON).click();
+        Browser.findElementAndWait(WormholePage.CHOOSE_WALLET(Browser.toWallet)).click();
 
         if (Browser.toWallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
             Browser.waitForExtensionWindowToAppear();
@@ -78,37 +78,37 @@ public class WormholeConnectSteps {
             Browser.waitForExtensionWindowToDisappear();
         }
 
-        Browser.findElementAndWait(WormholePage.AMOUNT_INPUT).sendKeys(amount);
+        Browser.findElementAndWait(WormholePage.SOURCE_AMOUNT_INPUT).sendKeys(amount);
         Thread.sleep(1000);
 
-        Browser.fromBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE); // data-testid="from-balance"
+        Browser.fromBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT); // data-testid="from-balance"
 
         try {
             // close popup
-            Browser.findElementAndWait(WormholePage.POPUP_CLOSE_ICON).click(); // OK
+            Browser.findElementAndWait(WormholePage.POPUP_CLOSE_BUTTON).click(); // OK
         } catch (Exception ignore) {
         }
 
-        Browser.findElementAndWait(WormholePage.SELECT_NETWORK).click();
+        Browser.findElementAndWait(WormholePage.DESTINATION_SELECT_NETWORK_BUTTON).click();
         Thread.sleep(1000);
-        Browser.findElementAndWait(WormholePage.CHOOSE_TO_NETWORK()).click();
+        Browser.findElementAndWait(WormholePage.CHOOSE_NETWORK(Browser.toNetwork)).click();
         Thread.sleep(1000);
 
-        Browser.toAsset = Browser.findElementAndWait(WormholePage.DESTINATION_ASSET).getText(); // data-testid="to-asset"
+        Browser.toAsset = Browser.findElementAndWait(WormholePage.DESTINATION_ASSET_BUTTON).getText(); // data-testid="to-asset"
         Browser.toAsset = Browser.toAsset.split("\n")[0]; // "CELO\n(Alfajores)" -> "CELO"
-        Browser.toAmount = Browser.findElementAndWait(WormholePage.DESTINATION_AMOUNT).getAttribute("value"); // data-testid="to-amount"
-        Browser.toBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.DESTINATION_BALANCE); // data-testid="to-balance"
+        Browser.toAmount = Browser.findElementAndWait(WormholePage.DESTINATION_AMOUNT_INPUT).getAttribute("value"); // data-testid="to-amount"
+        Browser.toBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.DESTINATION_BALANCE_TEXT); // data-testid="to-balance"
 
         if (route.equals("automatic")) {
             // choose Manual and then again Automatic to enable native gas section
-            Browser.findElementAndWait(WormholePage.AUTOMATIC_BRIDGE).click(); // data-testid="select-automatic-bridge"
+            Browser.findElementAndWait(WormholePage.AUTOMATIC_BRIDGE_OPTION).click(); // data-testid="select-automatic-bridge"
             Thread.sleep(1000);
-            Browser.findElementAndWait(WormholePage.MANUAL_BRIDGE).click(); // data-testid="select-manual-bridge"
+            Browser.findElementAndWait(WormholePage.MANUAL_BRIDGE_OPTION).click(); // data-testid="select-manual-bridge"
             Thread.sleep(1000);
-            Browser.findElementAndWait(WormholePage.AUTOMATIC_BRIDGE).click(); // data-testid="select-automatic-bridge"
+            Browser.findElementAndWait(WormholePage.AUTOMATIC_BRIDGE_OPTION).click(); // data-testid="select-automatic-bridge"
             Thread.sleep(1000);
         } else if (route.equals("manual")) {
-            Browser.findElementAndWait(WormholePage.MANUAL_BRIDGE).click(); // data-testid="select-manual-bridge"
+            Browser.findElementAndWait(WormholePage.MANUAL_BRIDGE_OPTION).click(); // data-testid="select-manual-bridge"
         }
 
         Thread.sleep(3000); // wait UI to settle
@@ -120,13 +120,13 @@ public class WormholeConnectSteps {
 
         Browser.selectAssetInFromSection(Browser.toWallet, Browser.toNetwork, Browser.toAsset);
 
-        Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE); // data-testid="to-balance"
+        Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
 
         if (Browser.route.equals("automatic")) {
-            Browser.findElementAndWait(WormholePage.SELECT_TO_ASSET()).click(); // data-testid="select-manual-bridge"
+            Browser.findElementAndWait(WormholePage.SELECT_TO_ASSET()).click();
             Browser.findElementAndWait(WormholePage.SELECT_TO_NETWORK()).click();
 
-            Browser.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE);
+            Browser.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
 
             Assert.assertTrue("Native balance should have increased", Double.parseDouble(Browser.toFinalNativeBalance) > Double.parseDouble(Browser.toNativeBalance));
         }
@@ -137,12 +137,12 @@ public class WormholeConnectSteps {
     public void iCheckNativeBalanceOnUsing(String toNetwork, String toWallet) throws InterruptedException {
         Browser.selectAssetInFromSection(toWallet, toNetwork, Browser.getNativeAssetByNetworkName(toNetwork));
 
-        Browser.toNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE);
+        Browser.toNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
     }
 
     @When("I click on Approve button")
     public void iApproveTransfer() throws InterruptedException {
-        WebElement approveButton = Browser.findElementAndWait(WormholePage.APPROVE_AND_PROCEED_WITH_TRANSACTION_BUTTON);
+        WebElement approveButton = Browser.findElementAndWait(WormholePage.APPROVE_BUTTON);
         Browser.scrollToElement(approveButton);
         Thread.sleep(5000);
         approveButton.click();
@@ -188,7 +188,7 @@ public class WormholeConnectSteps {
     public void iShouldSeeSendFromLink() {
         Browser.implicitlyWait(60 * 60);
         System.out.println("Waiting for the send from link...");
-        WebElement sendFromLink = Browser.findElementAndWait(WormholePage.SCAN_FROM_LINK());
+        WebElement sendFromLink = Browser.findElementAndWait(WormholePage.SOURCE_SCAN_LINK());
         Browser.implicitlyWait();
 
         Browser.txFrom = sendFromLink.getAttribute("href");
@@ -225,7 +225,7 @@ public class WormholeConnectSteps {
                                 Browser.switchToMainWindow();
                                 return null;
                             }
-                            return Browser.driver.findElement(WormholePage.THE_BRIDGE_IS_NOW_COMPLETE_TEXT);
+                            return Browser.driver.findElement(WormholePage.TRANSACTION_COMPLETE_MESSAGE);
                         });
 
                 Browser.waitForExtensionWindowToDisappear();
@@ -248,7 +248,7 @@ public class WormholeConnectSteps {
         }
 
         System.out.println("Waiting for the send to link...");
-        WebElement sendToLink = Browser.findElementAndWait(WormholePage.SCAN_TO_LINK_IN_TO_SECTION());
+        WebElement sendToLink = Browser.findElementAndWait(WormholePage.DESTINATION_SCAN_LINK());
 
         assertTrue(sendToLink.isDisplayed());
 
