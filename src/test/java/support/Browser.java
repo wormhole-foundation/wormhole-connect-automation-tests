@@ -268,6 +268,7 @@ public class Browser {
                         Browser.switchToExtensionWindow();
                         WebElement metamaskFooterButton = Browser.findElementAndWait(ExtensionPage.METAMASK_FOOTER_NEXT_BUTTON); // OK
                         String buttonText = metamaskFooterButton.getText();
+                        System.out.println("MetaMask button text: " + buttonText);
                         if (buttonText.equals("Next")) {
                             metamaskFooterButton.click();
                         } else if (buttonText.equals("Approve")) {
