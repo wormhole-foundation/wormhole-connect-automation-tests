@@ -5,10 +5,12 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.ExtensionPage;
+import pages.PasswordPage;
+import pages.Page;
 import support.Browser;
 import support.BrowserMainnet;
 
@@ -37,8 +39,8 @@ public class WormholeConnectSteps {
 
     @Given("I enter page password")
     public void iEnterPassword() {
-        Browser.findElementAndWait(By.cssSelector("form [type='password']")).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
-        Browser.findElementAndWait(By.cssSelector("form button.button")).click();
+        Browser.findElementAndWait(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD")); // OK (netlify)
+        Browser.findElementAndWait(PasswordPage.button).click(); // OK (netlify)
     }
 
     @Given("I open wormhole-connect mainnet and enter password")
@@ -46,8 +48,8 @@ public class WormholeConnectSteps {
         Browser.url = Browser.env.get("URL_WORMHOLE_CONNECT_MAINNET");
         Browser.driver.get(Browser.url);
 
-        Browser.findElementAndWait(By.cssSelector("form [type='password']")).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
-        Browser.findElementAndWait(By.cssSelector("form button.button")).click();
+        Browser.findElementAndWait(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD")); // OK (netlify)
+        Browser.findElementAndWait(PasswordPage.button).click(); // OK (netlify)
     }
 
     @And("I prepare to send {string} {string} from {string}\\({string}) to {string}\\({string}) with {string} route")
@@ -64,49 +66,49 @@ public class WormholeConnectSteps {
 
         Browser.selectAssetInFromSection(Browser.fromWallet, Browser.fromNetwork, Browser.fromAsset);
 
-        Browser.findElementAndWait(By.xpath("//*[text()='Connect wallet']")).click();
-        Browser.findElementAndWait(By.xpath("//*[text()='" + toWallet + "']")).click();
+        Browser.findElementAndWait(Page.CONNECT_DESTINATION_WALLET).click();
+        Browser.findElementAndWait(Page.CHOOSE_TO_WALLET()).click();
 
         if (Browser.toWallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
             Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
-            Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-submit']")).click();
+            Browser.findElementAndWait(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK")); // OK
+            Browser.findElementAndWait(ExtensionPage.METAMASK_UNLOCK_BUTTON).click(); // OK
 
             Browser.waitForExtensionWindowToDisappear();
         }
 
-        Browser.findElementAndWait(By.tagName("input")).sendKeys(amount);
+        Browser.findElementAndWait(Page.AMOUNT_INPUT).sendKeys(amount);
         Thread.sleep(1000);
 
-        Browser.fromBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]"));
+        Browser.fromBalance = Browser.findElementAndWaitToHaveNumber(Page.SOURCE_BALANCE); // data-testid="from-balance"
 
         try {
             // close popup
-            Browser.findElementAndWait(By.cssSelector("[data-testid='CloseIcon']")).click();
+            Browser.findElementAndWait(Page.POPUP_CLOSE_ICON).click(); // OK
         } catch (Exception ignore) {
         }
 
-        Browser.findElementAndWait(By.xpath("//*[text()='Select network']")).click();
+        Browser.findElementAndWait(Page.SELECT_NETWORK).click();
         Thread.sleep(1000);
-        Browser.findElementAndWait(By.xpath("//*[text()='" + toNetwork + "']")).click();
+        Browser.findElementAndWait(Page.CHOOSE_TO_NETWORK()).click();
         Thread.sleep(1000);
 
-        Browser.toAsset = Browser.findElementAndWait(By.xpath("(//*[text()='Asset']/following-sibling::*)[2]")).getText();
+        Browser.toAsset = Browser.findElementAndWait(Page.DESTINATION_ASSET).getText(); // data-testid="to-asset"
         Browser.toAsset = Browser.toAsset.split("\n")[0]; // "CELO\n(Alfajores)" -> "CELO"
-        Browser.toAmount = Browser.findElementAndWait(By.xpath("(//*[text()='Amount']/following-sibling::*/input)[2]")).getAttribute("value");
-        Browser.toBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[2]"));
+        Browser.toAmount = Browser.findElementAndWait(Page.DESTINATION_AMOUNT).getAttribute("value"); // data-testid="to-amount"
+        Browser.toBalance = Browser.findElementAndWaitToHaveNumber(Page.DESTINATION_BALANCE); // data-testid="to-balance"
 
         if (route.equals("automatic")) {
             // choose Manual and then again Automatic to enable native gas section
-            Browser.findElementAndWait(By.xpath("//*[contains(text(),'Automatic Bridge')]")).click();
+            Browser.findElementAndWait(Page.AUTOMATIC_BRIDGE).click(); // data-testid="select-automatic-bridge"
             Thread.sleep(1000);
-            Browser.findElementAndWait(By.xpath("//*[contains(text(),'Manual Bridge')]")).click();
+            Browser.findElementAndWait(Page.MANUAL_BRIDGE).click(); // data-testid="select-manual-bridge"
             Thread.sleep(1000);
-            Browser.findElementAndWait(By.xpath("//*[contains(text(),'Automatic Bridge')]")).click();
+            Browser.findElementAndWait(Page.AUTOMATIC_BRIDGE).click(); // data-testid="select-automatic-bridge"
             Thread.sleep(1000);
         } else if (route.equals("manual")) {
-            Browser.findElementAndWait(By.xpath("//*[contains(text(),'Manual Bridge')]")).click();
+            Browser.findElementAndWait(Page.MANUAL_BRIDGE).click(); // data-testid="select-manual-bridge"
         }
 
         Thread.sleep(3000); // wait UI to settle
@@ -118,13 +120,13 @@ public class WormholeConnectSteps {
 
         Browser.selectAssetInFromSection(Browser.toWallet, Browser.toNetwork, Browser.toAsset);
 
-        Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]"));
+        Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(Page.SOURCE_BALANCE); // data-testid="to-balance"
 
         if (Browser.route.equals("automatic")) {
-            Browser.findElementAndWait(By.xpath("//*[contains(text(), '" + Browser.toAsset + "')]")).click();
-            Browser.findElementAndWait(By.xpath("//*[text()='" + Browser.getNativeAssetByNetworkName(Browser.toNetwork) + "']")).findElement(By.xpath("../../..")).click();
+            Browser.findElementAndWait(Page.SELECT_TO_ASSET()).click(); // data-testid="select-manual-bridge"
+            Browser.findElementAndWait(Page.SELECT_TO_NETWORK()).click();
 
-            Browser.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]"));
+            Browser.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(Page.SOURCE_BALANCE);
 
             Assert.assertTrue("Balance should have increased", Double.parseDouble(Browser.toFinalBalance) > Double.parseDouble(Browser.toBalance));
             Assert.assertTrue("Native balance should have increased", Double.parseDouble(Browser.toFinalNativeBalance) > Double.parseDouble(Browser.toNativeBalance));
@@ -135,12 +137,12 @@ public class WormholeConnectSteps {
     public void iCheckNativeBalanceOnUsing(String toNetwork, String toWallet) throws InterruptedException {
         Browser.selectAssetInFromSection(toWallet, toNetwork, Browser.getNativeAssetByNetworkName(toNetwork));
 
-        Browser.toNativeBalance = Browser.findElementAndWaitToHaveNumber(By.xpath("(//*[text()='Balance']/following-sibling::*)[1]"));
+        Browser.toNativeBalance = Browser.findElementAndWaitToHaveNumber(Page.SOURCE_BALANCE);
     }
 
     @When("I click on Approve button")
     public void iApproveTransfer() throws InterruptedException {
-        WebElement approveButton = Browser.findElementAndWait(By.xpath("//*[text()='Approve and proceed with transaction']"));
+        WebElement approveButton = Browser.findElementAndWait(Page.APPROVE_AND_PROCEED_WITH_TRANSACTION_BUTTON);
         Browser.scrollToElement(approveButton);
         Thread.sleep(5000);
         approveButton.click();
@@ -157,25 +159,25 @@ public class WormholeConnectSteps {
         } else if (Browser.fromWallet.equals("Phantom")) {
             Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-password-input']")).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
-            Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-submit-button']")).click();
+            Browser.findElementAndWait(ExtensionPage.PHANTOM_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
+            Browser.findElementAndWait(ExtensionPage.PHANTOM_SUBMIT_BUTTON).click();
 
-            Browser.findElementAndWait(By.cssSelector("[data-testid='primary-button']")).click(); // Confirm
+            Browser.findElementAndWait(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
 
             Browser.waitForExtensionWindowToDisappear();
         } else if (Browser.fromWallet.equals("Sui")) {
             Browser.waitForExtensionWindowToAppear();
-            Browser.findElementAndWait(By.xpath("//*[text()='Unlock to Approve']/..")).click();
+            Browser.findElementAndWait(ExtensionPage.SUI_UNLOCK_TO_APPROVE_BUTTON).click();
 
-            Browser.findElementAndWait(By.xpath("//*[@name='password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
-            Browser.findElementAndWait(By.xpath("//*[@role='dialog']//*[text()='Unlock']/..")).click();
+            Browser.findElementAndWait(ExtensionPage.SUI_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
+            Browser.findElementAndWait(ExtensionPage.SUI_UNLOCK_BUTTON).click();
             Thread.sleep(1000);
 
-            Browser.findElementAndWait(By.xpath("//*[text()='Approve']/..")).click();
+            Browser.findElementAndWait(ExtensionPage.SUI_APPROVE_BUTTON).click();
             Thread.sleep(1000);
 
             try {
-                Browser.findElementAndWait(By.xpath("//*[@role='dialog']//*[text()='Approve']/..")).click();
+                Browser.findElementAndWait(ExtensionPage.SUI_DIALOG_APPROVE_BUTTON).click();
             } catch (NoSuchElementException ignore) {
             }
             Browser.waitForExtensionWindowToDisappear();
@@ -184,14 +186,12 @@ public class WormholeConnectSteps {
 
     @Then("I should see Send From link")
     public void iShouldSeeSendFromLink() {
-        String scanFrom = Browser.getScanLinkTextByNetworkName(Browser.fromNetwork);
-
         Browser.implicitlyWait(60 * 60);
         System.out.println("Waiting for the send from link...");
-        WebElement sendFromLink = Browser.findElementAndWait(By.xpath("//*[text()= '" + scanFrom + "' ]"));
+        WebElement sendFromLink = Browser.findElementAndWait(Page.SCAN_FROM_LINK());
         Browser.implicitlyWait();
 
-        Browser.txFrom = sendFromLink.findElement(By.xpath("..")).getAttribute("href");
+        Browser.txFrom = sendFromLink.getAttribute("href");
     }
 
     @Then("I should claim assets")
@@ -199,25 +199,25 @@ public class WormholeConnectSteps {
         if (Browser.route.equals("manual")) {
             Browser.implicitlyWait(60 * 60);
             System.out.println("Waiting for the Claim button...");
-            Browser.findElementAndWait(By.xpath("//*[text()='Claim']"));
+            Browser.findElementAndWait(Page.CLAIM_BUTTON);
             System.out.println("Waiting to click on Claim button...");
             Thread.sleep(5000);
-            Browser.findElementAndWait(By.xpath("//*[text()='Claim']")).click();
+            Browser.findElementAndWait(Page.CLAIM_BUTTON).click();
             Thread.sleep(2000);
             Browser.implicitlyWait();
 
             if (Browser.toWallet.equals("Phantom")) {
                 Browser.waitForExtensionWindowToAppear();
 
-                Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-password-input']")).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
-                Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-form-submit-button']")).click();
+                Browser.findElementAndWait(ExtensionPage.PHANTOM_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
+                Browser.findElementAndWait(ExtensionPage.PHANTOM_SUBMIT_BUTTON).click();
 
                 WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(900));
                 webDriverWait
                         .until(webDriver -> {
                             if (Browser.extensionWindowIsOpened()) {
                                 Browser.switchToExtensionWindow();
-                                Browser.findElementAndWait(By.cssSelector("[data-testid='primary-button']")).click(); // Confirm
+                                Browser.findElementAndWait(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
                                 try {
                                     Thread.sleep(2000);
                                 } catch (InterruptedException ignore) {
@@ -225,7 +225,7 @@ public class WormholeConnectSteps {
                                 Browser.switchToMainWindow();
                                 return null;
                             }
-                            return Browser.driver.findElement(By.xpath("//*[text()='The bridge is now complete.']"));
+                            return Browser.driver.findElement(Page.THE_BRIDGE_IS_NOW_COMPLETE_TEXT);
                         });
 
                 Browser.waitForExtensionWindowToDisappear();
@@ -237,8 +237,6 @@ public class WormholeConnectSteps {
 
     @Then("I should see Send To link")
     public void iShouldSeeSendToLink() {
-        String scanTo = Browser.getScanLinkTextByNetworkName(Browser.toNetwork);
-
         if (Browser.route.equals("automatic")) {
             Browser.implicitlyWait(60 * 60);
         } else {
@@ -250,13 +248,13 @@ public class WormholeConnectSteps {
         }
 
         System.out.println("Waiting for the send to link...");
-        WebElement sendToLink = Browser.findElementAndWait(By.xpath("//*[text()='Send to']/../following-sibling::*//*[text()='" + scanTo + "']"));
+        WebElement sendToLink = Browser.findElementAndWait(Page.SCAN_TO_LINK_IN_TO_SECTION());
 
         assertTrue(sendToLink.isDisplayed());
 
         Browser.implicitlyWait();
 
-        Browser.txTo = sendToLink.findElement(By.xpath("..")).getAttribute("href");
+        Browser.txTo = sendToLink.getAttribute("href");
 
         System.out.println("Finished");
     }

@@ -18,6 +18,9 @@ import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.ExtensionPage;
+import pages.PasswordPage;
+import pages.Page;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,8 +65,8 @@ public class Browser {
         launch();
 
         Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_TESTNET"));
-        Browser.driver.findElement(By.cssSelector("form [type='password']")).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
-        Browser.driver.findElement(By.cssSelector("form button.button")).click();
+        Browser.driver.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
+        Browser.driver.findElement(PasswordPage.button).click();
     }
 
     public static void launch() {
@@ -238,19 +241,19 @@ public class Browser {
         Browser.implicitlyWait(2);
         System.out.println("Going to Approve adding new network (if MetaMask requires it)...");
         try {
-            Browser.findElementAndWait(By.xpath("//*[text()='Approve']")).click();
+            Browser.findElementAndWait(ExtensionPage.METAMASK_APPROVE_BUTTON).click();
             Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
         System.out.println("Going to confirm warning on Moonbase network (if MetaMask requires it)...");
         try {
-            Browser.findElementAndWait(By.xpath("//*[text()='Got it']")).click();
+            Browser.findElementAndWait(ExtensionPage.METAMASK_GOT_IT_BUTTON).click();
             Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
         System.out.println("Going to Switch network (if MetaMask requires it)...");
         try {
-            Browser.findElementAndWait(By.xpath("//*[text()='Switch network']")).click();
+            Browser.findElementAndWait(ExtensionPage.METAMASK_SWITCH_NETWORK_BUTTON).click();
             Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
@@ -263,7 +266,7 @@ public class Browser {
                 .until(webDriver -> {
                     if (Browser.extensionWindowIsOpened()) {
                         Browser.switchToExtensionWindow();
-                        WebElement metamaskFooterButton = Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-next']"));
+                        WebElement metamaskFooterButton = Browser.findElementAndWait(ExtensionPage.METAMASK_FOOTER_NEXT_BUTTON); // OK
                         String buttonText = metamaskFooterButton.getText();
                         if (buttonText.equals("Next")) {
                             metamaskFooterButton.click();
@@ -287,7 +290,7 @@ public class Browser {
                         return null;
                     }
                     if (isClaimStep) {
-                        return Browser.driver.findElement(By.xpath("//*[text()='The bridge is now complete.']"));
+                        return Browser.driver.findElement(Page.THE_BRIDGE_IS_NOW_COMPLETE_TEXT);
                     }
                     return null;
                 });
@@ -363,19 +366,19 @@ public class Browser {
     }
 
     public static void selectAssetInFromSection(String wallet, String network, String asset) throws InterruptedException {
-        Browser.findElementAndWait(By.xpath("//*[text()='Connect wallet']")).click();
-        Browser.findElementAndWait(By.xpath("//*[text()='" + wallet + "']")).click();
+        Browser.findElementAndWait(Page.CONNECT_SOURCE_WALLET).click();
+        Browser.findElementAndWait(Page.CHOOSE_FROM_WALLET()).click();
 
         if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
             Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-password']")).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
-            Browser.findElementAndWait(By.cssSelector("[data-testid='unlock-submit']")).click();
+            Browser.findElementAndWait(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK")); // OK
+            Browser.findElementAndWait(ExtensionPage.METAMASK_UNLOCK_BUTTON).click(); // OK
 
             try {
                 System.out.println("Going to Reject a pending transaction (if it exists)...");
                 Browser.implicitlyWait(3);
-                Browser.findElementAndWait(By.cssSelector("[data-testid='page-container-footer-cancel']")).click();
+                Browser.findElementAndWait(ExtensionPage.METAMASK_CANCEL_BUTTON).click(); // OK
                 Browser.implicitlyWait();
             } catch (NoSuchElementException ignore) {
             }
@@ -386,18 +389,18 @@ public class Browser {
             Browser.metaMaskWasUnlocked = true;
         }
 
-        Browser.findElementAndWait(By.xpath("//*[text()='Select network']")).click();
+        Browser.findElementAndWait(Page.SELECT_NETWORK).click();
         Thread.sleep(1000);
-        Browser.findElementAndWait(By.xpath("//*[text()='" + network + "']")).click();
+        Browser.findElementAndWait(Page.CHOOSE_FROM_NETWORK(network)).click();
         Thread.sleep(1000);
-        Browser.findElementAndWait(By.xpath("//*[text()='Select']")).click();
+        Browser.findElementAndWait(Page.SELECT_SOURCE_ASSET).click();
         Thread.sleep(1000);
-        Browser.findElementAndWait(By.xpath("//*[text()='" + asset + "']")).findElement(By.xpath("../../..")).click();
+        Browser.findElementAndWait(Page.CHOOSE_ASSET(asset)).click();
         Thread.sleep(1000);
     }
 
     public static void moveSliderByOffset(int xOffset) throws InterruptedException {
-        WebElement slider = Browser.findElementAndWait(By.cssSelector(".MuiSlider-thumb"));
+        WebElement slider = Browser.findElementAndWait(Page.SLIDER_THUMB);
         Browser.scrollToElement(slider);
 
         (new Actions(Browser.driver))
