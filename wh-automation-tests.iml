@@ -3,6 +3,8 @@
   <component name="AdditionalModuleElements">
     <content url="file://$MODULE_DIR$" dumb="true">
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/chrome_profile_mainnet" />
+      <excludeFolder url="file://$MODULE_DIR$/chrome_profile_testnet" />
     </content>
   </component>
 </module>
