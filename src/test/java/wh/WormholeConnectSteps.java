@@ -128,9 +128,9 @@ public class WormholeConnectSteps {
 
             Browser.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE);
 
-            Assert.assertTrue("Balance should have increased", Double.parseDouble(Browser.toFinalBalance) > Double.parseDouble(Browser.toBalance));
             Assert.assertTrue("Native balance should have increased", Double.parseDouble(Browser.toFinalNativeBalance) > Double.parseDouble(Browser.toNativeBalance));
         }
+        Assert.assertTrue("Balance should have increased", Double.parseDouble(Browser.toFinalBalance) > Double.parseDouble(Browser.toBalance));
     }
 
     @And("I check native balance on {string} using {string}")

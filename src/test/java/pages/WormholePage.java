@@ -45,11 +45,11 @@ public class WormholePage {
         return By.xpath("//*[text()='Send to']/../following-sibling::*//*[text()='" + Browser.getScanLinkTextByNetworkName(Browser.toNetwork) + "']/.."); // should have href attribute
     }
 
-    public static By CHOOSE_FROM_WALLET() {
-        return By.xpath("//*[text()='" + Browser.fromWallet + "']");
+    public static By CHOOSE_WALLET(String wallet) {
+        return By.xpath("//*[text()='" + wallet + "']");
     }
 
-    public static By CHOOSE_FROM_NETWORK(String network) {
+    public static By CHOOSE_NETWORK(String network) {
         return By.xpath("//*[text()='" + network + "']");
     }
 
