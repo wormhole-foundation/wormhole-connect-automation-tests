@@ -43,13 +43,10 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(PasswordPage.button).click(); // OK (netlify)
     }
 
-    @Given("I open wormhole-connect mainnet and enter password")
+    @Given("I open wormhole-connect mainnet")
     public void iOpenWormholeConnectMainnetPageAndEnterPassword() {
         Browser.url = Browser.env.get("URL_WORMHOLE_CONNECT_MAINNET");
         Browser.driver.get(Browser.url);
-
-        Browser.findElementAndWait(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD")); // OK (netlify)
-        Browser.findElementAndWait(PasswordPage.button).click(); // OK (netlify)
     }
 
     @And("I prepare to send {string} {string} from {string}\\({string}) to {string}\\({string}) with {string} route")

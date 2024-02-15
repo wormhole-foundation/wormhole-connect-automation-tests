@@ -2,7 +2,8 @@ Feature: EVM manual testnet
 
   Scenario Outline: EVM manual testnet
     Given I launch mainnet browser
-    Given I open wormhole-connect mainnet and enter password
+    Given I open wormhole-connect mainnet
+    And I enter page password
     And I prepare to send "<amount>" "<asset>" from "<from_network>"("<from_wallet>") to "<to_network>"("<to_wallet>") with "<route>" route
     When I click on Approve button
     When I approve wallet notifications
@@ -14,3 +15,4 @@ Feature: EVM manual testnet
     Examples:
       | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | manual | 0.0001 | CELO  | Celo         | Fantom     | MetaMask    | MetaMask  |
+      | manual | 0.0001 | BNB   | BSC          | Moonbeam   | MetaMask    | MetaMask  |
