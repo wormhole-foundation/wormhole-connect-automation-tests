@@ -76,6 +76,7 @@ public class WormholeConnectSteps {
             Browser.findElementAndWait(ExtensionPage.METAMASK_UNLOCK_BUTTON).click(); // OK
 
             Browser.waitForExtensionWindowToDisappear();
+            Browser.metaMaskWasUnlocked = true;
         }
 
         Browser.findElementAndWait(WormholePage.SOURCE_AMOUNT_INPUT).sendKeys(amount);
