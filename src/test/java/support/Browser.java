@@ -343,24 +343,32 @@ public class Browser {
     public static String getNativeAssetByNetworkName(String network) {
         switch (network) {
             case "Goerli":
+            case "Ethereum":
                 return "ETH";
             case "Mumbai":
+            case "Polygon":
                 return "MATIC";
             case "BSC":
                 return "BNB";
             case "Fuji":
+            case "Avalanche":
                 return "AVAX";
             case "Fantom":
                 return "FTM";
             case "Alfajores":
+            case "Celo":
                 return "CELO";
             case "Moonbase":
+            case "Moonbeam":
                 return "GLMR";
             case "Base Goerli":
+            case "Base":
                 return "ETH";
             case "Arbitrum Goerli":
+            case "Arbitrum":
                 return "ETH";
             case "Optimism Goerli":
+            case "Optimism":
                 return "ETH";
         }
         throw new RuntimeException("Unsupported network: " + network);
