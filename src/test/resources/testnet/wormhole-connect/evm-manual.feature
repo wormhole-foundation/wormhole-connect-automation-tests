@@ -12,14 +12,27 @@ Feature: EVM manual testnet
     Then I should see Send To link
     Then I check balance has increased on destination chain
 
+
+    #From Goerli
     Examples:
-      | route  | amount | asset | from_network    | to_network      | from_wallet | to_wallet |
-#      | manual | 0.001  | MATIC | Mumbai          | BSC             | MetaMask    | MetaMask  |
-#      | manual | 0.001  | BNB   | BSC             | Fuji            | MetaMask    | MetaMask  |
-#      | manual | 0.001  | AVAX  | Fuji            | Fantom          | MetaMask    | MetaMask  |
-#      | manual | 0.001  | FTM   | Fantom          | Alfajores       | MetaMask    | MetaMask  |
-#      | manual | 0.001  | CELO  | Alfajores       | Moonbase        | MetaMask    | MetaMask  |
-      | manual | 0.001  | GLMR  | Moonbase        | Arbitrum Goerli | MetaMask    | MetaMask  |
-#      | manual | 0.001  | WSOL  | Arbitrum Goerli | Optimism Goerli | MetaMask    | MetaMask  |
-#      | manual | 0.001  | ETH   | Optimism Goerli | Goerli          | MetaMask    | MetaMask  |
-#      | manual | 0.001  | DAI   | Goerli          | Mumbai          | MetaMask    | MetaMask  |
+      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | manual | 0.0001 | ETH   | Goerli       | Mumbai     | MetaMask    | MetaMask  |
+      | manual | 0.0001 | WETH  | Goerli       | BSC        | MetaMask    | MetaMask  |
+      | manual | 0.0001 | DAI   | Goerli       | Fuji       | MetaMask    | MetaMask  |
+      | manual | 0.0001 | ETH   | Goerli       | Fantom     | MetaMask    | MetaMask  |
+
+    #From Mumbai
+    Examples:
+      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | manual | 0.0001 | MATIC | Mumbai       | Goerli     | MetaMask    | MetaMask  |
+      | manual | 0.0001 | WAVAX | Mumbai       | BSC        | MetaMask    | MetaMask  |
+      | manual | 0.0001 | CELO  | Mumbai       | Fuji       | MetaMask    | MetaMask  |
+      | manual | 0.0001 | WFTM  | Mumbai       | Fantom     | MetaMask    | MetaMask  |
+
+
+    #From BSC
+    Examples:
+      | route  | amount | asset  | from_network | to_network | from_wallet | to_wallet |
+      | manual | 0.0001 | BNB    | BSC          | Alfajores  | MetaMask    | MetaMask  |
+      | manual | 0.0001 | WGLMR  | BSC          | Moonbase   | MetaMask    | MetaMask  |
+      | manual | 0.0001 | WMATIC | BSC          | Fuji       | MetaMask    | MetaMask  |

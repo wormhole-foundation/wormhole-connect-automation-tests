@@ -1,6 +1,6 @@
-Feature: EVM automatic testnet
+Feature: Automatic route tests on testnet between EVM-based chains
 
-  Scenario Outline: EVM automatic testnet
+  Scenario Outline: Automatic route tests on testnet between EVM-based chains
     Given I launch testnet browser
     Given I open wormhole-connect testnet
     And I enter page password
@@ -14,7 +14,28 @@ Feature: EVM automatic testnet
     Then I should see Send To link
     Then I check balance has increased on destination chain
 
+    #From Goerli
     Examples:
       | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-#      | automatic | 0.2    | MATIC | Mumbai       | Alfajores  | MetaMask    | MetaMask  |
-      | automatic | 0.008  | BNB   | BSC          | Goerli     | MetaMask    | MetaMask  |
+      | automatic | 0.0001 | ETH   | Goerli       | Mumbai     | MetaMask    | MetaMask  |
+      | automatic | 0.002  | ETH   | Goerli       | Fantom     | MetaMask    | MetaMask  |
+      | automatic | 0.005  | ETH   | Goerli       | Fuji       | MetaMask    | MetaMask  |
+      | automatic | 0.0014 | ETH   | Goerli       | BSC        | MetaMask    | MetaMask  |
+
+#   From Mumbai
+    Examples:
+      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | automatic | 0.13   | MATIC | Mumbai       | Alfajores  | MetaMask    | MetaMask  |
+#      | automatic | 0.13   | MATIC | Mumbai       | Moonbase   | MetaMask    | MetaMask  |
+
+##   From BSC
+#    Examples:
+#      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
+#      | automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
+#      | automatic | 0.009  | BNB   | BSC          | Fuji       | MetaMask    | MetaMask  |
+#
+##  From Fuji
+#    Examples:
+#      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
+#      | automatic | 0.003  | BNB   | Fuji         | Fantom     | MetaMask    | MetaMask  |
+#      | automatic | 0.003  | BNB   | Fuji         | Mumbai     | MetaMask    | MetaMask  |
