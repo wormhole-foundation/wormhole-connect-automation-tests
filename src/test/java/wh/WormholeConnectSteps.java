@@ -49,6 +49,12 @@ public class WormholeConnectSteps {
         Browser.driver.get(Browser.url);
     }
 
+    @Given("I open portal bridge mainnet")
+    public void iOpenPortalBridgeMainnet() {
+        Browser.url = Browser.env.get("URL_PORTAL_BRIDGE");
+        Browser.driver.get(Browser.url);
+    }
+
     @And("I prepare to send {string} {string} from {string}\\({string}) to {string}\\({string}) with {string} route")
     public void iPrepareToSendFromTo(String amount, String asset, String fromNetwork, String fromWallet, String toNetwork, String toWallet, String route) throws InterruptedException {
         Browser.fromWallet = fromWallet;
