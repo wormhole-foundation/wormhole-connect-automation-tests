@@ -13,7 +13,7 @@ Feature: Solana  testnet
     Then I check balance has increased on destination chain
 
 
-    #To Solana, manual - works well (last check on Feb 14)
+    #To Solana, manual
     Examples:
       | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | manual | 0.001  | AVAX  | Fuji         | Solana     | MetaMask    | Phantom   |
@@ -21,10 +21,10 @@ Feature: Solana  testnet
       | manual | 0.001  | MATIC | Mumbai       | Solana     | MetaMask    | Phantom   |
 
 
-    #From Solana, manual - issue 1650 (stuck on waiting to wormhole consensus step - last check on Feb 14
-#    Examples:
-#      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-#      | manual | 0.01   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
-#      | manual | 0.01   | SOL   | Solana       | Fantom     | Phantom     | MetaMask  |
-#      | manual | 0.01   | SOL   | Solana       | BSC        | Phantom     | MetaMask  |
+#    From Solana
+    Examples:
+      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | manual | 0.01   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
+      | manual | 0.01   | SOL   | Solana       | Fantom     | Phantom     | MetaMask  |
+      | manual | 0.01   | SOL   | Solana       | BSC        | Phantom     | MetaMask  |
 
