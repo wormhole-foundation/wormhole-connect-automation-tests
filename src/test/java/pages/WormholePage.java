@@ -20,6 +20,7 @@ public class WormholePage {
 
     public static final By AUTOMATIC_BRIDGE_OPTION = By.xpath("//*[contains(text(),'Automatic Bridge')]"); // data-testid="automatic-route-option"
     public static final By MANUAL_BRIDGE_OPTION = By.xpath("//*[contains(text(),'Manual Bridge')]"); // data-testid="manual-route-option"
+    public static final By COSMOS_GATEWAY_OPTION = By.xpath("//*[contains(text(),'Cosmos Gateway')]"); // data-testid="cosmos-gateway-route-option"
     public static final By SLIDER_THUMB = By.cssSelector(".MuiSlider-thumb"); // OK
 
     public static final By POPUP_CLOSE_BUTTON = By.cssSelector("[data-testid='CloseIcon']"); // OK

@@ -107,6 +107,8 @@ public class WormholeConnectSteps {
             Thread.sleep(1000);
         } else if (route.equals("manual")) {
             Browser.findElementAndWait(WormholePage.MANUAL_BRIDGE_OPTION).click(); // data-testid="select-manual-bridge"
+        } else if (route.equals("cosmos")) {
+            Browser.findElementAndWait(WormholePage.COSMOS_GATEWAY_OPTION).click();
         }
 
         Thread.sleep(3000); // wait UI to settle

@@ -8,5 +8,5 @@ Feature: Cosmos mainnet
 
 
     Examples:
-      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | automatic | 0.001  | CELO  | Kujira       | Evmos      | Leap        | Leap      |
+      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | cosmos | 0.001  | CELO  | Kujira       | Evmos      | Leap        | Leap      |

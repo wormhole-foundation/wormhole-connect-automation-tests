@@ -60,6 +60,7 @@ public class Browser {
     public static String toFinalNativeBalance = "";
     public static boolean metaMaskWasUnlocked = false;
     public static boolean phantomWasUnlocked = false;
+    public static boolean leapWasUnlocked = false;
 
     public static void main(String[] args) {
         launch();
@@ -401,6 +402,18 @@ public class Browser {
             Thread.sleep(1000);
 
             Browser.metaMaskWasUnlocked = true;
+        }
+
+        if (wallet.equals("Leap") && !Browser.leapWasUnlocked) {
+            Browser.waitForExtensionWindowToAppear();
+
+            Browser.findElementAndWait(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP")); // OK
+            Browser.findElementAndWait(ExtensionPage.LEAP_UNLOCK_BUTTON).click(); // OK
+
+            Browser.waitForExtensionWindowToDisappear();
+            Thread.sleep(1000);
+
+            Browser.leapWasUnlocked = true;
         }
 
         Browser.findElementAndWait(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();

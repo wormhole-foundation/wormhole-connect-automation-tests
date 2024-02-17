@@ -28,4 +28,9 @@ public class ExtensionPage {
     public static final By SUI_UNLOCK_BUTTON = By.xpath("//*[@role='dialog']//*[text()='Unlock']/..");
     public static final By SUI_APPROVE_BUTTON = By.xpath("//*[text()='Approve']/..");
     public static final By SUI_DIALOG_APPROVE_BUTTON = By.xpath("//*[@role='dialog']//*[text()='Approve']/..");
+
+    // Leap
+
+    public static final By LEAP_PASSWORD_INPUT = By.cssSelector("[data-testing-id='login-input-enter-password']");
+    public static final By LEAP_UNLOCK_BUTTON = By.cssSelector("[data-testing-id='btn-unlock-wallet']");
 }
