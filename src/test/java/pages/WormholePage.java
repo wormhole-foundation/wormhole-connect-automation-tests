@@ -49,7 +49,7 @@ public class WormholePage {
     }
 
     public static By CHOOSE_WALLET(String wallet) {
-        return By.xpath("//*[text()='" + wallet + "']");
+        return By.xpath("//*[@role='dialog']//*[text()='" + wallet + "']");
     }
 
     public static By CHOOSE_NETWORK(String network) {
