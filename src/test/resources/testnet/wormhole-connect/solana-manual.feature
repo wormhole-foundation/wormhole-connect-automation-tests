@@ -13,7 +13,7 @@ Feature: Solana  testnet
     Then I check balance has increased on destination chain
 
 
-    #To Solana, manual
+    #To Solana
     Examples:
       | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | manual | 0.001  | AVAX  | Fuji         | Solana     | MetaMask    | Phantom   |

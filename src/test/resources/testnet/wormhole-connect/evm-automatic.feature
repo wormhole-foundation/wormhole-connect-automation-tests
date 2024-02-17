@@ -1,6 +1,6 @@
-Feature: Automatic route tests on testnet between EVM-based chains
+Feature: Testnet, EVM, automatic
 
-  Scenario Outline: Automatic route tests on testnet between EVM-based chains
+  Scenario Outline:
     Given I launch testnet browser
     Given I open wormhole-connect testnet
     And I enter page password
