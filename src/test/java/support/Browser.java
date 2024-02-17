@@ -336,6 +336,8 @@ public class Browser {
                 return "Optimism Goerli";
             case "Solana":
                 return "Solana Explorer";
+            case "Sui":
+                return "Sui Explorer";
         }
         throw new RuntimeException("Unsupported network: " + network);
     }
