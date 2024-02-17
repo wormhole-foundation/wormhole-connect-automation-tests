@@ -63,6 +63,11 @@ public class WormholeConnectSteps {
 
         Browser.selectAssetInFromSection(Browser.fromWallet, Browser.fromNetwork, Browser.fromAsset);
 
+        Browser.findElementAndWait(WormholePage.DESTINATION_SELECT_NETWORK_BUTTON).click();
+        Thread.sleep(1000);
+        Browser.findElementAndWait(WormholePage.CHOOSE_NETWORK(Browser.toNetwork)).click();
+        Thread.sleep(1000);
+
         Browser.findElementAndWait(WormholePage.DESTINATION_CONNECT_WALLET_BUTTON).click();
         Browser.findElementAndWait(WormholePage.CHOOSE_WALLET(Browser.toWallet)).click();
 
@@ -86,11 +91,6 @@ public class WormholeConnectSteps {
             Browser.findElementAndWait(WormholePage.POPUP_CLOSE_BUTTON).click(); // OK
         } catch (Exception ignore) {
         }
-
-        Browser.findElementAndWait(WormholePage.DESTINATION_SELECT_NETWORK_BUTTON).click();
-        Thread.sleep(1000);
-        Browser.findElementAndWait(WormholePage.CHOOSE_NETWORK(Browser.toNetwork)).click();
-        Thread.sleep(1000);
 
         Browser.toAsset = Browser.findElementAndWait(WormholePage.DESTINATION_ASSET_BUTTON).getText(); // data-testid="to-asset"
         Browser.toAsset = Browser.toAsset.split("\n")[0]; // "CELO\n(Alfajores)" -> "CELO"

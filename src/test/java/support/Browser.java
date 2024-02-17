@@ -375,6 +375,11 @@ public class Browser {
     }
 
     public static void selectAssetInFromSection(String wallet, String network, String asset) throws InterruptedException {
+        Browser.findElementAndWait(WormholePage.SOURCE_SELECT_NETWORK_BUTTON).click();
+        Thread.sleep(1000);
+        Browser.findElementAndWait(WormholePage.CHOOSE_NETWORK(network)).click();
+        Thread.sleep(1000);
+
         Browser.findElementAndWait(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
         Browser.findElementAndWait(WormholePage.CHOOSE_WALLET(wallet)).click();
 
@@ -398,10 +403,6 @@ public class Browser {
             Browser.metaMaskWasUnlocked = true;
         }
 
-        Browser.findElementAndWait(WormholePage.SOURCE_SELECT_NETWORK_BUTTON).click();
-        Thread.sleep(1000);
-        Browser.findElementAndWait(WormholePage.CHOOSE_NETWORK(network)).click();
-        Thread.sleep(1000);
         Browser.findElementAndWait(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();
         Thread.sleep(1000);
         Browser.findElementAndWait(WormholePage.CHOOSE_ASSET(asset)).click();
