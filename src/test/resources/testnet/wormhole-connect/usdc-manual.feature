@@ -14,6 +14,6 @@ Feature: Circle CCTP, manual
 
 
     Examples:
-      | route     | amount | asset | from_network | to_network      | from_wallet | to_wallet |
-      | automatic | 0.0001 | USDC  | Goerli       | Optimism        | MetaMask    | MetaMask  |
-      | automatic | 0.0001 | USDC  | Mumbai       | Arbitrum Goerli | MetaMask    | MetaMask  |
+      | route  | amount | asset | from_network | to_network      | from_wallet | to_wallet |
+      | manual | 0.0001 | USDC  | Goerli       | Optimism        | MetaMask    | MetaMask  |
+      | manual | 0.0001 | USDC  | Mumbai       | Arbitrum Goerli | MetaMask    | MetaMask  |

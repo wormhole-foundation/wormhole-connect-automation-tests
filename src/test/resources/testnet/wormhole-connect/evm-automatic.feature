@@ -18,6 +18,7 @@ Feature: Testnet, EVM, automatic
     Examples:
       | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
+      | automatic | 0.13   | MATIC | Mumbai       | Alfajores  | MetaMask    | MetaMask  |
 
 #   From Mumbai
     Examples:
