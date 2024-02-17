@@ -109,6 +109,10 @@ public class WormholeConnectSteps {
             Browser.findElementAndWait(WormholePage.MANUAL_BRIDGE_OPTION).click(); // data-testid="select-manual-bridge"
         } else if (route.equals("cosmos")) {
             Browser.findElementAndWait(WormholePage.COSMOS_GATEWAY_OPTION).click();
+        } else if (route.equals("circle-manual")) {
+            Browser.findElementAndWait(WormholePage.CIRCLE_MANUAL_OPTION).click();
+        } else if (route.equals("circle-automatic")) {
+            Browser.findElementAndWait(WormholePage.CIRCLE_AUTOMATIC_OPTION).click();
         }
 
         Thread.sleep(3000); // wait UI to settle
@@ -196,7 +200,7 @@ public class WormholeConnectSteps {
 
     @Then("I should claim assets")
     public void iShouldClaimAssets() throws InterruptedException {
-        if (Browser.route.equals("manual")) {
+        if (Browser.route.equals("manual") || Browser.route.equals("circle-manual")) {
             Browser.implicitlyWait(60 * 60);
             System.out.println("Waiting for the Claim button...");
             Browser.findElementAndWait(WormholePage.CLAIM_BUTTON);
@@ -237,7 +241,7 @@ public class WormholeConnectSteps {
 
     @Then("I should see Send To link")
     public void iShouldSeeSendToLink() {
-        if (Browser.route.equals("automatic")) {
+        if (Browser.route.equals("automatic") || Browser.route.equals("circle-automatic")) {
             Browser.implicitlyWait(60 * 60);
         } else {
             if (Browser.toWallet.equals("Phantom")) {
