@@ -454,11 +454,16 @@ public class Browser {
         WebElement slider = Browser.findElementAndWait(WormholePage.SLIDER_THUMB);
         Browser.scrollToElement(slider);
 
+        int xPosition = slider.getLocation().x;
+
         (new Actions(Browser.driver))
                 .clickAndHold(slider)
                 .moveByOffset(xOffset, 0)
                 .release()
                 .build()
                 .perform();
+
+        int xPositionUpdated = Browser.driver.findElement(WormholePage.SLIDER_THUMB).getLocation().x;
+        Assert.assertTrue("Slider should move", xPositionUpdated > xPosition);
     }
 }
