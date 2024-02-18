@@ -284,7 +284,7 @@ public class Browser {
                             }
                         }
 
-                        WebElement metamaskFooterButton = Browser.findElementAndWait(ExtensionPage.METAMASK_FOOTER_NEXT_BUTTON); // OK
+                        WebElement metamaskFooterButton = Browser.findElementAndWait(ExtensionPage.METAMASK_FOOTER_NEXT_BUTTON);
                         String buttonText = metamaskFooterButton.getText();
                         System.out.println("MetaMask button text: " + buttonText);
                         if (buttonText.equals("Next")) {
@@ -411,13 +411,13 @@ public class Browser {
         if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
             Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElementAndWait(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK")); // OK
-            Browser.findElementAndWait(ExtensionPage.METAMASK_UNLOCK_BUTTON).click(); // OK
+            Browser.findElementAndWait(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
+            Browser.findElementAndWait(ExtensionPage.METAMASK_UNLOCK_BUTTON).click();
 
             try {
                 System.out.println("Going to Reject a pending transaction (if it exists)...");
                 Browser.implicitlyWait(3);
-                Browser.findElementAndWait(ExtensionPage.METAMASK_CANCEL_BUTTON).click(); // OK
+                Browser.findElementAndWait(ExtensionPage.METAMASK_CANCEL_BUTTON).click();
                 Browser.implicitlyWait();
             } catch (NoSuchElementException ignore) {
             }
@@ -431,8 +431,8 @@ public class Browser {
         if (wallet.equals("Leap") && !Browser.leapWasUnlocked) {
             Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElementAndWait(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP")); // OK
-            Browser.findElementAndWait(ExtensionPage.LEAP_UNLOCK_BUTTON).click(); // OK
+            Browser.findElementAndWait(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
+            Browser.findElementAndWait(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
 
             Browser.waitForExtensionWindowToDisappear();
             Thread.sleep(1000);

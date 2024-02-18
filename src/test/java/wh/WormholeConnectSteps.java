@@ -39,8 +39,8 @@ public class WormholeConnectSteps {
 
     @Given("I enter page password")
     public void iEnterPassword() {
-        Browser.findElementAndWait(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD")); // OK (netlify)
-        Browser.findElementAndWait(PasswordPage.button).click(); // OK (netlify)
+        Browser.findElementAndWait(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
+        Browser.findElementAndWait(PasswordPage.button).click();
     }
 
     @Given("I open wormhole-connect mainnet")
@@ -80,8 +80,8 @@ public class WormholeConnectSteps {
         if (Browser.toWallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
             Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElementAndWait(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK")); // OK
-            Browser.findElementAndWait(ExtensionPage.METAMASK_UNLOCK_BUTTON).click(); // OK
+            Browser.findElementAndWait(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
+            Browser.findElementAndWait(ExtensionPage.METAMASK_UNLOCK_BUTTON).click();
 
             Browser.waitForExtensionWindowToDisappear();
             Browser.metaMaskWasUnlocked = true;
@@ -90,29 +90,28 @@ public class WormholeConnectSteps {
         Browser.findElementAndWait(WormholePage.SOURCE_AMOUNT_INPUT).sendKeys(amount);
         Thread.sleep(1000);
 
-        Browser.fromBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT); // data-testid="from-balance"
+        Browser.fromBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
 
         try {
-            // close popup
-            Browser.findElementAndWait(WormholePage.POPUP_CLOSE_BUTTON).click(); // OK
+            Browser.findElementAndWait(WormholePage.POPUP_CLOSE_BUTTON).click();
         } catch (Exception ignore) {
         }
 
-        Browser.toAsset = Browser.findElementAndWait(WormholePage.DESTINATION_ASSET_BUTTON).getText(); // data-testid="to-asset"
+        Browser.toAsset = Browser.findElementAndWait(WormholePage.DESTINATION_ASSET_BUTTON).getText();
         Browser.toAsset = Browser.toAsset.split("\n")[0]; // "CELO\n(Alfajores)" -> "CELO"
-        Browser.toAmount = Browser.findElementAndWait(WormholePage.DESTINATION_AMOUNT_INPUT).getAttribute("value"); // data-testid="to-amount"
-        Browser.toBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.DESTINATION_BALANCE_TEXT); // data-testid="to-balance"
+        Browser.toAmount = Browser.findElementAndWait(WormholePage.DESTINATION_AMOUNT_INPUT).getAttribute("value");
+        Browser.toBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.DESTINATION_BALANCE_TEXT);
 
         if (route.equals("automatic")) {
             // choose Manual and then again Automatic to enable native gas section
-            Browser.findElementAndWait(WormholePage.AUTOMATIC_BRIDGE_OPTION).click(); // data-testid="select-automatic-bridge"
+            Browser.findElementAndWait(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
             Thread.sleep(1000);
-            Browser.findElementAndWait(WormholePage.MANUAL_BRIDGE_OPTION).click(); // data-testid="select-manual-bridge"
+            Browser.findElementAndWait(WormholePage.MANUAL_BRIDGE_OPTION).click();
             Thread.sleep(1000);
-            Browser.findElementAndWait(WormholePage.AUTOMATIC_BRIDGE_OPTION).click(); // data-testid="select-automatic-bridge"
+            Browser.findElementAndWait(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
             Thread.sleep(1000);
         } else if (route.equals("manual")) {
-            Browser.findElementAndWait(WormholePage.MANUAL_BRIDGE_OPTION).click(); // data-testid="select-manual-bridge"
+            Browser.findElementAndWait(WormholePage.MANUAL_BRIDGE_OPTION).click();
         } else if (route.equals("cosmos")) {
             Browser.findElementAndWait(WormholePage.COSMOS_GATEWAY_OPTION).click();
         } else if (route.equals("circle-manual")) {

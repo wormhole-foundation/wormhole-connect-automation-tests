@@ -7,8 +7,8 @@ public class BrowserMainnet extends Browser {
         launch();
 
         Browser.driver.get(Browser.env.get("URL_WORMHOLE_CONNECT_MAINNET"));
-        Browser.driver.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD")); // OK (netlify)
-        Browser.driver.findElement(PasswordPage.button).click(); // OK (netlify)
+        Browser.driver.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
+        Browser.driver.findElement(PasswordPage.button).click();
     }
 
     public static void launch() {
