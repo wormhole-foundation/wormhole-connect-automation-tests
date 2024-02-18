@@ -184,6 +184,7 @@ public class WormholeConnectSteps {
 
             Browser.findElementAndWait(ExtensionPage.PHANTOM_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
             Browser.findElementAndWait(ExtensionPage.PHANTOM_SUBMIT_BUTTON).click();
+            Thread.sleep(1000);
 
             Browser.findElementAndWait(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
 
