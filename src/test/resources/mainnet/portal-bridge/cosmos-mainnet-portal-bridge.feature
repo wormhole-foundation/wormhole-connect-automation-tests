@@ -12,4 +12,6 @@ Feature: Cosmos mainnet
 
     Examples:
       | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | cosmos | 0.001  | CELO  | Kujira       | Osmosis    | Leap        | Leap      |
+      | cosmos | 0.0001 | CELO  | Kujira       | Osmosis    | Leap        | Leap      |
+      | cosmos | 0.0001 | CELO  | Osmosis      | Kujira     | Leap        | Leap      |
+

@@ -363,7 +363,7 @@ public class Browser {
                 return "Kujira Finder";
             case "Evmos":
             case "Osmosis":
-                return "Mintscan";
+                return "MintScan";
         }
         throw new RuntimeException("Unsupported network: " + network);
     }
