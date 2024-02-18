@@ -15,6 +15,8 @@ public class ExtensionPage {
     public static final By METAMASK_GOT_IT_BUTTON = By.xpath("//*[text()='Got it']");
     public static final By METAMASK_SWITCH_NETWORK_BUTTON = By.xpath("//*[text()='Switch network']");
 
+    public static final By METAMASK_GAS_AMOUNT_TEXT = By.xpath("//*[@data-testid='confirm-gas-display']//*[contains(@class, 'currency-display-component')]");
+
     // Phantom
 
     public static final By PHANTOM_PASSWORD_INPUT = By.cssSelector("[data-testid='unlock-form-password-input']");

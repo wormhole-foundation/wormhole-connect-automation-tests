@@ -2,6 +2,7 @@ package support;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
@@ -54,6 +55,7 @@ public class Browser {
     public static String fromBalance = "";
     public static String toBalance = "";
     public static String toFinalBalance = "";
+    public static String gasPriceUsd = "";
 
     public static int waitSeconds = 0;
     public static String toNativeBalance = "";
@@ -182,6 +184,7 @@ public class Browser {
                 ";" + Browser.toWallet +
                 ";" + dt.format(Browser.startedAt) +
                 ";" + dt.format(Browser.finishedAt) +
+                ";" + Browser.gasPriceUsd +
                 "\n";
         try {
             File f = new File("results/results.csv");
@@ -267,6 +270,20 @@ public class Browser {
                 .until(webDriver -> {
                     if (Browser.extensionWindowIsOpened()) {
                         Browser.switchToExtensionWindow();
+
+                        if (Browser.isMainnet) {
+                            try {
+                                WebElement gasAmount = Browser.driver.findElement(ExtensionPage.METAMASK_GAS_AMOUNT_TEXT);
+                                if (!gasAmount.getText().startsWith("$")) {
+                                    throw new RuntimeException("Please configure MetaMask to display gas prices in fiat currency");
+                                }
+                                Browser.gasPriceUsd = gasAmount.getText().replace("$", "");
+                                double gasPriceUsd = Double.parseDouble(Browser.gasPriceUsd);
+                                Assert.assertTrue(gasPriceUsd < 3.0);
+                            } catch (NoSuchElementException | NumberFormatException ignore) {
+                            }
+                        }
+
                         WebElement metamaskFooterButton = Browser.findElementAndWait(ExtensionPage.METAMASK_FOOTER_NEXT_BUTTON); // OK
                         String buttonText = metamaskFooterButton.getText();
                         System.out.println("MetaMask button text: " + buttonText);
