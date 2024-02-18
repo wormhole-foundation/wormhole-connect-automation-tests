@@ -399,6 +399,8 @@ public class Browser {
             case "Optimism Goerli":
             case "Optimism":
                 return "ETH";
+            case "Solana":
+                return "SOL";
         }
         throw new RuntimeException("Unsupported network: " + network);
     }
