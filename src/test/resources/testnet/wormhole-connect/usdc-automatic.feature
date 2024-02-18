@@ -15,6 +15,6 @@ Feature: Circle CCTP, automatic
     Then I check balance has increased on destination chain
 
     Examples:
-      | route     | amount | asset | from_network | to_network      | from_wallet | to_wallet |
-      | automatic | 1.1    | USDC  | Goerli       | Mumbai          | MetaMask    | MetaMask  |
-      | automatic | 0.15   | USDC  | Fuji         | Arbitrum Goerli | MetaMask    | MetaMask  |
+      | route            | amount | asset | from_network | to_network      | from_wallet | to_wallet |
+      | circle-automatic | 1.1    | USDC  | Goerli       | Mumbai          | MetaMask    | MetaMask  |
+      | circle-automatic | 0.15   | USDC  | Fuji         | Arbitrum Goerli | MetaMask    | MetaMask  |
