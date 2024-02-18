@@ -67,6 +67,10 @@ public class WormholeConnectSteps {
         Browser.txFrom = "";
         Browser.txTo = "";
 
+        if (Browser.route.equals("automatic")) {
+            Assert.assertNotEquals("Native balance was not checked", "", Browser.toNativeBalance);
+        }
+
         Browser.selectAssetInFromSection(Browser.fromWallet, Browser.fromNetwork, Browser.fromAsset);
 
         Browser.findElementAndWait(WormholePage.DESTINATION_SELECT_NETWORK_BUTTON).click();
@@ -127,15 +131,21 @@ public class WormholeConnectSteps {
     public void iCheckFinalBalance() throws InterruptedException {
         Browser.driver.get(Browser.url);
 
+        System.out.println("Checking " + Browser.toAsset + " balance on " + Browser.toNetwork + " (" + Browser.toWallet + ")");
         Browser.selectAssetInFromSection(Browser.toWallet, Browser.toNetwork, Browser.toAsset);
 
         Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
+        System.out.println(Browser.toFinalBalance + " " + Browser.toAsset);
 
         if (Browser.route.equals("automatic")) {
-            Browser.findElementAndWait(WormholePage.SELECT_TO_ASSET()).click();
-            Browser.findElementAndWait(WormholePage.SELECT_TO_NETWORK()).click();
+            String nativeAsset = Browser.getNativeAssetByNetworkName(Browser.toNetwork);
+
+            System.out.println("Checking native asset (" + nativeAsset + ") balance on " + Browser.toNetwork + " (" + Browser.toWallet + ")");
+            Browser.findElementAndWait(WormholePage.OPEN_ASSET_LIST()).click();
+            Browser.findElementAndWait(WormholePage.CHOOSE_ASSET(nativeAsset)).click();
 
             Browser.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
+            System.out.println(Browser.toFinalNativeBalance + " " + nativeAsset);
 
             Assert.assertTrue("Native balance should have increased", Double.parseDouble(Browser.toFinalNativeBalance) > Double.parseDouble(Browser.toNativeBalance));
         }
@@ -144,9 +154,13 @@ public class WormholeConnectSteps {
 
     @And("I check native balance on {string} using {string}")
     public void iCheckNativeBalanceOnUsing(String toNetwork, String toWallet) throws InterruptedException {
-        Browser.selectAssetInFromSection(toWallet, toNetwork, Browser.getNativeAssetByNetworkName(toNetwork));
+        String nativeAsset = Browser.getNativeAssetByNetworkName(toNetwork);
+
+        System.out.println("Checking native asset (" + nativeAsset + ") balance on " + toNetwork + " (" + toWallet + ")");
+        Browser.selectAssetInFromSection(toWallet, toNetwork, nativeAsset);
 
         Browser.toNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
+        System.out.println(Browser.toNativeBalance + " " + nativeAsset);
     }
 
     @When("I click on Approve button")

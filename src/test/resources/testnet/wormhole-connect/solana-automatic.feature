@@ -1,9 +1,11 @@
 Feature: Solana  testnet
 
-  Scenario Outline: Solana manual testnet
+  Scenario Outline: Solana Automatic test run
     Given I launch testnet browser
     Given I open wormhole-connect testnet
     And I enter page password
+    And I check native balance on "<to_network>" using "<to_wallet>"
+    Given I open wormhole-connect testnet
     And I prepare to send "<amount>" "<asset>" from "<from_network>"("<from_wallet>") to "<to_network>"("<to_wallet>") with "<route>" route
     And I move slider
     When I click on Approve button

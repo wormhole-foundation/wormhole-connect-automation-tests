@@ -40,11 +40,7 @@ public class WormholePage {
         return By.xpath("//*[text()='Send to']/../following-sibling::*//*[text()='" + Browser.getScanLinkTextByNetworkName(Browser.toNetwork) + "']/.."); // data-testid="destination-section-scan-link"
     }
 
-    public static By SELECT_TO_NETWORK() {
-        return By.xpath("//*[text()='" + Browser.getNativeAssetByNetworkName(Browser.toNetwork) + "']/../../..");
-    }
-
-    public static By SELECT_TO_ASSET() {
+    public static By OPEN_ASSET_LIST() {
         return By.xpath("//*[contains(text(), '" + Browser.toAsset + "')]");
     }
 
