@@ -55,7 +55,8 @@ public class Browser {
     public static String fromBalance = "";
     public static String toBalance = "";
     public static String toFinalBalance = "";
-    public static String gasPriceUsd = "";
+    public static String sourceGasFeeUsd = "";
+    public static String destinationGasFeeUsd = "";
 
     public static int waitSeconds = 0;
     public static String toNativeBalance = "";
@@ -184,7 +185,8 @@ public class Browser {
                 ";" + Browser.toWallet +
                 ";" + dt.format(Browser.startedAt) +
                 ";" + dt.format(Browser.finishedAt) +
-                ";" + Browser.gasPriceUsd +
+                ";" + Browser.sourceGasFeeUsd +
+                ";" + Browser.destinationGasFeeUsd +
                 "\n";
         try {
             File f = new File("results/results.csv");
@@ -274,12 +276,14 @@ public class Browser {
                         if (Browser.isMainnet) {
                             try {
                                 WebElement gasAmount = Browser.driver.findElement(ExtensionPage.METAMASK_GAS_AMOUNT_TEXT);
-                                if (!gasAmount.getText().startsWith("$")) {
-                                    throw new RuntimeException("Please configure MetaMask to display gas prices in fiat currency");
+                                String gasFeeText = gasAmount.getText().replace("$", "");
+                                double gasFeeUsd = Double.parseDouble(gasFeeText);
+                                if (isClaimStep) {
+                                    Browser.destinationGasFeeUsd = gasFeeText;
+                                } else {
+                                    Browser.sourceGasFeeUsd = gasFeeText;
                                 }
-                                Browser.gasPriceUsd = gasAmount.getText().replace("$", "");
-                                double gasPriceUsd = Double.parseDouble(Browser.gasPriceUsd);
-                                Assert.assertTrue(gasPriceUsd < 3.0);
+                                Assert.assertTrue(gasFeeUsd < 3.0);
                             } catch (NoSuchElementException | NumberFormatException ignore) {
                             }
                         }

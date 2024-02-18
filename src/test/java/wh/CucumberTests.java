@@ -35,7 +35,8 @@ public class CucumberTests {
         Browser.toFinalBalance = "";
         Browser.toNativeBalance = "";
         Browser.toFinalNativeBalance = "";
-        Browser.gasPriceUsd = "";
+        Browser.sourceGasFeeUsd = "";
+        Browser.destinationGasFeeUsd = "";
         Browser.metaMaskWasUnlocked = false;
         Browser.phantomWasUnlocked = false;
         Browser.leapWasUnlocked = false;
