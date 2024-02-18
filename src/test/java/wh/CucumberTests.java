@@ -37,6 +37,7 @@ public class CucumberTests {
         Browser.toFinalNativeBalance = "";
         Browser.metaMaskWasUnlocked = false;
         Browser.phantomWasUnlocked = false;
+        Browser.leapWasUnlocked = false;
     }
 
     @After
