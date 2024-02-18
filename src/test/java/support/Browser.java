@@ -338,6 +338,11 @@ public class Browser {
                 return "Solana Explorer";
             case "Sui":
                 return "Sui Explorer";
+            case "Kujira":
+                return "Kujira Finder";
+            case "Evmos":
+            case "Osmosis":
+                return "Mintscan";
         }
         throw new RuntimeException("Unsupported network: " + network);
     }

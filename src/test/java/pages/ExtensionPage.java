@@ -33,4 +33,5 @@ public class ExtensionPage {
 
     public static final By LEAP_PASSWORD_INPUT = By.cssSelector("[data-testing-id='login-input-enter-password']");
     public static final By LEAP_UNLOCK_BUTTON = By.cssSelector("[data-testing-id='btn-unlock-wallet']");
+    public static final By LEAP_APPROVE_BUTTON = By.xpath("//*[text()='Approve']");
 }

@@ -191,6 +191,12 @@ public class WormholeConnectSteps {
             } catch (NoSuchElementException ignore) {
             }
             Browser.waitForExtensionWindowToDisappear();
+        } else if (Browser.fromWallet.equals("Leap")) {
+            Browser.waitForExtensionWindowToAppear();
+            Browser.findElementAndWait(ExtensionPage.LEAP_APPROVE_BUTTON).click();
+            Thread.sleep(1000);
+
+            Browser.waitForExtensionWindowToDisappear();
         }
     }
 
