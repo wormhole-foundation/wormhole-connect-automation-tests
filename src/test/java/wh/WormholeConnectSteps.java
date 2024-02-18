@@ -121,7 +121,13 @@ public class WormholeConnectSteps {
         } else if (route.equals("circle-manual")) {
             Browser.findElementAndWait(WormholePage.CIRCLE_MANUAL_OPTION).click();
         } else if (route.equals("circle-automatic")) {
+            // choose Manual and then again Automatic to enable native gas section
             Browser.findElementAndWait(WormholePage.CIRCLE_AUTOMATIC_OPTION).click();
+            Thread.sleep(1000);
+            Browser.findElementAndWait(WormholePage.CIRCLE_MANUAL_OPTION).click();
+            Thread.sleep(1000);
+            Browser.findElementAndWait(WormholePage.CIRCLE_AUTOMATIC_OPTION).click();
+            Thread.sleep(1000);
         }
 
         Thread.sleep(3000); // wait UI to settle
