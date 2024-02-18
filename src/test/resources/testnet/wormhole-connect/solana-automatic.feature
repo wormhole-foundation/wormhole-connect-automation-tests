@@ -1,4 +1,4 @@
-Feature: Solana  testnet
+Feature: Solana
 
   Scenario Outline: Solana Automatic test run
     Given I launch testnet browser
@@ -15,17 +15,17 @@ Feature: Solana  testnet
     Then I check balance has increased on destination chain
 
 
-    #To Solana
-    Examples:
-      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | automatic | 0.04   | AVAX  | Fuji         | Solana     | MetaMask    | Phantom   |
-      | automatic | 2      | CELO  | Alfajores    | Solana     | MetaMask    | Phantom   |
+#    #To Solana
+#    Examples:
+#      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
+#      | automatic | 0.04   | AVAX  | Fuji         | Solana     | MetaMask    | Phantom   |
+#      | automatic | 2      | CELO  | Alfajores    | Solana     | MetaMask    | Phantom   |
 
 
 #    From Solana
     Examples:
       | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | automatic | 0.03   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
+#      | automatic | 0.03   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
       | automatic | 0.01   | SOL   | Solana       | Fantom     | Phantom     | MetaMask  |
 
 

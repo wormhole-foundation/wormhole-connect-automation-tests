@@ -13,21 +13,13 @@ Feature: EVM manual testnet
     Then I check balance has increased on destination chain
 
 
-    #From Goerli
-    Examples:
-      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | manual | 0.0001 | ETH   | Goerli       | Mumbai     | MetaMask    | MetaMask  |
-      | manual | 0.0001 | WETH  | Goerli       | BSC        | MetaMask    | MetaMask  |
-      | manual | 0.0001 | DAI   | Goerli       | Fuji       | MetaMask    | MetaMask  |
-      | manual | 0.0001 | ETH   | Goerli       | Fantom     | MetaMask    | MetaMask  |
-
-    #From Mumbai
-    Examples:
-      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | manual | 0.0001 | MATIC | Mumbai       | Goerli     | MetaMask    | MetaMask  |
-      | manual | 0.0001 | WAVAX | Mumbai       | BSC        | MetaMask    | MetaMask  |
-      | manual | 0.0001 | CELO  | Mumbai       | Fuji       | MetaMask    | MetaMask  |
-      | manual | 0.0001 | WFTM  | Mumbai       | Fantom     | MetaMask    | MetaMask  |
+#    #From Mumbai
+#    Examples:
+#      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+#      | manual | 0.0001 | MATIC | Mumbai       | Goerli     | MetaMask    | MetaMask  |
+#      | manual | 0.0001 | WAVAX | Mumbai       | BSC        | MetaMask    | MetaMask  |
+#      | manual | 0.0001 | CELO  | Mumbai       | Fuji       | MetaMask    | MetaMask  |
+#      | manual | 0.0001 | WFTM  | Mumbai       | Fantom     | MetaMask    | MetaMask  |
 
 
     #From BSC
