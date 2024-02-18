@@ -51,7 +51,7 @@ public class WormholeConnectSteps {
 
     @Given("I open portal bridge mainnet")
     public void iOpenPortalBridgeMainnet() {
-        Browser.url = Browser.env.get("URL_PORTAL_BRIDGE");
+        Browser.url = Browser.env.get("URL_PORTAL_BRIDGE_MAINNET");
         Browser.driver.get(Browser.url);
     }
 
