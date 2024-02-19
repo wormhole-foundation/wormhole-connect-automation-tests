@@ -1,7 +1,7 @@
-package pages;
+package automation.pages;
 
 import org.openqa.selenium.By;
-import support.Browser;
+import automation.support.Browser;
 
 public class WormholePage {
     // Setup Screen

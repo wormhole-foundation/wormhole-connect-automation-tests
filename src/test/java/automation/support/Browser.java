@@ -1,5 +1,7 @@
-package support;
+package automation.support;
 
+import automation.pages.ExtensionPage;
+import automation.pages.WormholePage;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -19,9 +21,7 @@ import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pages.ExtensionPage;
-import pages.PasswordPage;
-import pages.WormholePage;
+import automation.pages.PasswordPage;
 
 import java.io.File;
 import java.io.IOException;

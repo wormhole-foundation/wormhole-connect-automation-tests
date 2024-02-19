@@ -1,12 +1,8 @@
-package support;
+package automation.support;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
-import org.junit.runner.RunWith;
-import support.Browser;
 
 import java.util.Date;
 

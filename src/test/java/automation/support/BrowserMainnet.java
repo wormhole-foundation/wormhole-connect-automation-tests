@@ -1,6 +1,6 @@
-package support;
+package automation.support;
 
-import pages.PasswordPage;
+import automation.pages.PasswordPage;
 
 public class BrowserMainnet extends Browser {
     public static void main(String[] args) {

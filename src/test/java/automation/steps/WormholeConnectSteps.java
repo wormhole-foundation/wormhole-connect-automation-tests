@@ -1,5 +1,6 @@
-package wh;
+package automation.steps;
 
+import automation.pages.WormholePage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -8,11 +9,10 @@ import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pages.ExtensionPage;
-import pages.PasswordPage;
-import pages.WormholePage;
-import support.Browser;
-import support.BrowserMainnet;
+import automation.pages.ExtensionPage;
+import automation.pages.PasswordPage;
+import automation.support.Browser;
+import automation.support.BrowserMainnet;
 
 import java.time.Duration;
 
@@ -298,5 +298,10 @@ public class WormholeConnectSteps {
     @And("I move slider")
     public void iMoveSlider() throws InterruptedException {
         Browser.moveSliderByOffset(220);
+    }
+
+    @And("GOOD {string} {string} from {string}\\({string}) to {string}\\({string}) with {string} route")
+    public void goodFromToWithRoute(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, String arg6) {
+        System.out.println("good " + arg0);
     }
 }
