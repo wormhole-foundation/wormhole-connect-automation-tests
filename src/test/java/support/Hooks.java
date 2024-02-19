@@ -1,4 +1,4 @@
-package wh;
+package support;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -10,9 +10,7 @@ import support.Browser;
 
 import java.util.Date;
 
-@RunWith(Cucumber.class)
-@CucumberOptions()
-public class CucumberTests {
+public class Hooks {
     @Before
     public void before() {
         Browser.isMainnet = false;
