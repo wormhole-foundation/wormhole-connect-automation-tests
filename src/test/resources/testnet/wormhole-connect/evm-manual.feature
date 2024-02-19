@@ -1,4 +1,4 @@
-Feature: Manual route between EVM-based chains on testnet
+Feature: Manual route support between EVM-based chains on testnet
 
   Scenario Outline:
     Given I launch testnet browser

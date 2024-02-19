@@ -1,4 +1,4 @@
-Feature:
+Feature: Manual route support to and from Solana on testnet
 
   Scenario Outline:
     Given I launch testnet browser
@@ -13,17 +13,12 @@ Feature:
     Then I check balance has increased on destination chain
 
 
-    #To Solana
+    @fullFunctional
     Examples:
       | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | manual | 0.001  | MATIC | Mumbai       | Solana     | MetaMask    | Phantom   |
       | manual | 0.001  | AVAX  | Fuji         | Solana     | MetaMask    | Phantom   |
       | manual | 0.001  | CELO  | Alfajores    | Solana     | MetaMask    | Phantom   |
-      | manual | 0.001  | MATIC | Mumbai       | Solana     | MetaMask    | Phantom   |
-
-
-#    From Solana
-    Examples:
-      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | manual | 0.01   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
       | manual | 0.01   | SOL   | Solana       | Fantom     | Phantom     | MetaMask  |
       | manual | 0.01   | SOL   | Solana       | BSC        | Phantom     | MetaMask  |
