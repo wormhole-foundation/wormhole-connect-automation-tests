@@ -1,4 +1,4 @@
-Feature:
+Feature: Automatic route to and from Solana on testnet
 
   Scenario Outline:
     Given I launch testnet browser
@@ -15,17 +15,19 @@ Feature:
     Then I check balance has increased on destination chain
 
 
-#    #To Solana
-#    Examples:
-#      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-#      | automatic | 0.04   | AVAX  | Fuji         | Solana     | MetaMask    | Phantom   |
-#      | automatic | 2      | CELO  | Alfajores    | Solana     | MetaMask    | Phantom   |
-
-
-#    From Solana
+    @smoke
     Examples:
       | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-#      | automatic | 0.03   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
+      | automatic | 0.03   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
+
+
+    @fullFunctional
+    Examples:
+      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | automatic | 0.03   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
       | automatic | 0.01   | SOL   | Solana       | Fantom     | Phantom     | MetaMask  |
+      | automatic | 0.04   | AVAX  | Fuji         | Solana     | MetaMask    | Phantom   |
+      | automatic | 2      | CELO  | Alfajores    | Solana     | MetaMask    | Phantom   |
+
 
 
