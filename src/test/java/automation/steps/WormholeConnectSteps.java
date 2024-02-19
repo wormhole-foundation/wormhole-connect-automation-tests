@@ -136,7 +136,10 @@ public class WormholeConnectSteps {
     @Then("I check balance has increased on destination chain")
     public void iCheckFinalBalance() throws InterruptedException {
         Browser.driver.get(Browser.url);
-
+        if (Browser.toNetwork.equals("Solana")) {
+            System.out.println("Waiting 20 seconds to receive asset on Solana");
+            Thread.sleep(20000);
+        }
         System.out.println("Checking " + Browser.toAsset + " balance on " + Browser.toNetwork + " (" + Browser.toWallet + ")");
         Browser.selectAssetInFromSection(Browser.toWallet, Browser.toNetwork, Browser.toAsset);
 
