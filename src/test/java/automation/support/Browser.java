@@ -1,6 +1,7 @@
 package automation.support;
 
 import automation.pages.ExtensionPage;
+import automation.pages.PasswordPage;
 import automation.pages.WormholePage;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.io.FileUtils;
@@ -8,6 +9,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +23,6 @@ import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import automation.pages.PasswordPage;
 
 import java.io.File;
 import java.io.IOException;
@@ -91,7 +92,12 @@ public class Browser {
         opt.addArguments("user-data-dir=" + Paths.get(profile).toAbsolutePath());
         opt.addArguments("profile-directory=Default");
         ClientConfig config = ClientConfig.defaultConfig().readTimeout(Duration.ofHours(2));
-        driver = new ChromeDriver(ChromeDriverService.createDefaultService(), opt, config);
+        try {
+            driver = new ChromeDriver(ChromeDriverService.createDefaultService(), opt, config);
+        } catch (Exception ex) {
+            System.err.println("Could not start Chrome. Please make sure all test browser windows are closed.");
+            System.exit(1);
+        }
         implicitlyWait();
     }
 
