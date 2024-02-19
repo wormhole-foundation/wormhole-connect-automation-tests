@@ -1,4 +1,4 @@
-Feature:
+Feature: Manual route between EVM-based chains on testnet
 
   Scenario Outline:
     Given I launch testnet browser
@@ -13,18 +13,29 @@ Feature:
     Then I check balance has increased on destination chain
 
 
-#    #From Mumbai
-#    Examples:
-#      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-#      | manual | 0.0001 | MATIC | Mumbai       | Goerli     | MetaMask    | MetaMask  |
-#      | manual | 0.0001 | WAVAX | Mumbai       | BSC        | MetaMask    | MetaMask  |
-#      | manual | 0.0001 | CELO  | Mumbai       | Fuji       | MetaMask    | MetaMask  |
-#      | manual | 0.0001 | WFTM  | Mumbai       | Fantom     | MetaMask    | MetaMask  |
+    @smoke
+    Examples:
+      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | manual | 0.1    | KLAY  | Klaytn       | Fantom     | MetaMask    | MetaMask  |
+      | manual | 0.0001 | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
 
-
-    #From BSC
+    @fullFunctional
     Examples:
       | route  | amount | asset  | from_network | to_network | from_wallet | to_wallet |
       | manual | 0.0001 | BNB    | BSC          | Alfajores  | MetaMask    | MetaMask  |
       | manual | 0.0001 | WGLMR  | BSC          | Moonbase   | MetaMask    | MetaMask  |
       | manual | 0.0001 | WMATIC | BSC          | Fuji       | MetaMask    | MetaMask  |
+      | manual | 0.0001 | AVAX   | Fuji         | Fantom     | MetaMask    | MetaMask  |
+      | manual | 0.0001 | AVAX   | Fuji         | Goerli     | MetaMask    | MetaMask  |
+      | manual | 0.1    | KLAY   | Klaytn       | Fantom     | MetaMask    | MetaMask  |
+      | manual | 0.1    | KLAY   | Klaytn       | Moonbase   | MetaMask    | MetaMask  |
+
+    @ignore
+    Examples:
+      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | manual | 0.0001 | MATIC | Mumbai       | Goerli     | MetaMask    | MetaMask  |
+      | manual | 0.0001 | WAVAX | Mumbai       | BSC        | MetaMask    | MetaMask  |
+      | manual | 0.0001 | CELO  | Mumbai       | Fuji       | MetaMask    | MetaMask  |
+      | manual | 0.0001 | WFTM  | Mumbai       | Fantom     | MetaMask    | MetaMask  |
+
+
