@@ -1,4 +1,4 @@
-Feature: Testnet, EVM, automatic
+Feature:
 
   Scenario Outline:
     Given I launch testnet browser

@@ -1,6 +1,6 @@
-Feature: Solana
+Feature:
 
-  Scenario Outline: Solana Automatic test run
+  Scenario Outline:
     Given I launch testnet browser
     Given I open wormhole-connect testnet
     And I enter page password

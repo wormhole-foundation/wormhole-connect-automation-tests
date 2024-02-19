@@ -1,4 +1,4 @@
-Feature: Circle CCTP, manual
+Feature:
 
   Scenario Outline:
     Given I launch testnet browser

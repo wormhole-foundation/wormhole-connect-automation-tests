@@ -143,7 +143,7 @@ public class WormholeConnectSteps {
         Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
         System.out.println(Browser.toFinalBalance + " " + Browser.toAsset);
 
-        if (Browser.route.equals("automatic")) {
+        if (Browser.route.equals("automatic") || Browser.route.equals("circle-automatic")) {
             String nativeAsset = Browser.getNativeAssetByNetworkName(Browser.toNetwork);
 
             System.out.println("Checking native asset (" + nativeAsset + ") balance on " + Browser.toNetwork + " (" + Browser.toWallet + ")");

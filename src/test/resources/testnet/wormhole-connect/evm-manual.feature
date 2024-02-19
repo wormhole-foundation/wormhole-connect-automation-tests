@@ -1,6 +1,6 @@
-Feature: EVM manual testnet
+Feature:
 
-  Scenario Outline: EVM manual testnet
+  Scenario Outline:
     Given I launch testnet browser
     Given I open wormhole-connect testnet
     And I enter page password
