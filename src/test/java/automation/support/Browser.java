@@ -370,6 +370,8 @@ public class Browser {
             case "Evmos":
             case "Osmosis":
                 return "MintScan";
+            case "Klaytn":
+                return "Klaytn Scope";
         }
         throw new RuntimeException("Unsupported network: " + network);
     }
