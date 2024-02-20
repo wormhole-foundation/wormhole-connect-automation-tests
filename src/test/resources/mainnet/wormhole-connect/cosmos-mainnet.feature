@@ -11,6 +11,11 @@ Feature: Cosmos mainnet
     Then I should see Send To link
     Then I check balance has increased on destination chain
 
+
     Examples:
       | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | cosmos | 0.001  | CELO  | Kujira       | Osmosis    | Leap        | Leap      |
+      | cosmos | 0.0001 | CELO  | Osmosis      | Kujira     | Leap        | Leap      |
+      | cosmos | 0.0001 | CELO  | Osmosis      | Evmos      | Leap        | Leap      |
+      | cosmos | 0.0001 | WBNB  | Kujira       | Osmosis    | Leap        | Leap      |
+      | cosmos | 0.0001 | APT   | Evmos        | Kujira     | Leap        | Leap      |
+
