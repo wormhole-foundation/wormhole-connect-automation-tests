@@ -13,13 +13,6 @@ Feature: Manual route support between EVM-based chains on testnet
     Then I check balance has increased on destination chain
 
 
-    @smoke
-    Examples:
-      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | manual | 0.1    | KLAY  | Klaytn       | Fantom     | MetaMask    | MetaMask  |
-      | manual | 0.0001 | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
-
-
     Examples:
       | route  | amount | asset  | from_network | to_network | from_wallet | to_wallet |
       | manual | 0.0001 | BNB    | BSC          | Alfajores  | MetaMask    | MetaMask  |
@@ -29,6 +22,12 @@ Feature: Manual route support between EVM-based chains on testnet
       | manual | 0.0001 | AVAX   | Fuji         | Goerli     | MetaMask    | MetaMask  |
       | manual | 0.1    | KLAY   | Klaytn       | Fantom     | MetaMask    | MetaMask  |
       | manual | 0.1    | KLAY   | Klaytn       | Moonbase   | MetaMask    | MetaMask  |
+
+    @smoke
+    Examples:
+      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | manual | 0.1    | KLAY  | Klaytn       | Fantom     | MetaMask    | MetaMask  |
+      | manual | 0.0001 | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
 
     @ignore
     Examples:

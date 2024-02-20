@@ -15,13 +15,6 @@ Feature: Automatic route support to and from Solana on testnet
     Then I check balance has increased on destination chain
 
 
-    @smoke
-    Examples:
-      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | automatic | 0.03   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
-      | automatic | 0.04   | AVAX  | Fuji         | Solana     | MetaMask    | Phantom   |
-
-
     Examples:
       | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | automatic | 0.03   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
@@ -29,5 +22,11 @@ Feature: Automatic route support to and from Solana on testnet
       | automatic | 0.04   | AVAX  | Fuji         | Solana     | MetaMask    | Phantom   |
       | automatic | 2      | CELO  | Alfajores    | Solana     | MetaMask    | Phantom   |
 
+
+    @smoke
+    Examples:
+      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | automatic | 0.03   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
+      | automatic | 0.04   | AVAX  | Fuji         | Solana     | MetaMask    | Phantom   |
 
 

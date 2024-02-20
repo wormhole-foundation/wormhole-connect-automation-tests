@@ -15,18 +15,18 @@ Feature: Automatic route support between EVM-based chains on testnet
     Then I check balance has increased on destination chain
 
 
-    @smoke
-    Examples:
-      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
-
-
     Examples:
       | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | automatic | 0.003  | AVAX  | Fuji         | Mumbai     | MetaMask    | MetaMask  |
       | automatic | 0.003  | AVAX  | Fuji         | Fantom     | MetaMask    | MetaMask  |
       | automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
       | automatic | 0.009  | BNB   | BSC          | Fuji       | MetaMask    | MetaMask  |
+
+    @smoke
+    Examples:
+      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
+
 
     @ignore
     Examples:
