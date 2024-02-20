@@ -1,15 +1,14 @@
-package automation.support;
+package support;
 
-import automation.pages.ExtensionPage;
-import automation.pages.PasswordPage;
-import automation.pages.WormholePage;
+import pages.ExtensionPage;
+import pages.PasswordPage;
+import pages.WormholePage;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;

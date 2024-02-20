@@ -1,7 +1,7 @@
-package automation.pages;
+package pages;
 
 import org.openqa.selenium.By;
-import automation.support.Browser;
+import support.Browser;
 
 public class WormholePage {
     // Setup Screen
@@ -23,14 +23,15 @@ public class WormholePage {
     public static final By COSMOS_GATEWAY_OPTION = By.xpath("//*[contains(text(),'Cosmos Gateway')]"); // data-testid="cosmos-gateway-route-option"
     public static final By CIRCLE_AUTOMATIC_OPTION = By.xpath("//*[contains(text(),'Receive tokens automatically')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]"); // data-testid="circle-automatic-route-option"
     public static final By CIRCLE_MANUAL_OPTION = By.xpath("//*[contains(text(),'Approve transfer with destination wallet')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]"); // data-testid="circle-manual-route-option"
-    public static final By SLIDER_THUMB = By.cssSelector(".MuiSlider-thumb"); // OK
+    public static final By SLIDER_THUMB = By.cssSelector(".MuiSlider-thumb");
 
-    public static final By POPUP_CLOSE_BUTTON = By.cssSelector("[data-testid='CloseIcon']"); // OK
+    public static final By POPUP_CLOSE_BUTTON = By.cssSelector("[data-testid='CloseIcon']");
     public static final By APPROVE_BUTTON = By.xpath("//*[text()='Approve and proceed with transaction']"); // data-testid="approve-button"
 
     // Redeem Screen
     public static final By TRANSACTION_COMPLETE_MESSAGE = By.xpath("//*[text()='The bridge is now complete.']"); // data-testid="transaction-complete-message"
     public static final By CLAIM_BUTTON = By.xpath("//*[text()='Claim']"); // data-testid="claim-button"
+    public static final By CLAIM_ERROR_MESSAGE = By.xpath("//*[contains(text()='Your claim has failed, please try again')]");
 
     public static By SOURCE_SCAN_LINK() {
         return By.xpath("//*[text()= '" + Browser.getScanLinkTextByNetworkName(Browser.fromNetwork) + "' ]/.."); // data-testid="source-section-scan-link"

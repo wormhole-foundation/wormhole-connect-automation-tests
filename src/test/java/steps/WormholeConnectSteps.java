@@ -1,6 +1,6 @@
-package automation.steps;
+package steps;
 
-import automation.pages.WormholePage;
+import pages.WormholePage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -9,10 +9,10 @@ import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import automation.pages.ExtensionPage;
-import automation.pages.PasswordPage;
-import automation.support.Browser;
-import automation.support.BrowserMainnet;
+import pages.ExtensionPage;
+import pages.PasswordPage;
+import support.Browser;
+import support.BrowserMainnet;
 
 import java.time.Duration;
 
