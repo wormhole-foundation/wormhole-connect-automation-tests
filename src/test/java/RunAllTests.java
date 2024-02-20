@@ -4,5 +4,5 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources/testnet/", tags = "not @ignore")
-public class RunFullFunctionalTests {
+public class RunAllTests {
 }
