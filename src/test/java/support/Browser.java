@@ -206,15 +206,14 @@ public class Browser {
     public static WebElement findElementAndWait(By locator) throws NoSuchElementException {
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(Browser.waitSeconds));
         try {
-            WebElement el = webDriverWait
-                    .until((webDriver) -> {
-                        return Browser.driver.findElement(locator);
-                    });
+            webDriverWait.until((webDriver) -> {
+                return Browser.driver.findElement(locator);
+            });
             try {
                 Thread.sleep(500);
             } catch (InterruptedException ignore) {
             }
-            return el;
+            return Browser.driver.findElement(locator); // find element again in case it moved
         } catch (TimeoutException ex) {
             throw new NoSuchElementException("Element was not found.", ex);
         }
