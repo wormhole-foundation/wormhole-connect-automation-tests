@@ -1,4 +1,4 @@
-Feature:
+Feature: CCTP automatic route support on testnet
 
   Scenario Outline:
     Given I launch testnet browser
@@ -14,6 +14,7 @@ Feature:
     Then I should see Send To link
     Then I check balance has increased on destination chain
 
+    @new
     Examples:
       | route            | amount | asset | from_network | to_network      | from_wallet | to_wallet |
       | circle-automatic | 1.1    | USDC  | Goerli       | Mumbai          | MetaMask    | MetaMask  |

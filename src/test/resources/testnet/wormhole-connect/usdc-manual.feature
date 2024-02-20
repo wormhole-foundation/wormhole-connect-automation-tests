@@ -13,7 +13,8 @@ Feature:
     Then I check balance has increased on destination chain
 
 
+    @new
     Examples:
       | route         | amount | asset | from_network | to_network      | from_wallet | to_wallet |
-#      | circle-manual | 0.0001 | USDC  | Mumbai       | Arbitrum Goerli | MetaMask    | MetaMask  |
+      | circle-manual | 0.0001 | USDC  | Mumbai       | Arbitrum Goerli | MetaMask    | MetaMask  |
       | circle-manual | 0.0001 | USDC  | Goerli       | Optimism Goerli | MetaMask    | MetaMask  |

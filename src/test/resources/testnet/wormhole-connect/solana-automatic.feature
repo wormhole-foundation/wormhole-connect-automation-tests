@@ -19,6 +19,7 @@ Feature: Automatic route support to and from Solana on testnet
     Examples:
       | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | automatic | 0.03   | SOL   | Solana       | Fuji       | Phantom     | MetaMask  |
+      | automatic | 0.04   | AVAX  | Fuji         | Solana     | MetaMask    | Phantom   |
 
 
     @fullFunctional

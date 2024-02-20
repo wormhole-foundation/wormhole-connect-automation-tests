@@ -1,4 +1,4 @@
-Feature:
+Feature: Sui route support on testnet
 
   Scenario Outline:
     Given I launch testnet browser
