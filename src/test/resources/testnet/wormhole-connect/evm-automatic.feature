@@ -20,7 +20,7 @@ Feature: Automatic route support between EVM-based chains on testnet
       | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
 
-    @fullFunctional
+
     Examples:
       | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | automatic | 0.003  | AVAX  | Fuji         | Mumbai     | MetaMask    | MetaMask  |

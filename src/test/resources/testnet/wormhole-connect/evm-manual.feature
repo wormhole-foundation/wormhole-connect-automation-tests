@@ -19,7 +19,7 @@ Feature: Manual route support between EVM-based chains on testnet
       | manual | 0.1    | KLAY  | Klaytn       | Fantom     | MetaMask    | MetaMask  |
       | manual | 0.0001 | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
 
-    @fullFunctional
+
     Examples:
       | route  | amount | asset  | from_network | to_network | from_wallet | to_wallet |
       | manual | 0.0001 | BNB    | BSC          | Alfajores  | MetaMask    | MetaMask  |
