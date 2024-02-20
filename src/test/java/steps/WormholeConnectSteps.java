@@ -162,7 +162,7 @@ public class WormholeConnectSteps {
     }
 
     @And("I check native balance on {string} using {string}")
-    public void iCheckNativeBalanceOnUsing(String toNetwork, String toWallet) throws InterruptedException {
+    public void iCheckNativeBalanceOnToNetworkUsingToWallet(String toNetwork, String toWallet) throws InterruptedException {
         String nativeAsset = Browser.getNativeAssetByNetworkName(toNetwork);
 
         System.out.println("Checking native asset (" + nativeAsset + ") balance on " + toNetwork + " (" + toWallet + ")");
