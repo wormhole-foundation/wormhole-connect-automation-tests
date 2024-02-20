@@ -8,7 +8,7 @@ sudo xattr -cr 'Google Chrome for Testing.app'
 ```
 4. Copy 'Google Chrome for Testing.app' to Applications
 5. Install IntelliJ IDEA CE
-6. Install Rosetta:
+6. Install Rosetta (only applies to M1+ processors):
 ```
 /usr/sbin/softwareupdate --install-rosetta --agree-to-license
 ```
@@ -19,6 +19,7 @@ sudo xattr -cr 'Google Chrome for Testing.app'
 brew install --cask git-credential-manager
 git clone https://github.com/tsadovska/wormhole-connect-automation-tests
 ```
+Copy `.env.example` to `.env` file and enter missing values. 
 
 # Setup (Chrome for Testing)
 
