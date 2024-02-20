@@ -1,6 +1,6 @@
-Feature: EVM manual testnet
+Feature: Manual route support between EVM-based chains on mainnet
 
-  Scenario Outline: EVM manual testnet
+  Scenario Outline:
     Given I launch mainnet browser
     Given I open wormhole-connect mainnet
     And I enter page password

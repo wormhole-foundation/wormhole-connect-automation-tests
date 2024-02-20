@@ -1,4 +1,4 @@
-Feature:
+Feature: Automatic route support between EVM-based chains on mainnet
 
   Scenario Outline:
     Given I launch mainnet browser
@@ -14,8 +14,15 @@ Feature:
     Then I should see Send To link
     Then I check balance has increased on destination chain
 
+    @new
+    Examples:
+      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | automatic | 0.03   | AVAX  | Avalanche    | Moonbeam   | MetaMask    | MetaMask  |
+
 
     Examples:
       | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | automatic | 2.5    | FTM   | Fantom       | Celo       | MetaMask    | MetaMask  |
+      | automatic | 0.03   | AVAX  | Avalanche    | Moonbeam   | MetaMask    | MetaMask  |
+
 
