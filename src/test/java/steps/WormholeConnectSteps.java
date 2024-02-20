@@ -302,9 +302,4 @@ public class WormholeConnectSteps {
     public void iMoveSlider() throws InterruptedException {
         Browser.moveSliderByOffset(220);
     }
-
-    @And("GOOD {string} {string} from {string}\\({string}) to {string}\\({string}) with {string} route")
-    public void goodFromToWithRoute(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, String arg6) {
-        System.out.println("good " + arg0);
-    }
 }
