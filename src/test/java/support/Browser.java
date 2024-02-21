@@ -58,7 +58,7 @@ public class Browser {
     public static String sourceGasFeeUsd = "";
     public static String destinationGasFeeUsd = "";
 
-    public static int waitSeconds = 0;
+    public static int waitSeconds = 10;
     public static String toNativeBalance = "";
     public static String toFinalNativeBalance = "";
     public static boolean metaMaskWasUnlocked = false;
@@ -97,24 +97,11 @@ public class Browser {
             System.err.println("Could not start Chrome. Please make sure all test browser windows are closed.");
             System.exit(1);
         }
-        implicitlyWait();
+        Browser.waitSeconds = 10;
     }
 
     public static void quit() {
         driver.quit();
-    }
-
-    public static void noImplicitWait() {
-        implicitlyWait(0);
-    }
-
-    public static void implicitlyWait() {
-        implicitlyWait(10);
-    }
-
-    public static void implicitlyWait(int seconds) {
-        System.out.println("Implicit wait set to " + seconds + "s");
-        Browser.waitSeconds = seconds;
     }
 
     public static boolean extensionWindowIsOpened() {
@@ -203,20 +190,38 @@ public class Browser {
         }
     }
 
-    public static WebElement findElementAndWait(By locator) throws NoSuchElementException {
+    public static WebElement findElement(By locator) throws NoSuchElementException {
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(Browser.waitSeconds));
         try {
             webDriverWait.until((webDriver) -> {
                 return Browser.driver.findElement(locator);
             });
             try {
-                Thread.sleep(500);
+                Thread.sleep(500); // UI settle
             } catch (InterruptedException ignore) {
             }
             return Browser.driver.findElement(locator); // find element again in case it moved
         } catch (TimeoutException ex) {
             throw new NoSuchElementException("Element was not found.", ex);
         }
+    }
+
+    public static WebElement findElementIgnoreIfMissing(int seconds, By locator) {
+        Browser.waitSeconds = seconds;
+        try {
+            return Browser.findElement(locator);
+        } catch (NoSuchElementException ignore) {
+        }
+        Browser.waitSeconds = 10;
+        return null;
+    }
+
+    public static WebElement findElement(int seconds, By locator) {
+        System.out.println("Waiting for element to appear in " + seconds + "s");
+        Browser.waitSeconds = seconds;
+        WebElement element = Browser.findElement(locator);
+        Browser.waitSeconds = 10;
+        return element;
     }
 
     public static void waitToBeClickable(WebElement el) throws NoSuchElementException {
@@ -248,26 +253,24 @@ public class Browser {
     public static void confirmTransactionInMetaMask(boolean isClaimStep) throws InterruptedException {
         Browser.waitForExtensionWindowToAppear();
 
-        Browser.implicitlyWait(2);
         System.out.println("Going to Approve adding new network (if MetaMask requires it)...");
         try {
-            Browser.findElementAndWait(ExtensionPage.METAMASK_APPROVE_BUTTON).click();
+            Browser.findElement(2, ExtensionPage.METAMASK_APPROVE_BUTTON).click();
             Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
         System.out.println("Going to confirm warning on Moonbase network (if MetaMask requires it)...");
         try {
-            Browser.findElementAndWait(ExtensionPage.METAMASK_GOT_IT_BUTTON).click();
+            Browser.findElement(2, ExtensionPage.METAMASK_GOT_IT_BUTTON).click();
             Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
         System.out.println("Going to Switch network (if MetaMask requires it)...");
         try {
-            Browser.findElementAndWait(ExtensionPage.METAMASK_SWITCH_NETWORK_BUTTON).click();
+            Browser.findElement(2, ExtensionPage.METAMASK_SWITCH_NETWORK_BUTTON).click();
             Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
-        Browser.implicitlyWait();
 
         System.out.println("Confirming transaction in MetaMask...");
 
@@ -292,7 +295,7 @@ public class Browser {
                             }
                         }
 
-                        WebElement metamaskFooterButton = Browser.findElementAndWait(ExtensionPage.METAMASK_FOOTER_NEXT_BUTTON);
+                        WebElement metamaskFooterButton = Browser.findElement(ExtensionPage.METAMASK_FOOTER_NEXT_BUTTON);
                         String buttonText = metamaskFooterButton.getText();
                         System.out.println("MetaMask button text: " + buttonText);
                         if (buttonText.equals("Next")) {
@@ -412,25 +415,23 @@ public class Browser {
     }
 
     public static void selectAssetInFromSection(String wallet, String network, String asset) throws InterruptedException {
-        Browser.findElementAndWait(WormholePage.SOURCE_SELECT_NETWORK_BUTTON).click();
+        Browser.findElement(WormholePage.SOURCE_SELECT_NETWORK_BUTTON).click();
         Thread.sleep(1000);
-        Browser.findElementAndWait(WormholePage.CHOOSE_NETWORK(network)).click();
+        Browser.findElement(WormholePage.CHOOSE_NETWORK(network)).click();
         Thread.sleep(1000);
 
-        Browser.findElementAndWait(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
-        Browser.findElementAndWait(WormholePage.CHOOSE_WALLET(wallet)).click();
+        Browser.findElement(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
+        Browser.findElement(WormholePage.CHOOSE_WALLET(wallet)).click();
 
         if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
             Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElementAndWait(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
-            Browser.findElementAndWait(ExtensionPage.METAMASK_UNLOCK_BUTTON).click();
+            Browser.findElement(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
+            Browser.findElement(ExtensionPage.METAMASK_UNLOCK_BUTTON).click();
 
             try {
                 System.out.println("Going to Reject a pending transaction (if it exists)...");
-                Browser.implicitlyWait(3);
-                Browser.findElementAndWait(ExtensionPage.METAMASK_CANCEL_BUTTON).click();
-                Browser.implicitlyWait();
+                Browser.findElement(3, ExtensionPage.METAMASK_CANCEL_BUTTON).click();
             } catch (NoSuchElementException ignore) {
             }
 
@@ -443,8 +444,8 @@ public class Browser {
         if (wallet.equals("Leap") && !Browser.leapWasUnlocked) {
             Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElementAndWait(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
-            Browser.findElementAndWait(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
+            Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
+            Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
 
             Browser.waitForExtensionWindowToDisappear();
             Thread.sleep(1000);
@@ -452,14 +453,14 @@ public class Browser {
             Browser.leapWasUnlocked = true;
         }
 
-        Browser.findElementAndWait(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();
+        Browser.findElement(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();
         Thread.sleep(1000);
-        Browser.findElementAndWait(WormholePage.CHOOSE_ASSET(asset)).click();
+        Browser.findElement(WormholePage.CHOOSE_ASSET(asset)).click();
         Thread.sleep(1000);
     }
 
     public static void moveSliderByOffset(int xOffset) throws InterruptedException {
-        WebElement slider = Browser.findElementAndWait(WormholePage.SLIDER_THUMB);
+        WebElement slider = Browser.findElement(WormholePage.SLIDER_THUMB);
         Browser.scrollToElement(slider);
 
         int xPosition = slider.getLocation().x;

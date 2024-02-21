@@ -28,7 +28,10 @@ public class WormholePage {
     public static final By POPUP_CLOSE_BUTTON = By.cssSelector("[data-testid='CloseIcon']");
     public static final By APPROVE_BUTTON = By.xpath("//*[text()='Approve and proceed with transaction']"); // data-testid="approve-button"
 
+    public static final By APPROVE_ERROR_MESSAGE = By.xpath("//*[text()='Error with transfer, please try again']"); // TODO: data-testid="approve-error-message"
+
     // Redeem Screen
+    public static final By REDEEM_SCREEN_HEADER = By.xpath("//*[text()='Bridge']"); // TODO: data-testid="redeem-screen-header"
     public static final By TRANSACTION_COMPLETE_MESSAGE = By.xpath("//*[text()='The bridge is now complete.']"); // data-testid="transaction-complete-message"
     public static final By CLAIM_BUTTON = By.xpath("//*[text()='Claim']"); // data-testid="claim-button"
     public static final By CLAIM_ERROR_MESSAGE = By.xpath("//*[contains(text()='Your claim has failed, please try again')]");
