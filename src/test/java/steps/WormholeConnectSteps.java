@@ -290,7 +290,7 @@ public class WormholeConnectSteps {
             waitSeconds = 60 * 30;
         } else {
             if (Browser.toWallet.equals("Phantom")) {
-                waitSeconds = 10;
+                waitSeconds = 60;
             } else {
                 waitSeconds = 60 * 30;
             }
