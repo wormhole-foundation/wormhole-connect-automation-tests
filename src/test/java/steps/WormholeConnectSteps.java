@@ -222,7 +222,7 @@ public class WormholeConnectSteps {
             Browser.waitForExtensionWindowToDisappear();
         }
 
-        Browser.findElementIgnoreIfMissing(15, WormholePage.REDEEM_SCREEN_HEADER);
+        Browser.findElementIgnoreIfMissing(120, WormholePage.REDEEM_SCREEN_HEADER);
         if (Browser.findElementIgnoreIfMissing(0, WormholePage.APPROVE_ERROR_MESSAGE) != null) {
             Assert.fail("Transaction failed");
         }

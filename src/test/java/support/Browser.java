@@ -207,6 +207,7 @@ public class Browser {
     }
 
     public static WebElement findElementIgnoreIfMissing(int seconds, By locator) {
+        System.out.println("Checking if element (" + locator.toString() + ") appears in " + seconds + "s");
         Browser.waitSeconds = seconds;
         try {
             return Browser.findElement(locator);
@@ -217,7 +218,7 @@ public class Browser {
     }
 
     public static WebElement findElement(int seconds, By locator) {
-        System.out.println("Waiting for element to appear in " + seconds + "s");
+        System.out.println("Waiting for element (" + locator.toString() + ")  to appear in " + seconds + "s");
         Browser.waitSeconds = seconds;
         WebElement element = Browser.findElement(locator);
         Browser.waitSeconds = 10;
