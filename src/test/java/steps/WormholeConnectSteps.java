@@ -227,8 +227,9 @@ public class WormholeConnectSteps {
             if (Browser.findElementIgnoreIfMissing(0, WormholePage.REDEEM_SCREEN_HEADER) != null) {
                 return true;
             }
-            if (Browser.findElementIgnoreIfMissing(0, WormholePage.APPROVE_ERROR_MESSAGE) != null) {
-                Assert.fail("Transaction failed");
+            WebElement errorMessage = Browser.findElementIgnoreIfMissing(0, WormholePage.APPROVE_ERROR_MESSAGE);
+            if (errorMessage != null) {
+                Assert.fail("Transaction failed: " + errorMessage.getText());
             }
             return null;
         });
