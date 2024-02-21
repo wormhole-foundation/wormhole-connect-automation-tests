@@ -222,10 +222,16 @@ public class WormholeConnectSteps {
             Browser.waitForExtensionWindowToDisappear();
         }
 
-        Browser.findElementIgnoreIfMissing(120, WormholePage.REDEEM_SCREEN_HEADER);
-        if (Browser.findElementIgnoreIfMissing(0, WormholePage.APPROVE_ERROR_MESSAGE) != null) {
-            Assert.fail("Transaction failed");
-        }
+        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(120));
+        webDriverWait.until(webDriver -> {
+            if (Browser.findElementIgnoreIfMissing(0, WormholePage.REDEEM_SCREEN_HEADER) != null) {
+                return true;
+            }
+            if (Browser.findElementIgnoreIfMissing(0, WormholePage.APPROVE_ERROR_MESSAGE) != null) {
+                Assert.fail("Transaction failed");
+            }
+            return null;
+        });
     }
 
     @Then("I should see Send From link")
