@@ -21,7 +21,7 @@ git clone https://github.com/tsadovska/wormhole-connect-automation-tests
 ```
 Copy `.env.example` to `.env` file and enter missing values. 
 
-# Setup (Chrome for Testing)
+# Setup Google Chrome for Testing
 
 1. Metamask extension
    * Open project in IntelliJ IDEA 
@@ -52,3 +52,25 @@ To start mainnet browser: right click "src/test/java/support/BrowserMainnet" -> 
 
 1. Install "Cucumber for Java" plugin in IntelliJ IDEA
 2. Right click on any ".feature" file -> Run
+
+# Build MetaMask extension
+```
+git clone https://github.com/MetaMask/metamask-extension.git
+git checkout master
+```
+Follow MetaMask [Building on your local machine](https://github.com/MetaMask/metamask-extension#building-on-your-local-machine) guide:
+```
+brew install corepack
+corepack enable
+cp .metamaskrc{.dist,}
+# create an account on https://app.infura.io/register
+# make sure all networks are enabled for the new Infura API Key
+# Update .metmaskrc file: replace the INFURA_PROJECT_ID value with your own personal Infura API Key. 
+yarn install
+node ./development/build/index.js dist --apply-lavamoat=false
+```
+Open `chrome://extensions/`, click "Pack extension"
+Set `Extension root directory` to "dist/chrome" directory inside metamask-extension directory.
+Click `Pack extension`.
+
+Generated "chrome.crx" can now be installed in Google Chrome for Testing.
