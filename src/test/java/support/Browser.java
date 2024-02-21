@@ -303,19 +303,22 @@ public class Browser {
                         WebElement metamaskFooterButton = Browser.findElement(ExtensionPage.METAMASK_FOOTER_NEXT_BUTTON);
                         String buttonText = metamaskFooterButton.getText();
                         System.out.println("MetaMask button text: " + buttonText);
-                        if (buttonText.equals("Next")) {
-                            metamaskFooterButton.click();
-                        } else if (buttonText.equals("Approve")) {
-                            metamaskFooterButton.click();
-                            Browser.waitForExtensionWindowToDisappear();
-                        } else if (buttonText.equals("Confirm")) {
-                            Browser.waitToBeClickable(metamaskFooterButton);
-                            metamaskFooterButton.click();
-                            Browser.waitForExtensionWindowToDisappear();
-                            if (isClaimStep) {
-                                return null; // do not stop, wait for "The bridge is now complete." message
-                            }
-                            return metamaskFooterButton;
+                        switch (buttonText) {
+                            case "Next":
+                                metamaskFooterButton.click();
+                                break;
+                            case "Approve":
+                                metamaskFooterButton.click();
+                                Browser.waitForExtensionWindowToDisappear();
+                                break;
+                            case "Confirm":
+                                Browser.waitToBeClickable(metamaskFooterButton);
+                                metamaskFooterButton.click();
+                                Browser.waitForExtensionWindowToDisappear();
+                                if (isClaimStep) {
+                                    return null; // do not stop, wait for "The bridge is now complete." message
+                                }
+                                return metamaskFooterButton;
                         }
 
                         try {

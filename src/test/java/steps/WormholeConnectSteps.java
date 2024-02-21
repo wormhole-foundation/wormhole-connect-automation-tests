@@ -106,28 +106,34 @@ public class WormholeConnectSteps {
         Browser.toAmount = Browser.findElement(WormholePage.DESTINATION_AMOUNT_INPUT).getAttribute("value");
         Browser.toBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.DESTINATION_BALANCE_TEXT);
 
-        if (route.equals("automatic")) {
-            // choose Manual and then again Automatic to enable native gas section
-            Browser.findElement(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
-            Thread.sleep(1000);
-            Browser.findElement(WormholePage.MANUAL_BRIDGE_OPTION).click();
-            Thread.sleep(1000);
-            Browser.findElement(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
-            Thread.sleep(1000);
-        } else if (route.equals("manual")) {
-            Browser.findElement(WormholePage.MANUAL_BRIDGE_OPTION).click();
-        } else if (route.equals("cosmos")) {
-            Browser.findElement(WormholePage.COSMOS_GATEWAY_OPTION).click();
-        } else if (route.equals("circle-manual")) {
-            Browser.findElement(WormholePage.CIRCLE_MANUAL_OPTION).click();
-        } else if (route.equals("circle-automatic")) {
-            // choose Manual and then again Automatic to enable native gas section
-            Browser.findElement(WormholePage.CIRCLE_AUTOMATIC_OPTION).click();
-            Thread.sleep(1000);
-            Browser.findElement(WormholePage.CIRCLE_MANUAL_OPTION).click();
-            Thread.sleep(1000);
-            Browser.findElement(WormholePage.CIRCLE_AUTOMATIC_OPTION).click();
-            Thread.sleep(1000);
+        switch (route) {
+            case "automatic":
+                // choose Manual and then again Automatic to enable native gas section
+                Browser.findElement(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
+                Thread.sleep(1000);
+                Browser.findElement(WormholePage.MANUAL_BRIDGE_OPTION).click();
+                Thread.sleep(1000);
+                Browser.findElement(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
+                Thread.sleep(1000);
+                break;
+            case "manual":
+                Browser.findElement(WormholePage.MANUAL_BRIDGE_OPTION).click();
+                break;
+            case "cosmos":
+                Browser.findElement(WormholePage.COSMOS_GATEWAY_OPTION).click();
+                break;
+            case "circle-manual":
+                Browser.findElement(WormholePage.CIRCLE_MANUAL_OPTION).click();
+                break;
+            case "circle-automatic":
+                // choose Manual and then again Automatic to enable native gas section
+                Browser.findElement(WormholePage.CIRCLE_AUTOMATIC_OPTION).click();
+                Thread.sleep(1000);
+                Browser.findElement(WormholePage.CIRCLE_MANUAL_OPTION).click();
+                Thread.sleep(1000);
+                Browser.findElement(WormholePage.CIRCLE_AUTOMATIC_OPTION).click();
+                Thread.sleep(1000);
+                break;
         }
 
         Thread.sleep(3000); // wait UI to settle
@@ -185,41 +191,47 @@ public class WormholeConnectSteps {
     public void iApproveWalletNotification() throws InterruptedException {
         System.out.println("Going to confirm transaction...");
 
-        if (Browser.fromWallet.equals("MetaMask")) {
-            Browser.confirmTransactionInMetaMask(false);
+        switch (Browser.fromWallet) {
+            case "MetaMask":
+                Browser.confirmTransactionInMetaMask(false);
 
-        } else if (Browser.fromWallet.equals("Phantom")) {
-            Browser.waitForExtensionWindowToAppear();
+                break;
+            case "Phantom":
+                Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElement(ExtensionPage.PHANTOM_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
-            Browser.findElement(ExtensionPage.PHANTOM_SUBMIT_BUTTON).click();
-            Thread.sleep(1000);
+                Browser.findElement(ExtensionPage.PHANTOM_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
+                Browser.findElement(ExtensionPage.PHANTOM_SUBMIT_BUTTON).click();
+                Thread.sleep(1000);
 
-            Browser.findElement(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
+                Browser.findElement(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
 
-            Browser.waitForExtensionWindowToDisappear();
-        } else if (Browser.fromWallet.equals("Sui")) {
-            Browser.waitForExtensionWindowToAppear();
-            Browser.findElement(ExtensionPage.SUI_UNLOCK_TO_APPROVE_BUTTON).click();
 
-            Browser.findElement(ExtensionPage.SUI_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
-            Browser.findElement(ExtensionPage.SUI_UNLOCK_BUTTON).click();
-            Thread.sleep(1000);
+                Browser.waitForExtensionWindowToDisappear();
+                break;
+            case "Sui":
+                Browser.waitForExtensionWindowToAppear();
+                Browser.findElement(ExtensionPage.SUI_UNLOCK_TO_APPROVE_BUTTON).click();
 
-            Browser.findElement(ExtensionPage.SUI_APPROVE_BUTTON).click();
-            Thread.sleep(1000);
+                Browser.findElement(ExtensionPage.SUI_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
+                Browser.findElement(ExtensionPage.SUI_UNLOCK_BUTTON).click();
+                Thread.sleep(1000);
 
-            try {
-                Browser.findElement(ExtensionPage.SUI_DIALOG_APPROVE_BUTTON).click();
-            } catch (NoSuchElementException ignore) {
-            }
-            Browser.waitForExtensionWindowToDisappear();
-        } else if (Browser.fromWallet.equals("Leap")) {
-            Browser.waitForExtensionWindowToAppear();
-            Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
-            Thread.sleep(1000);
+                Browser.findElement(ExtensionPage.SUI_APPROVE_BUTTON).click();
+                Thread.sleep(1000);
 
-            Browser.waitForExtensionWindowToDisappear();
+                try {
+                    Browser.findElement(ExtensionPage.SUI_DIALOG_APPROVE_BUTTON).click();
+                } catch (NoSuchElementException ignore) {
+                }
+                Browser.waitForExtensionWindowToDisappear();
+                break;
+            case "Leap":
+                Browser.waitForExtensionWindowToAppear();
+                Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
+                Thread.sleep(1000);
+
+                Browser.waitForExtensionWindowToDisappear();
+                break;
         }
 
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(120));
