@@ -1,6 +1,6 @@
-Feature: EVM manual testnet
+Feature: Manual route support between EVM-based chains on Portal Bridge mainnet
 
-  Scenario Outline: EVM manual testnet
+  Scenario Outline:
     Given I launch mainnet browser
     Given I open portal bridge mainnet
     And I prepare to send "<amount>" "<asset>" from "<from_network>"("<from_wallet>") to "<to_network>"("<to_wallet>") with "<route>" route
