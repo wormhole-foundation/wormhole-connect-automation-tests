@@ -56,7 +56,7 @@ public class WormholeConnectSteps {
     }
 
     @And("I prepare to send {string} {string} from {string}\\({string}) to {string}\\({string}) with {string} route")
-    public void iPrepareToSendFromTo(String amount, String asset, String fromNetwork, String fromWallet, String toNetwork, String toWallet, String route) throws InterruptedException {
+    public void iFillInTransactionDetails(String amount, String asset, String fromNetwork, String fromWallet, String toNetwork, String toWallet, String route) throws InterruptedException {
         Browser.fromWallet = fromWallet;
         Browser.toWallet = toWallet;
         Browser.fromNetwork = fromNetwork;
