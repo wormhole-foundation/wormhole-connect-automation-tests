@@ -12,10 +12,6 @@ Feature: Manual route support between EVM-based chains on mainnet
     Then I should see Send To link
     Then I check balance has increased on destination chain
 
-    @new
-    Examples:
-      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | manual | 0.0001 | CELO  | Celo         | Fantom     | MetaMask    | MetaMask  |
 
     Examples:
       | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |

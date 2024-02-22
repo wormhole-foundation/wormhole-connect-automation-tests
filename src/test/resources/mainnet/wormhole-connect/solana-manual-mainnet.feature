@@ -12,7 +12,7 @@ Feature: Manual route support to and from Solana on mainnet
     Then I should see Send To link
     Then I check balance has increased on destination chain
 
-    @new
+
     Examples:
       | route  | amount  | asset | from_network | to_network | from_wallet | to_wallet |
       | manual | 0.00001 | SOL   | Solana       | Avalanche  | Phantom     | MetaMask  |
