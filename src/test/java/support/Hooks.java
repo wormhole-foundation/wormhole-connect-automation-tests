@@ -31,6 +31,8 @@ public class Hooks {
         Browser.toFinalNativeBalance = "";
         Browser.sourceGasFeeUsd = "";
         Browser.destinationGasFeeUsd = "";
+        Browser.screenshotUrl = "";
+
         Browser.metaMaskWasUnlocked = false;
         Browser.phantomWasUnlocked = false;
         Browser.leapWasUnlocked = false;

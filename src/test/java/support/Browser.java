@@ -57,6 +57,7 @@ public class Browser {
     public static String toFinalBalance = "";
     public static String sourceGasFeeUsd = "";
     public static String destinationGasFeeUsd = "";
+    public static String screenshotUrl = "";
 
     public static int waitSeconds = 10;
     public static String toNativeBalance = "";
@@ -183,7 +184,8 @@ public class Browser {
                 dt.format(Browser.startedAt),
                 dt.format(Browser.finishedAt),
                 Browser.sourceGasFeeUsd,
-                Browser.destinationGasFeeUsd
+                Browser.destinationGasFeeUsd,
+                Browser.screenshotUrl
         };
 
         boolean savedSuccessfully = Google.writeResultsToGoogleSpreadsheet(fields);

@@ -115,9 +115,11 @@ public class Google {
             FileContent mediaContent = new FileContent("image/png", file);
 
             // https://developers.google.com/drive/api/guides/folder#insert_a_file_in_a_folder
-            getDriveService().files().create(fileMetadata, mediaContent)
-                    .setFields("id, parents")
+            File result = getDriveService().files().create(fileMetadata, mediaContent)
+                    .setFields("id, parents, webViewLink")
                     .execute();
+            Browser.screenshotUrl = result.getWebViewLink();
+
             return true;
         } catch (Exception exception) {
             System.out.println("Could not save file to Google Drive: " + exception.getMessage());
