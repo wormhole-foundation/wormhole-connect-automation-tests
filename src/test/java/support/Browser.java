@@ -81,6 +81,7 @@ public class Browser {
         System.out.println("Browser.launch (" + profile + ")");
 
         env = Dotenv.load();
+        Google.getLoggedInUser(); // login to Google Services
 
         ChromeOptions opt = new ChromeOptions();
         if (System.getProperty("os.name").startsWith("Windows")) {
