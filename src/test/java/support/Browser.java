@@ -161,6 +161,7 @@ public class Browser {
 
     public static void saveResults(String status) {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy-MM-dd");
 
         String[] fields = {
                 status,
@@ -185,7 +186,16 @@ public class Browser {
                 dt.format(Browser.finishedAt),
                 Browser.sourceGasFeeUsd,
                 Browser.destinationGasFeeUsd,
-                Browser.screenshotUrl
+                Browser.screenshotUrl,
+                dateOnly.format(Browser.startedAt),
+                String.valueOf(isEvmNetwork(Browser.fromNetwork) && isEvmNetwork(Browser.toNetwork)),
+                String.valueOf(isSolanaNetwork(Browser.fromNetwork) || isSolanaNetwork(Browser.toNetwork)),
+                String.valueOf(isCosmosNetwork(Browser.fromNetwork) || isCosmosNetwork(Browser.toNetwork)),
+                String.valueOf(isSuiNetwork(Browser.fromNetwork) || isSuiNetwork(Browser.toNetwork)),
+                String.valueOf(isAptosNetwork(Browser.fromNetwork) || isAptosNetwork(Browser.toNetwork)),
+                String.valueOf(isCircleRoute(Browser.route)),
+                "",
+                urlToEnvironment(Browser.url)
         };
 
         boolean savedSuccessfully = Google.writeResultsToGoogleSpreadsheet(fields);
@@ -202,6 +212,80 @@ public class Browser {
                 System.err.println(e.getMessage());
             }
         }
+    }
+
+    private static String urlToEnvironment(String url) {
+        switch (url) {
+            case "https://wormhole-connect.netlify.app/":
+                return "wormhole-testnet";
+            case "https://wormhole-connect-mainnet.netlify.app/":
+                return "wormhole-mainnet";
+            case "https://portalbridge.com/":
+                return "portal-mainnet";
+        }
+        return "";
+    }
+
+    private static boolean isCircleRoute(String route) {
+        switch (route) {
+            case "circle-manual":
+            case "circle-automatic":
+                return true;
+        }
+        return false;
+    }
+
+    private static boolean isEvmNetwork(String network) {
+        switch (network) {
+            case "Goerli":
+            case "Ethereum":
+            case "Mumbai":
+            case "Polygon":
+            case "BSC":
+            case "Fuji":
+            case "Avalanche":
+            case "Fantom":
+            case "Alfajores":
+            case "Celo":
+            case "Moonbase":
+            case "Moonbeam":
+            case "Base Goerli":
+            case "Base":
+            case "Klaytn":
+            case "Arbitrum Goerli":
+            case "Arbitrum":
+            case "Optimism Goerli":
+            case "Optimism":
+            case "Sepolia":
+            case "Arbitrum Sepolia":
+            case "Base Sepolia":
+            case "Optimism Sepolia":
+                return true;
+        }
+        return false;
+    }
+
+    private static boolean isSolanaNetwork(String network) {
+        return network.equals("Solana");
+    }
+
+    private static boolean isCosmosNetwork(String network) {
+        switch (network) {
+            case "Kujira":
+            case "Osmosis":
+            case "Evmos":
+            case "Cosmoshub":
+                return true;
+        }
+        return false;
+    }
+
+    private static boolean isSuiNetwork(String network) {
+        return network.equals("Sui");
+    }
+
+    private static boolean isAptosNetwork(String network) {
+        return network.equals("Aptos");
     }
 
     public static WebElement findElement(By locator) throws NoSuchElementException {

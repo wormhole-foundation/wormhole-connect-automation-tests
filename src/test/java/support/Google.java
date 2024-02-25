@@ -37,7 +37,7 @@ public class Google {
         }
 
         try {
-            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();;
+            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
             InputStream in = Google.class.getResourceAsStream("/credentials.json");
             GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
@@ -91,7 +91,7 @@ public class Google {
 
             Sheets.Spreadsheets.Values.Append request =
                     getSheetsService().spreadsheets().values().append(spreadsheetID, sheetName, requestBody);
-            request.setValueInputOption("RAW");
+            request.setValueInputOption("USER_ENTERED");
             request.execute();
 
             return true;
