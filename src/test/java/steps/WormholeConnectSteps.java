@@ -67,6 +67,8 @@ public class WormholeConnectSteps {
         Browser.txFrom = "";
         Browser.txTo = "";
 
+        System.out.println("I prepare to send " + Browser.fromAmount + " " + Browser.fromAsset + " from " + Browser.fromNetwork + " to " + Browser.toWallet);
+
         if (Browser.route.equals("automatic")) {
             Assert.assertNotEquals("Native balance was not checked", "", Browser.toNativeBalance);
         }
