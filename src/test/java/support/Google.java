@@ -6,10 +6,13 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.FileContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
@@ -21,37 +24,50 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class GoogleSheets {
+public class Google {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    private static NetHttpTransport HTTP_TRANSPORT;
 
-    public static Sheets getSheetsService() {
+    public static Credential getLoggedInUser() {
         String spreadsheetID = Browser.env.get("GOOGLE_SPREADSHEETS_DOCUMENT_ID");
-        if (spreadsheetID == null || spreadsheetID.isEmpty()) {
+        String folderId = Browser.env.get("GOOGLE_DRIVE_FOLDER_ID");
+        if ((spreadsheetID == null || spreadsheetID.isEmpty()) && (folderId == null || folderId.isEmpty())) {
             System.out.println("Please set GOOGLE_SPREADSHEETS_DOCUMENT_ID in .env file to save results to Google Spreadsheets.");
             return null;
         }
 
-        final NetHttpTransport HTTP_TRANSPORT;
         try {
-            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();;
 
-            InputStream in = GoogleSheets.class.getResourceAsStream("/credentials.json");
+            InputStream in = Google.class.getResourceAsStream("/credentials.json");
             GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
             GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, Collections.singletonList(SheetsScopes.SPREADSHEETS))
+                    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, Arrays.asList(SheetsScopes.DRIVE_FILE, SheetsScopes.SPREADSHEETS))
                     .setDataStoreFactory(new FileDataStoreFactory(new java.io.File("target")))
                     .setAccessType("offline")
                     .build();
             LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
             Credential user = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-
-            return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, user)
-                    .setApplicationName("Wormhole Connect Automation")
-                    .build();
+            return user;
         } catch (Exception exception) {
             System.out.println("ERROR: " + exception.getMessage());
         }
         return null;
+    }
+
+    public static Sheets getSheetsService() {
+        Credential user = getLoggedInUser();
+        return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, user)
+                .setApplicationName("Wormhole Connect Automation")
+                .build();
+    }
+
+    public static Drive getDriveService() {
+        Credential user = getLoggedInUser();
+        Drive.Builder builder = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, user);
+        return builder
+                .setApplicationName("Wormhole Connect Automation")
+                .build();
     }
 
     public static boolean writeResultsToGoogleSpreadsheet(String[] values) {
@@ -81,6 +97,30 @@ public class GoogleSheets {
             return true;
         } catch (Exception exception) {
             System.out.println("Could not save results to Google Spreadsheets: " + exception.getMessage());
+        }
+        return false;
+    }
+
+    public static boolean uploadScreenshot(java.io.File file) {
+        String folderId = Browser.env.get("GOOGLE_DRIVE_FOLDER_ID");
+
+        if (folderId == null || folderId.isEmpty()) {
+            return false;
+        }
+
+        try {
+            File fileMetadata = new File();
+            fileMetadata.setName(file.getName());
+            fileMetadata.setParents(Collections.singletonList(folderId));
+            FileContent mediaContent = new FileContent("image/png", file);
+
+            // https://developers.google.com/drive/api/guides/folder#insert_a_file_in_a_folder
+            getDriveService().files().create(fileMetadata, mediaContent)
+                    .setFields("id, parents")
+                    .execute();
+            return true;
+        } catch (Exception exception) {
+            System.out.println("Could not save file to Google Drive: " + exception.getMessage());
         }
         return false;
     }

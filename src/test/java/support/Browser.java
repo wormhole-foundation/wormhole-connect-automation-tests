@@ -143,11 +143,13 @@ public class Browser {
         try {
             File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             String date = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            File destination = new File("screenshots/" + date + "_test_failed.png");
+            File destinationFile = new File("screenshots/" + date + "_test_failed.png");
 
-            FileUtils.copyFile(screenshotFile, destination);
+            FileUtils.copyFile(screenshotFile, destinationFile);
 
-            System.out.println("Saved screenshot to: " + destination.getAbsolutePath());
+            System.out.println("Saved screenshot to: " + destinationFile.getAbsolutePath());
+
+            Google.uploadScreenshot(destinationFile);
         } catch (WebDriverException e) {
             System.err.println("Could not save screenshot");
         } catch (IOException e) {
@@ -183,7 +185,7 @@ public class Browser {
                 Browser.destinationGasFeeUsd
         };
 
-        boolean savedSuccessfully = GoogleSheets.writeResultsToGoogleSpreadsheet(fields);
+        boolean savedSuccessfully = Google.writeResultsToGoogleSpreadsheet(fields);
         if (!savedSuccessfully) {
             // save to results.csv if could not save to Google Sheet
             String s = String.join(";", fields) + "\n";

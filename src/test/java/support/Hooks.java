@@ -9,7 +9,7 @@ import java.util.Date;
 public class Hooks {
     @Before
     public void before() {
-        GoogleSheets.getSheetsService(); // login to Google Sheets
+        Google.getLoggedInUser(); // login to Google Services
 
         Browser.isMainnet = false;
         Browser.url = "";
