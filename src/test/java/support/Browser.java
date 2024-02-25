@@ -145,15 +145,16 @@ public class Browser {
         try {
             File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             String date = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            File destinationFile = new File("screenshots/" + date + "_test_failed.png");
 
-            FileUtils.copyFile(screenshotFile, destinationFile);
-
-            System.out.println("Saved screenshot to: " + destinationFile.getAbsolutePath());
-
-            Google.uploadScreenshot(destinationFile);
+            String fileName = date + "_test_failed.png";
+            boolean uploaded = Google.uploadScreenshot(screenshotFile, fileName);
+            if (!uploaded) {
+                File destinationFile = new File("screenshots/" + fileName);
+                FileUtils.copyFile(screenshotFile, destinationFile);
+            }
         } catch (WebDriverException e) {
             System.err.println("Could not save screenshot");
+            Browser.screenshotUrl = "N/A";
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

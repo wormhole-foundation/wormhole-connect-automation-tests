@@ -101,7 +101,7 @@ public class Google {
         return false;
     }
 
-    public static boolean uploadScreenshot(java.io.File file) {
+    public static boolean uploadScreenshot(java.io.File file, String fileName) {
         String folderId = Browser.env.get("GOOGLE_DRIVE_FOLDER_ID");
 
         if (folderId == null || folderId.isEmpty()) {
@@ -110,7 +110,7 @@ public class Google {
 
         try {
             File fileMetadata = new File();
-            fileMetadata.setName(file.getName());
+            fileMetadata.setName(fileName);
             fileMetadata.setParents(Collections.singletonList(folderId));
             FileContent mediaContent = new FileContent("image/png", file);
 
