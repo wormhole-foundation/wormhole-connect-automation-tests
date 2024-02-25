@@ -291,6 +291,22 @@ public class WormholeConnectSteps {
                         });
 
                 Browser.waitForExtensionWindowToDisappear();
+            } else if (Browser.toWallet.equals("Sui")) {
+                Browser.waitForExtensionWindowToAppear();
+                Browser.findElement(ExtensionPage.SUI_UNLOCK_TO_APPROVE_BUTTON).click();
+
+                Browser.findElement(ExtensionPage.SUI_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
+                Browser.findElement(ExtensionPage.SUI_UNLOCK_BUTTON).click();
+                Thread.sleep(1000);
+
+                Browser.findElement(ExtensionPage.SUI_APPROVE_BUTTON).click();
+                Thread.sleep(1000);
+
+                try {
+                    Browser.findElement(ExtensionPage.SUI_DIALOG_APPROVE_BUTTON).click();
+                } catch (NoSuchElementException ignore) {
+                }
+                Browser.waitForExtensionWindowToDisappear();
             } else {
                 Browser.confirmTransactionInMetaMask(true);
             }
