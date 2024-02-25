@@ -74,3 +74,9 @@ Set `Extension root directory` to "dist/chrome" directory inside metamask-extens
 Click `Pack extension`.
 
 Generated "chrome.crx" can now be installed in Google Chrome for Testing.
+
+# Setup Google Spreadsheets
+
+1. Create a Google Spreadsheet, update `.env` file.
+2. Follow [this guide](https://developers.google.com/sheets/api/quickstart/java) to create `credentials.json` file.
+3. Save `credentials.json` file to `src/test/resources` directory.

@@ -1,8 +1,5 @@
 package support;
 
-import pages.ExtensionPage;
-import pages.PasswordPage;
-import pages.WormholePage;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -22,6 +19,9 @@ import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.ExtensionPage;
+import pages.PasswordPage;
+import pages.WormholePage;
 
 import java.io.File;
 import java.io.IOException;
@@ -157,36 +157,45 @@ public class Browser {
 
     public static void saveResults(String status) {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String s = status +
-                ";" + Browser.fromNetwork +
-                ";" + Browser.toNetwork +
-                ";" + Browser.route +
-                ";" + Browser.url +
-                ";" + Browser.fromAmount +
-                ";" + Browser.fromAsset +
-                ";" + Browser.fromBalance +
-                ";" + Browser.toAmount +
-                ";" + Browser.toAsset +
-                ";" + Browser.toBalance +
-                ";" + Browser.txFrom +
-                ";" + Browser.txTo +
-                ";" + Browser.toFinalBalance +
-                ";" + Browser.toNativeBalance +
-                ";" + Browser.toFinalNativeBalance +
-                ";" + Browser.fromWallet +
-                ";" + Browser.toWallet +
-                ";" + dt.format(Browser.startedAt) +
-                ";" + dt.format(Browser.finishedAt) +
-                ";" + Browser.sourceGasFeeUsd +
-                ";" + Browser.destinationGasFeeUsd +
-                "\n";
-        try {
-            File f = new File("results/results.csv");
-            f.getParentFile().mkdirs();
-            f.createNewFile();
-            Files.write(f.toPath(), s.getBytes(), StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
+
+        String[] fields = {
+                status,
+                Browser.fromNetwork,
+                Browser.toNetwork,
+                Browser.route,
+                Browser.url,
+                Browser.fromAmount,
+                Browser.fromAsset,
+                Browser.fromBalance,
+                Browser.toAmount,
+                Browser.toAsset,
+                Browser.toBalance,
+                Browser.txFrom,
+                Browser.txTo,
+                Browser.toFinalBalance,
+                Browser.toNativeBalance,
+                Browser.toFinalNativeBalance,
+                Browser.fromWallet,
+                Browser.toWallet,
+                dt.format(Browser.startedAt),
+                dt.format(Browser.finishedAt),
+                Browser.sourceGasFeeUsd,
+                Browser.destinationGasFeeUsd
+        };
+
+        boolean savedSuccessfully = GoogleSheets.writeResultsToGoogleSpreadsheet(fields);
+        if (!savedSuccessfully) {
+            // save to results.csv if could not save to Google Sheet
+            String s = String.join(";", fields) + "\n";
+            try {
+                File f = new File("results/results.csv");
+                f.getParentFile().mkdirs();
+                f.createNewFile();
+                Files.write(f.toPath(), s.getBytes(), StandardOpenOption.APPEND);
+
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
 

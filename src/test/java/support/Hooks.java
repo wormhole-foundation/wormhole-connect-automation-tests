@@ -9,6 +9,8 @@ import java.util.Date;
 public class Hooks {
     @Before
     public void before() {
+        GoogleSheets.getSheetsService(); // login to Google Sheets
+
         Browser.isMainnet = false;
         Browser.url = "";
         Browser.startedAt = new Date();

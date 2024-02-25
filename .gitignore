@@ -34,3 +34,5 @@ bin/
 /results/
 .env
 /chrome_profile*/
+
+/src/test/resources/credentials.json
