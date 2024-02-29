@@ -5,6 +5,6 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/testnet/", tags = "not @ignore and not @new", glue = {"steps", "support"})
+@CucumberOptions(features = "src/test/resources/testnet/", tags = "not @ignore and not @wip", glue = {"steps", "support"})
 public class RunAllTests {
 }
