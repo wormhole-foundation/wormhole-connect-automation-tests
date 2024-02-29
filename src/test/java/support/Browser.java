@@ -202,12 +202,12 @@ public class Browser {
         boolean savedSuccessfully = Google.writeResultsToGoogleSpreadsheet(fields);
         if (!savedSuccessfully) {
             // save to results.csv if could not save to Google Sheet
-            String s = String.join(";", fields) + "\n";
+            String csvRow = String.join(";", fields) + "\n";
             try {
-                File f = new File("results/results.csv");
-                f.getParentFile().mkdirs();
-                f.createNewFile();
-                Files.write(f.toPath(), s.getBytes(), StandardOpenOption.APPEND);
+                File csvFile = new File("results/results.csv");
+                csvFile.getParentFile().mkdirs();
+                csvFile.createNewFile();
+                Files.write(csvFile.toPath(), csvRow.getBytes(), StandardOpenOption.APPEND);
 
             } catch (IOException e) {
                 System.err.println(e.getMessage());
