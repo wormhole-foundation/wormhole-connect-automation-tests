@@ -153,7 +153,7 @@ public class Browser {
                 FileUtils.copyFile(screenshotFile, destinationFile);
             }
         } catch (WebDriverException e) {
-            System.err.println("Could not save screenshot");
+            System.err.println("Could not take a screenshot");
             Browser.screenshotUrl = "N/A";
         } catch (IOException e) {
             throw new RuntimeException(e);
