@@ -22,6 +22,7 @@ public class ExtensionPage {
     public static final By PHANTOM_PASSWORD_INPUT = By.cssSelector("[data-testid='unlock-form-password-input']");
     public static final By PHANTOM_SUBMIT_BUTTON = By.cssSelector("[data-testid='unlock-form-submit-button']");
     public static final By PHANTOM_PRIMARY_BUTTON = By.cssSelector("[data-testid='primary-button']");
+    public static final By IGNORE_WARNING_PROCEED_ANYWAY_LINK = By.xpath("//*[text()='Ignore warning, proceed anyway']");
 
     // Sui
 

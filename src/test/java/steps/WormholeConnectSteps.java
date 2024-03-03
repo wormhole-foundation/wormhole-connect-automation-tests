@@ -205,6 +205,10 @@ public class WormholeConnectSteps {
                 Browser.findElement(ExtensionPage.PHANTOM_SUBMIT_BUTTON).click();
                 Thread.sleep(1000);
 
+                WebElement link = Browser.findElementIgnoreIfMissing(10, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK);
+                if (link != null ) {
+                    link.click();
+                }
                 Browser.findElement(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
 
 
@@ -279,6 +283,11 @@ public class WormholeConnectSteps {
                         .until(webDriver -> {
                             if (Browser.extensionWindowIsOpened()) {
                                 Browser.switchToExtensionWindow();
+                                WebElement link = Browser.findElementIgnoreIfMissing(1, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK);
+                                if (link != null ) {
+                                    link.click();
+                                    return null;
+                                }
                                 Browser.findElement(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
                                 try {
                                     Thread.sleep(2000);
