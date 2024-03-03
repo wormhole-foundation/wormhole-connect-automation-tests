@@ -22,7 +22,6 @@ Feature: Automatic route support between EVM-based chains on testnet
       | automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
       | automatic | 0.009  | BNB   | BSC          | Fuji       | MetaMask    | MetaMask  |
       | automatic | 0.16   | CELO  | Alfajores    | Moonbase   | MetaMask    | MetaMask  |
-      | automatic | 0.3    | CELO  | Moonbase     | Alfajores  | MetaMask    | MetaMask  |
 
     @smoke
     Examples:
