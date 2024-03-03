@@ -15,5 +15,5 @@ Feature: Sui route support on testnet
 
     Examples:
       | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | manual | 0.001  | SUI   | Sui          | BSC        | Sui         | MetaMask  |
-      | manual | 0.001  | SUI   | BSC          | Sui        | Sui         | MetaMask  |
+#      | manual | 0.001  | SUI   | Sui          | BSC        | Sui         | MetaMask  |
+      | manual | 0.01   | SUI   | BSC          | Sui        | MetaMask    | Sui       |

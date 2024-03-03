@@ -29,6 +29,8 @@ Feature: Manual route support between EVM-based chains on testnet
       | manual | 0.1    | KLAY  | Klaytn       | Fantom     | MetaMask    | MetaMask  |
       | manual | 0.0001 | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
 
+
+    #not enough MATIC on Mumbai
     @ignore
     Examples:
       | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
@@ -36,5 +38,5 @@ Feature: Manual route support between EVM-based chains on testnet
       | manual | 0.0001 | WAVAX | Mumbai       | BSC        | MetaMask    | MetaMask  |
       | manual | 0.0001 | CELO  | Mumbai       | Fuji       | MetaMask    | MetaMask  |
       | manual | 0.0001 | WFTM  | Mumbai       | Fantom     | MetaMask    | MetaMask  |
-
+#
 
