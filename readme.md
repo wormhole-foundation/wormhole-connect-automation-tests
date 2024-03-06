@@ -1,5 +1,5 @@
 # Setup (MacOS)
-1. Download Chrome for Testing from here: https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/114.0.5735.90/mac-arm64/chrome-mac-arm64.zip
+1. Download Chrome for Testing from here: https://storage.googleapis.com/chrome-for-testing-public/122.0.6261.94/mac-arm64/chrome-mac-arm64.zip
 2. Unzip `chrome-mac-arm64.zip`
 3. Remove "downloaded from internet" attribute:
 ```
