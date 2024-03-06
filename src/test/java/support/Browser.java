@@ -96,7 +96,7 @@ public class Browser {
         try {
             driver = new ChromeDriver(ChromeDriverService.createDefaultService(), opt, config);
         } catch (Exception ex) {
-            System.err.println("Could not start Chrome. Please make sure all test browser windows are closed.");
+            System.err.println("Could not start Chrome. Please make sure all test browser windows are closed. ERROR: " + ex.getMessage());
             System.exit(1);
         }
         Browser.waitSeconds = 10;
