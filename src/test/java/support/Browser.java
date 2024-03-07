@@ -121,7 +121,7 @@ public class Browser {
     }
 
     public static void waitForExtensionWindowToDisappear() {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(d -> !extensionWindowIsOpened());
         switchToMainWindow();
     }
@@ -517,6 +517,8 @@ public class Browser {
                 return "ETH";
             case "Solana":
                 return "SOL";
+            case "Sui":
+                return "SUI";
         }
         throw new RuntimeException("Unsupported network: " + network);
     }
