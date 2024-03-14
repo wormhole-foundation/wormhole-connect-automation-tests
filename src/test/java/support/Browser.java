@@ -443,6 +443,9 @@ public class Browser {
                 return "Etherscan";
             case "Mumbai":
             case "Polygon":
+                if (Browser.isMainnet) {
+                    return "PolygonScan";
+                }
                 return "Polygonscan";
             case "BSC":
                 return "BscScan";
