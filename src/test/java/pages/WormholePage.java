@@ -57,6 +57,6 @@ public class WormholePage {
     }
 
     public static By CHOOSE_ASSET(String wallet) {
-        return By.xpath("//*[text()='" + wallet + "']/../../..");
+        return By.xpath("//*[contains(@class, 'MuiDialog-root')]//*[text()='" + wallet + "']/../../..");
     }
 }
