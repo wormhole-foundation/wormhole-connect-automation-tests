@@ -15,10 +15,10 @@ Feature: Token bridge, Portal Bridge mainnet
 
     Examples:
       | route                  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | automatic-bridge-xlabs | 0.002  | BNB   | BSC          | Polygon    | MetaMask    | MetaMask  |
-      | automatic-bridge-xlabs | 0.5    | MATIC | Polygon      | Sui        | MetaMask    | Sui       |
-      | automatic-bridge-xlabs | 0.8    | CELO  | Celo         | Moonbeam   | MetaMask    | MetaMask  |
-      | automatic-bridge-xlabs | 0.04   | AVAX  | Avalanche    | BSC        | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.002  | BNB   | BSC          | Polygon    | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.5    | MATIC | Polygon      | Sui        | MetaMask    | Sui       |
+      | xlabs-bridge-automatic | 0.8    | CELO  | Celo         | Moonbeam   | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.04   | AVAX  | Avalanche    | BSC        | MetaMask    | MetaMask  |
 
 
   Scenario Outline: Manual Bridge, Wormhole
@@ -35,8 +35,8 @@ Feature: Token bridge, Portal Bridge mainnet
 
     Examples:
       | route                  | amount  | asset | from_network | to_network | from_wallet | to_wallet |
-      | manual-bridge-wormhole | 0.0001  | CELO  | Celo         | Fantom     | MetaMask    | MetaMask  |
-      | manual-bridge-wormhole | 0.0001  | BNB   | BSC          | Moonbeam   | MetaMask    | MetaMask  |
-      | manual-bridge-wormhole | 0.00001 | DAI   | Fantom       | Avalanche  | MetaMask    | MetaMask  |
-      | manual-bridge-wormhole | 0.0001  | SUI   | Moonbeam     | Celo       | MetaMask    | MetaMask  |
-      | manual-bridge-wormhole | 0.0001  | WGLMR | Solana       | Avalanche  | Phantom     | MetaMask  |
+      | wormhole-bridge-manual | 0.0001  | CELO  | Celo         | Fantom     | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.0001  | BNB   | BSC          | Moonbeam   | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.00001 | DAI   | Fantom       | Avalanche  | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.0001  | SUI   | Moonbeam     | Celo       | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.0001  | WGLMR | Solana       | Avalanche  | Phantom     | MetaMask  |

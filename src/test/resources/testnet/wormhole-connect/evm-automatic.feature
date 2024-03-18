@@ -1,6 +1,6 @@
-Feature: Automatic route support between EVM-based chains on testnet
+Feature: EVM based chains
 
-  Scenario Outline:
+  Scenario Outline: Automatic route from Celo
     Given I launch testnet browser
     Given I open wormhole-connect testnet
     And I enter page password
@@ -16,23 +16,37 @@ Feature: Automatic route support between EVM-based chains on testnet
 
 
     Examples:
-      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | automatic | 0.003  | AVAX  | Fuji         | Mumbai     | MetaMask    | MetaMask  |
-      | automatic | 0.003  | AVAX  | Fuji         | Fantom     | MetaMask    | MetaMask  |
-      | automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
-      | automatic | 0.009  | BNB   | BSC          | Fuji       | MetaMask    | MetaMask  |
-      | automatic | 0.16   | CELO  | Alfajores    | Moonbase   | MetaMask    | MetaMask  |
+      | route                  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | xlabs-bridge-automatic | 0.003  | AVAX  | Fuji         | Mumbai     | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.003  | AVAX  | Fuji         | Fantom     | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.009  | BNB   | BSC          | Fuji       | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.16   | CELO  | Alfajores    | Moonbase   | MetaMask    | MetaMask  |
 
     @smoke
     Examples:
-      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
+      | route                  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | xlabs-bridge-automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
 
 
-    @ignore
-    Examples:
-      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | automatic | 0.15   | MATIC | Mumbai       | Alfajores  | MetaMask    | MetaMask  |
-      | automatic | 0.15   | MATIC | Mumbai       | Moonbase   | MetaMask    | MetaMask  |
-      | automatic | 0.005  | ETH   | Goerli       | Fuji       | MetaMask    | MetaMask  |
-      | automatic | 0.0014 | ETH   | Goerli       | BSC        | MetaMask    | MetaMask  |
+#    Examples:
+#      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
+#      | automatic | 0.003  | AVAX  | Fuji         | Mumbai     | MetaMask    | MetaMask  |
+#      | automatic | 0.003  | AVAX  | Fuji         | Fantom     | MetaMask    | MetaMask  |
+#      | automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
+#      | automatic | 0.009  | BNB   | BSC          | Fuji       | MetaMask    | MetaMask  |
+#      | automatic | 0.16   | CELO  | Alfajores    | Moonbase   | MetaMask    | MetaMask  |
+
+#    @smoke
+#    Examples:
+#      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
+#      | automatic | 0.001  | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
+#
+#
+#    @ignore
+#    Examples:
+#      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
+#      | automatic | 0.15   | MATIC | Mumbai       | Alfajores  | MetaMask    | MetaMask  |
+#      | automatic | 0.15   | MATIC | Mumbai       | Moonbase   | MetaMask    | MetaMask  |
+#      | automatic | 0.005  | ETH   | Goerli       | Fuji       | MetaMask    | MetaMask  |
+#      | automatic | 0.0014 | ETH   | Goerli       | BSC        | MetaMask    | MetaMask  |

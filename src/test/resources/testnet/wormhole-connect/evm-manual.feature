@@ -14,29 +14,15 @@ Feature: Manual route support between EVM-based chains on testnet
 
 
     Examples:
-      | route  | amount | asset  | from_network | to_network | from_wallet | to_wallet |
-      | manual | 0.0001 | BNB    | BSC          | Alfajores  | MetaMask    | MetaMask  |
-      | manual | 0.0001 | WGLMR  | BSC          | Moonbase   | MetaMask    | MetaMask  |
-      | manual | 0.0001 | WMATIC | BSC          | Fuji       | MetaMask    | MetaMask  |
-      | manual | 0.0001 | AVAX   | Fuji         | Fantom     | MetaMask    | MetaMask  |
-      | manual | 0.0001 | AVAX   | Fuji         | Goerli     | MetaMask    | MetaMask  |
-      | manual | 0.1    | KLAY   | Klaytn       | Fantom     | MetaMask    | MetaMask  |
-      | manual | 0.1    | KLAY   | Klaytn       | Moonbase   | MetaMask    | MetaMask  |
-
-    @smoke
-    Examples:
-      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | manual | 0.1    | KLAY  | Klaytn       | Fantom     | MetaMask    | MetaMask  |
-      | manual | 0.0001 | BNB   | BSC          | Alfajores  | MetaMask    | MetaMask  |
+      | route                  | amount | asset  | from_network | to_network | from_wallet | to_wallet |
+      | wormhole-bridge-manual | 0.0001 | BNB    | BSC          | Alfajores  | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.0001 | WGLMR  | BSC          | Moonbase   | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.0001 | WMATIC | BSC          | Fuji       | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.0001 | AVAX   | Fuji         | Fantom     | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.0001 | AVAX   | Fuji         | Goerli     | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.1    | KLAY   | Klaytn       | Fantom     | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.1    | KLAY   | Klaytn       | Moonbase   | MetaMask    | MetaMask  |
 
 
-    #not enough MATIC on Mumbai
-    @ignore
-    Examples:
-      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | manual | 0.0001 | MATIC | Mumbai       | Goerli     | MetaMask    | MetaMask  |
-      | manual | 0.0001 | WAVAX | Mumbai       | BSC        | MetaMask    | MetaMask  |
-      | manual | 0.0001 | CELO  | Mumbai       | Fuji       | MetaMask    | MetaMask  |
-      | manual | 0.0001 | WFTM  | Mumbai       | Fantom     | MetaMask    | MetaMask  |
-#
+
 

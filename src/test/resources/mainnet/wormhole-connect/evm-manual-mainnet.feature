@@ -14,6 +14,6 @@ Feature: Manual route support between EVM-based chains on mainnet
 
 
     Examples:
-      | route  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | manual | 0.0001 | CELO  | Celo         | Fantom     | MetaMask    | MetaMask  |
-      | manual | 0.0001 | BNB   | BSC          | Moonbeam   | MetaMask    | MetaMask  |
+      | route                  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | wormhole-bridge-manual | 0.0001 | CELO  | Celo         | Fantom     | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.0001 | BNB   | BSC          | Moonbeam   | MetaMask    | MetaMask  |

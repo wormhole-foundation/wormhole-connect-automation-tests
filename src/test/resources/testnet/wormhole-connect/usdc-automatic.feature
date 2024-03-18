@@ -17,6 +17,7 @@ Feature: CCTP automatic route support on testnet
 
     # Transactions between Goerli, Mumbai, Fuji, Base Goerli, Arbitrum Goerli, Optimism Goerli
 
+    @smoke
     Examples:
       | route            | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | circle-automatic | 1.1    | USDC  | Mumbai       | Fuji       | MetaMask    | MetaMask  |

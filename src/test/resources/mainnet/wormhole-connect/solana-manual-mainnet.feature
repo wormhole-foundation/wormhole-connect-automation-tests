@@ -14,15 +14,9 @@ Feature: Manual route support to and from Solana on mainnet
 
 
     Examples:
-      | route  | amount  | asset | from_network | to_network | from_wallet | to_wallet |
-      | manual | 0.00001 | SOL   | Solana       | Avalanche  | Phantom     | MetaMask  |
-      | manual | 0.00001 | BNB   | BSC          | Solana     | MetaMask    | Phantom   |
-
-
-    @ignore
-    Examples:
-      | route  | amount  | asset | from_network | to_network | from_wallet | to_wallet |
-      | manual | 0.00001 | SOL   | Solana       | Avalanche  | Phantom     | MetaMask  |
-      | manual | 0.00001 | SOL   | Solana       | Fantom     | Phantom     | MetaMask  |
-      | manual | 0.00001 | BNB   | BSC          | Solana     | MetaMask    | Phantom   |
-      | manual | 0.00001 | SOL   | Solana       | Solana     | MetaMask    | Phantom   |
+      | route                  | amount  | asset | from_network | to_network | from_wallet | to_wallet |
+      | wormhole-bridge-manual | 0.00001 | SOL   | Solana       | Fantom     | Phantom     | MetaMask  |
+      | wormhole-bridge-manual | 0.00001 | SOL   | Solana       | Avalanche  | Phantom     | MetaMask  |
+      | wormhole-bridge-manual | 0.00001 | SOL   | Solana       | BSC        | Phantom     | MetaMask  |
+      | wormhole-bridge-manual | 0.00001 | BNB   | BSC          | Solana     | MetaMask    | Phantom   |
+      | wormhole-bridge-manual | 0.00001 | SOL   | Solana       | Solana     | MetaMask    | Phantom   |

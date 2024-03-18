@@ -16,8 +16,8 @@ Feature: Automatic route support between EVM-based chains on mainnet
 
 
     Examples:
-      | route     | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | automatic | 2.5    | FTM   | Fantom       | Celo       | MetaMask    | MetaMask  |
-      | automatic | 0.03   | AVAX  | Avalanche    | Moonbeam   | MetaMask    | MetaMask  |
+      | route                  | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | xlabs-bridge-automatic | 2.5    | FTM   | Fantom       | Celo       | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.03   | AVAX  | Avalanche    | Moonbeam   | MetaMask    | MetaMask  |
 
 

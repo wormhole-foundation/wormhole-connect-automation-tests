@@ -109,7 +109,7 @@ public class WormholeConnectSteps {
         Browser.toBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.DESTINATION_BALANCE_TEXT);
 
         switch (route) {
-            case "automatic-bridge-xlabs":
+            case "xlabs-bridge-automatic":
                 // choose Manual and then again Automatic to enable native gas section
                 Browser.findElement(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
                 Thread.sleep(1000);
@@ -118,11 +118,14 @@ public class WormholeConnectSteps {
                 Browser.findElement(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
                 Thread.sleep(1000);
                 break;
-            case "manual-bridge-wormhole":
+            case "wormhole-bridge-manual":
                 Browser.findElement(WormholePage.MANUAL_BRIDGE_OPTION).click();
                 break;
-            case "cosmos":
-                Browser.findElement(WormholePage.COSMOS_GATEWAY_OPTION).click();
+            case "cosmos-manual":
+                Browser.findElement(WormholePage.COSMOS_MANUAL_GATEWAY_OPTION).click();
+                break;
+            case "cosmos-automatic":
+                Browser.findElement(WormholePage.COSMOS_AUTOMATIC_GATEWAY_OPTION).click();
                 break;
             case "circle-manual":
                 Browser.findElement(WormholePage.CIRCLE_MANUAL_OPTION).click();
@@ -265,7 +268,7 @@ public class WormholeConnectSteps {
 
     @Then("I should claim assets")
     public void iShouldClaimAssets() throws InterruptedException {
-        if (Browser.route.equals("manual-bridge-wormhole") || Browser.route.equals("circle-manual")) {
+        if (Browser.route.equals("wormhole-bridge-manual") || Browser.route.equals("circle-manual") || Browser.route.equals("cosmos-manual") ) {
             System.out.println("Waiting for the Claim button...");
             Browser.findElement(3600, WormholePage.CLAIM_BUTTON);
             Thread.sleep(5000);
