@@ -467,11 +467,13 @@ public class Browser {
             case "Base":
                 return "BaseScan";
             case "Arbitrum Goerli":
-            case "Arbitrum":
                 return "Arbitrum Goerli Explorer";
+            case "Arbitrum":
+                return "Arbitrum Explorer";
             case "Optimism Goerli":
+                return "Optimistic Goerli";
             case "Optimism":
-                return "Optimism Goerli";
+                return "Optimistic Etherscan";
             case "Solana":
                 return "Solana Explorer";
             case "Sui":
