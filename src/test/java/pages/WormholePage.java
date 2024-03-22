@@ -20,7 +20,7 @@ public class WormholePage {
 
     public static final By AUTOMATIC_BRIDGE_OPTION = By.xpath("//*[contains(text(),'Automatic Bridge')]"); // data-testid="automatic-route-option"
     public static final By MANUAL_BRIDGE_OPTION = By.xpath("//*[contains(text(),'Manual Bridge')]"); // data-testid="manual-route-option"
-    public static final By COSMOS_AUTOMATIC_GATEWAY_OPTION = By.xpath("//*[contains(text(),'Cosmos Gateway')][2]");
+    public static final By COSMOS_AUTOMATIC_GATEWAY_OPTION = By.xpath("//*[contains(text(),'Receive tokens automatically')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]");
     public static final By COSMOS_MANUAL_GATEWAY_OPTION = By.xpath("//*[contains(text(),'Cosmos Gateway')]"); // data-testid="cosmos-gateway-route-option"
     public static final By CIRCLE_AUTOMATIC_OPTION = By.xpath("//*[contains(text(),'Receive tokens automatically')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]"); // data-testid="circle-automatic-route-option"
     public static final By CIRCLE_MANUAL_OPTION = By.xpath("//*[contains(text(),'Approve transfer with destination wallet')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]"); // data-testid="circle-manual-route-option"
