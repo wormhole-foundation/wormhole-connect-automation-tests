@@ -46,7 +46,7 @@ public class WormholePage {
     }
 
     public static By OPEN_ASSET_LIST() {
-        return By.xpath("//*[contains(text(), '" + Browser.toAsset + "')]");
+        return By.xpath("//*[contains(@class, 'MuiScopedCssBaseline-root')]//*[contains(text(), '" + Browser.toAsset + "')]");
     }
 
     public static By CHOOSE_WALLET(String wallet) {
