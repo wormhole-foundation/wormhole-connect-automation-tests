@@ -16,7 +16,7 @@ Feature: CCTP route, Portal Bridge mainnet
     Examples:
       | route            | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | circle-automatic | 2      | USDC  | Base         | Polygon    | MetaMask    | MetaMask  |
-
+      | circle-automatic | 1.5    | USDC  | Optimism     | Arbitrum   | MetaMask    | MetaMask  |
 
 
   Scenario Outline: Manual
