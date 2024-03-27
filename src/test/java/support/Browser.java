@@ -58,6 +58,7 @@ public class Browser {
     public static String sourceGasFeeUsd = "";
     public static String destinationGasFeeUsd = "";
     public static String screenshotUrl = "";
+    public static boolean isBlocked = false;
 
     public static int waitSeconds = 10;
     public static String toNativeBalance = "";
@@ -363,7 +364,7 @@ public class Browser {
             Thread.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
-        System.out.println("Going to confirm warning on Moonbase network (if MetaMask requires it)...");
+        System.out.println("Going to confirm warning (if MetaMask requires it)...");
         try {
             Browser.findElement(2, ExtensionPage.METAMASK_GOT_IT_BUTTON).click();
             Thread.sleep(2000);
@@ -394,7 +395,10 @@ public class Browser {
                                 } else {
                                     Browser.sourceGasFeeUsd = gasFeeText;
                                 }
-                                Assert.assertTrue(gasFeeUsd < 3.0);
+                                if (gasFeeUsd >= 3.0) {
+                                    Browser.isBlocked = true;
+                                    Assert.fail("Fee exceeds 3$ in MetaMask");
+                                }
                             } catch (NoSuchElementException | NumberFormatException ignore) {
                             }
                         }

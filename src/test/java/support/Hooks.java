@@ -32,6 +32,7 @@ public class Hooks {
         Browser.sourceGasFeeUsd = "";
         Browser.destinationGasFeeUsd = "";
         Browser.screenshotUrl = "";
+        Browser.isBlocked = false;
 
         Browser.metaMaskWasUnlocked = false;
         Browser.phantomWasUnlocked = false;
@@ -45,8 +46,11 @@ public class Hooks {
         }
 
         Browser.finishedAt = new Date();
-        Browser.saveResults(scenario.isFailed() ? "fail" : "pass");
-
+        if (Browser.isBlocked) {
+            Browser.saveResults("blocked");
+        } else {
+            Browser.saveResults(scenario.isFailed() ? "fail" : "pass");
+        }
         Browser.quit();
     }
 }
