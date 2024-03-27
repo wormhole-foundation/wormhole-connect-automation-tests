@@ -16,6 +16,7 @@ public class WormholePage {
     public static final By DESTINATION_ASSET_BUTTON = By.xpath("(//*[text()='Asset']/following-sibling::*)[2]"); // see DESTINATION_ASSET_TEXT
     public static final By DESTINATION_ASSET_TEXT = By.xpath("(//*[text()='Asset']/following-sibling::*)[2]"); // data-testid="destination-section-asset-text"
     public static final By DESTINATION_AMOUNT_INPUT = By.xpath("(//*[text()='Amount']/following-sibling::*/input)[2]"); // data-testid="destination-section-amount-input"
+    public static final By DESTINATION_AMOUNT_INPUT_ETH_BRIDGE = By.xpath("//*[text()='Expected Amount (-0.05%)']/following-sibling::*/input");
     public static final By DESTINATION_BALANCE_TEXT = By.xpath("(//*[text()='Balance']/following-sibling::*)[2]"); // data-testid="destination-section-balance-text"
 
     public static final By AUTOMATIC_BRIDGE_OPTION = By.xpath("//*[contains(text(),'Automatic Bridge')]"); // data-testid="automatic-route-option"
@@ -24,6 +25,7 @@ public class WormholePage {
     public static final By COSMOS_MANUAL_GATEWAY_OPTION = By.xpath("//*[contains(text(),'Cosmos Gateway')]"); // data-testid="cosmos-gateway-route-option"
     public static final By CIRCLE_AUTOMATIC_OPTION = By.xpath("//*[contains(text(),'Receive tokens automatically')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]"); // data-testid="circle-automatic-route-option"
     public static final By CIRCLE_MANUAL_OPTION = By.xpath("//*[contains(text(),'Approve transfer with destination wallet')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]"); // data-testid="circle-manual-route-option"
+    public static final By ETH_BRIDGE_AUTOMATIC_OPTION = By.xpath("//*[contains(text(),'Receive tokens automatically')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]");
     public static final By SLIDER_THUMB = By.cssSelector(".MuiSlider-thumb");
 
     public static final By POPUP_CLOSE_BUTTON = By.cssSelector("[data-testid='CloseIcon']");
