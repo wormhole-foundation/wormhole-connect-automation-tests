@@ -105,7 +105,7 @@ public class WormholeConnectSteps {
 
         Browser.toAsset = Browser.findElement(WormholePage.DESTINATION_ASSET_BUTTON).getText();
         Browser.toAsset = Browser.toAsset.split("\n")[0]; // "CELO\n(Alfajores)" -> "CELO"
-        if (Browser.route.equals("eth-bridge-automatic")) {
+        if (Browser.route.equals("eth-bridge-automatic") || Browser.route.equals("wst-eth-bridge-automatic")) {
             Browser.toAmount = Browser.findElement(WormholePage.DESTINATION_AMOUNT_INPUT_ETH_BRIDGE).getAttribute("value");
         } else {
             Browser.toAmount = Browser.findElement(WormholePage.DESTINATION_AMOUNT_INPUT).getAttribute("value");
@@ -144,6 +144,9 @@ public class WormholeConnectSteps {
                 Thread.sleep(1000);
                 break;
             case "eth-bridge-automatic":
+                Browser.findElement(WormholePage.ETH_BRIDGE_AUTOMATIC_OPTION).click();
+                break;
+            case "wst-eth-bridge-automatic":
                 Browser.findElement(WormholePage.ETH_BRIDGE_AUTOMATIC_OPTION).click();
                 break;
         }
