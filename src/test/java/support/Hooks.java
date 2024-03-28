@@ -37,6 +37,7 @@ public class Hooks {
         Browser.metaMaskWasUnlocked = false;
         Browser.phantomWasUnlocked = false;
         Browser.leapWasUnlocked = false;
+        Browser.spikaWasUnlocked = false;
     }
 
     @After

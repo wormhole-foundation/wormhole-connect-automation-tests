@@ -37,4 +37,10 @@ public class ExtensionPage {
     public static final By LEAP_PASSWORD_INPUT = By.cssSelector("[data-testing-id='login-input-enter-password']");
     public static final By LEAP_UNLOCK_BUTTON = By.cssSelector("[data-testing-id='btn-unlock-wallet']");
     public static final By LEAP_APPROVE_BUTTON = By.xpath("//*[text()='Approve']");
+
+    // Spika
+    public static final By SPIKA_PASSWORD_INPUT = By.cssSelector("#login-prompt");
+    public static final By SPIKA_LOGIN_BUTTON = By.xpath("//button[text()='Login']");
+    public static final By SPIKA_APPROVE_BUTTON = By.xpath("//button[text()='Approve']");
+
 }
