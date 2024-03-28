@@ -492,6 +492,8 @@ public class Browser {
                 return "Klaytn Scope";
             case "Aptos":
                 return "Aptos Explorer";
+            case "Injective":
+                return "Injective Explorer";
         }
         throw new RuntimeException("Unsupported network: " + network);
     }
