@@ -1,4 +1,4 @@
-Feature: Token bridge, Portal Bridge mainnet
+Feature: Token bridge, wormhole-connect mainnet
 
   Scenario Outline: Automatic Bridge, xLabs
     Given I launch mainnet browser

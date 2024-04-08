@@ -15,16 +15,6 @@ Feature: CCTP automatic route support on testnet
     Then I check balance has increased on destination chain
 
 
-    # Transactions between Goerli, Mumbai, Fuji, Base Goerli, Arbitrum Goerli, Optimism Goerli
-
-    @smoke
-    Examples:
-      | route            | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | circle-automatic | 1.1    | USDC  | Mumbai       | Fuji       | MetaMask    | MetaMask  |
-      | circle-automatic | 1.1    | USDC  | Fuji         | Mumbai     | MetaMask    | MetaMask  |
-
-
-    @ignore
     Examples:
       | route            | amount | asset | from_network    | to_network      | from_wallet | to_wallet |
       | circle-automatic | 1.1    | USDC  | Goerli          | Base Goerli     | MetaMask    | MetaMask  |

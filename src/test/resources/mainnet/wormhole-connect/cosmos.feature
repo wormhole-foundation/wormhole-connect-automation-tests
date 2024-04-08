@@ -16,7 +16,7 @@ Feature: Cosmos route, wormhole-connect mainnet
       | cosmos-automatic | 0.0001 | CELO  | Kujira       | Osmosis    | Leap        | Leap      |
       | cosmos-automatic | 0.0001 | CELO  | Osmosis      | Kujira     | Leap        | Leap      |
       | cosmos-automatic | 0.0001 | APT   | Evmos        | Kujira     | Leap        | Leap      |
-      | cosmos-automatic | 0.0001 | APT   | Injective        | Kujira     | Leap        | Leap      |
+      | cosmos-automatic | 0.0001 | APT   | Injective    | Kujira     | Leap        | Leap      |
 
 
   Scenario Outline: Manual
