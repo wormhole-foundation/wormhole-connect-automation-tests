@@ -66,6 +66,7 @@ public class Browser {
     public static boolean metaMaskWasUnlocked = false;
     public static boolean phantomWasUnlocked = false;
     public static boolean leapWasUnlocked = false;
+    public static boolean spikaWasUnlocked = false;
 
     public static void main(String[] args) {
         launch();
@@ -444,6 +445,7 @@ public class Browser {
         switch (network) {
             case "Goerli":
             case "Ethereum":
+            case "Sepolia":
                 return "Etherscan";
             case "Mumbai":
             case "Polygon":
@@ -489,6 +491,10 @@ public class Browser {
                 return "MintScan";
             case "Klaytn":
                 return "Klaytn Scope";
+            case "Aptos":
+                return "Aptos Explorer";
+            case "Injective":
+                return "Injective Explorer";
         }
         throw new RuntimeException("Unsupported network: " + network);
     }

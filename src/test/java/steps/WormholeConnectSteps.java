@@ -69,7 +69,7 @@ public class WormholeConnectSteps {
 
         System.out.println("I prepare to send " + Browser.fromAmount + " " + Browser.fromAsset + " from " + Browser.fromNetwork + " to " + Browser.toWallet);
 
-        if (Browser.route.equals("automatic")) {
+        if (Browser.route.equals("xlabs-bridge-automatic") || Browser.route.equals("circle-automatic")) {
             Assert.assertNotEquals("Native balance was not checked", "", Browser.toNativeBalance);
         }
 
@@ -91,6 +91,18 @@ public class WormholeConnectSteps {
 
             Browser.waitForExtensionWindowToDisappear();
             Browser.metaMaskWasUnlocked = true;
+        }
+
+        if (Browser.toWallet.equals("Leap") && !Browser.leapWasUnlocked) {
+            Browser.waitForExtensionWindowToAppear();
+
+            Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
+            Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
+
+            Browser.waitForExtensionWindowToDisappear();
+            Thread.sleep(1000);
+
+            Browser.leapWasUnlocked = true;
         }
 
         Browser.findElement(WormholePage.SOURCE_AMOUNT_INPUT).sendKeys(amount);
@@ -167,7 +179,7 @@ public class WormholeConnectSteps {
         Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
         System.out.println(Browser.toFinalBalance + " " + Browser.toAsset);
 
-        if (Browser.route.equals("automatic") || Browser.route.equals("circle-automatic")) {
+        if (Browser.route.equals("xlabs-bridge-automatic") || Browser.route.equals("circle-automatic")) {
             String nativeAsset = Browser.getNativeAssetByNetworkName(Browser.toNetwork);
 
             System.out.println("Checking native asset (" + nativeAsset + ") balance on " + Browser.toNetwork + " (" + Browser.toWallet + ")");
@@ -251,6 +263,18 @@ public class WormholeConnectSteps {
 
                 Browser.waitForExtensionWindowToDisappear();
                 break;
+            case "Spika":
+                Browser.waitForExtensionWindowToAppear();
+
+                Browser.findElement(ExtensionPage.SPIKA_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SPIKA"));
+                Browser.findElement(ExtensionPage.SPIKA_LOGIN_BUTTON).click();
+                Thread.sleep(2000);
+
+                Browser.findElement(ExtensionPage.SPIKA_APPROVE_BUTTON).click();
+                Thread.sleep(1000);
+
+                Browser.waitForExtensionWindowToDisappear();
+                break;
         }
 
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(120));
@@ -329,7 +353,25 @@ public class WormholeConnectSteps {
                 } catch (NoSuchElementException ignore) {
                 }
                 Browser.waitForExtensionWindowToDisappear();
-            } else {
+            } else if (Browser.toWallet.equals("Spika")) {
+                Browser.waitForExtensionWindowToAppear();
+
+                Browser.findElement(ExtensionPage.SPIKA_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SPIKA"));
+                Browser.findElement(ExtensionPage.SPIKA_LOGIN_BUTTON).click();
+                Thread.sleep(2000);
+
+                Browser.findElement(ExtensionPage.SPIKA_APPROVE_BUTTON).click();
+                Thread.sleep(1000);
+
+                Browser.waitForExtensionWindowToDisappear();
+            } else if (Browser.toWallet.equals("Leap")) {
+                Browser.waitForExtensionWindowToAppear();
+                Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
+                Thread.sleep(1000);
+
+                Browser.waitForExtensionWindowToDisappear();
+            }
+            else {
                 Browser.confirmTransactionInMetaMask(true);
             }
         }

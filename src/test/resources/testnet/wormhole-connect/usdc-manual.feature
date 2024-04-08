@@ -12,17 +12,9 @@ Feature: CCTP manual route support on testnet
     Then I should see Send To link
     Then I check balance has increased on destination chain
 
-    # Transactions between Goerli, Mumbai, Fuji, Base Goerli, Arbitrum Goerli, Optimism Goerli
 
-    @smoke
     Examples:
       | route         | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | circle-manual | 0.0001 | USDC  | Mumbai       | Fuji       | MetaMask    | MetaMask  |
       | circle-manual | 0.0001 | USDC  | Fuji         | Mumbai     | MetaMask    | MetaMask  |
-
-    @ignore
-    Examples:
-      | route         | amount | asset | from_network | to_network      | from_wallet | to_wallet |
-      | circle-manual | 0.0001 | USDC  | Mumbai       | Arbitrum Goerli | MetaMask    | MetaMask  |
-      | circle-manual | 0.0001 | USDC  | Goerli       | Optimism Goerli | MetaMask    | MetaMask  |
 
