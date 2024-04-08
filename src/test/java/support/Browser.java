@@ -445,6 +445,7 @@ public class Browser {
         switch (network) {
             case "Goerli":
             case "Ethereum":
+            case "Sepolia":
                 return "Etherscan";
             case "Mumbai":
             case "Polygon":
