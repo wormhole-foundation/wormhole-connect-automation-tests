@@ -341,7 +341,19 @@ public class WormholeConnectSteps {
                 } catch (NoSuchElementException ignore) {
                 }
                 Browser.waitForExtensionWindowToDisappear();
-            } else {
+            } else if (Browser.toWallet.equals("Spika")) {
+                Browser.waitForExtensionWindowToAppear();
+
+                Browser.findElement(ExtensionPage.SPIKA_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SPIKA"));
+                Browser.findElement(ExtensionPage.SPIKA_LOGIN_BUTTON).click();
+                Thread.sleep(2000);
+
+                Browser.findElement(ExtensionPage.SPIKA_APPROVE_BUTTON).click();
+                Thread.sleep(1000);
+
+                Browser.waitForExtensionWindowToDisappear();
+            }
+            else {
                 Browser.confirmTransactionInMetaMask(true);
             }
         }
