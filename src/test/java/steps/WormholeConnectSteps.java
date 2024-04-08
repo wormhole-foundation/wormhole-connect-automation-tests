@@ -93,6 +93,18 @@ public class WormholeConnectSteps {
             Browser.metaMaskWasUnlocked = true;
         }
 
+        if (Browser.toWallet.equals("Leap") && !Browser.leapWasUnlocked) {
+            Browser.waitForExtensionWindowToAppear();
+
+            Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
+            Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
+
+            Browser.waitForExtensionWindowToDisappear();
+            Thread.sleep(1000);
+
+            Browser.leapWasUnlocked = true;
+        }
+
         Browser.findElement(WormholePage.SOURCE_AMOUNT_INPUT).sendKeys(amount);
         Thread.sleep(1000);
 
@@ -349,6 +361,12 @@ public class WormholeConnectSteps {
                 Thread.sleep(2000);
 
                 Browser.findElement(ExtensionPage.SPIKA_APPROVE_BUTTON).click();
+                Thread.sleep(1000);
+
+                Browser.waitForExtensionWindowToDisappear();
+            } else if (Browser.toWallet.equals("Leap")) {
+                Browser.waitForExtensionWindowToAppear();
+                Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
                 Thread.sleep(1000);
 
                 Browser.waitForExtensionWindowToDisappear();
