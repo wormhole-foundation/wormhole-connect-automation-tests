@@ -43,6 +43,15 @@ Feature: Token bridge, wormhole-connect testnet
       | xlabs-bridge-automatic | 0.6    | FTM   | Fantom       | Sui        | MetaMask    | Sui       |
       | xlabs-bridge-automatic | 0.16   | CELO  | Alfajores    | Moonbase   | MetaMask    | MetaMask  |
       | xlabs-bridge-automatic | 0.16   | CELO  | Alfajores    | Fantom     | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.16   | CELO  | Alfajores    | Mumbai     | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.16   | CELO  | Alfajores    | BSC        | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.16   | CELO  | Alfajores    | Fuji       | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 1.2    | CELO  | Alfajores    | Solana     | MetaMask    | Phantom   |
+      | xlabs-bridge-automatic | 0.7    | CELO  | Alfajores    | Sui        | MetaMask    | Sui       |
+      | xlabs-bridge-automatic | 0.3    | GLMR  | Moonbase     | Mumbai     | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.4    | GLMR  | Moonbase     | Fantom     | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.4    | GLMR  | Moonbase     | Alfajores  | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 1.5    | GLMR  | Moonbase     | Sui        | MetaMask    | Sui       |
 
 
   Scenario Outline: Manual route
