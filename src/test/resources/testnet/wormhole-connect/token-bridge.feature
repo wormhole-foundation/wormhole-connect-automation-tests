@@ -42,6 +42,7 @@ Feature: Token bridge, wormhole-connect testnet
       | xlabs-bridge-automatic | 2      | FTM   | Fantom       | Solana     | MetaMask    | Phantom   |
       | xlabs-bridge-automatic | 0.6    | FTM   | Fantom       | Sui        | MetaMask    | Sui       |
       | xlabs-bridge-automatic | 0.16   | CELO  | Alfajores    | Moonbase   | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.16   | CELO  | Alfajores    | Fantom     | MetaMask    | MetaMask  |
 
 
   Scenario Outline: Manual route
