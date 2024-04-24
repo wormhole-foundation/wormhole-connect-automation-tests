@@ -37,6 +37,8 @@ public class Browser {
     public static Dotenv env;
     private static final SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
+    public static String emailAddress;
+
     public static boolean isMainnet = false;
     public static String url = "";
     public static Date startedAt;
@@ -85,6 +87,7 @@ public class Browser {
 
         env = Dotenv.load();
         Google.getLoggedInUser(); // login to Google Services
+        Browser.emailAddress = Google.getEmailAddress();
 
         ChromeOptions opt = new ChromeOptions();
         if (System.getProperty("os.name").startsWith("Windows")) {
@@ -167,6 +170,7 @@ public class Browser {
         SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy-MM-dd");
 
         String[] fields = {
+                Browser.emailAddress,
                 status,
                 Browser.fromNetwork,
                 Browser.toNetwork,
@@ -544,37 +548,39 @@ public class Browser {
         Browser.findElement(WormholePage.CHOOSE_NETWORK(network)).click();
         Thread.sleep(1000);
 
-        Browser.findElement(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
-        Browser.findElement(WormholePage.CHOOSE_WALLET(wallet)).click();
+        if (!Browser.metaMaskWasUnlocked) {
+            Browser.findElement(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
+            Browser.findElement(WormholePage.CHOOSE_WALLET(wallet)).click();
 
-        if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
-            Browser.waitForExtensionWindowToAppear();
+            if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
+                Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElement(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
-            Browser.findElement(ExtensionPage.METAMASK_UNLOCK_BUTTON).click();
+                Browser.findElement(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
+                Browser.findElement(ExtensionPage.METAMASK_UNLOCK_BUTTON).click();
 
-            try {
-                System.out.println("Going to Reject a pending transaction (if it exists)...");
-                Browser.findElement(3, ExtensionPage.METAMASK_CANCEL_BUTTON).click();
-            } catch (NoSuchElementException ignore) {
+                try {
+                    System.out.println("Going to Reject a pending transaction (if it exists)...");
+                    Browser.findElement(3, ExtensionPage.METAMASK_CANCEL_BUTTON).click();
+                } catch (NoSuchElementException ignore) {
+                }
+
+                Browser.waitForExtensionWindowToDisappear();
+                Thread.sleep(1000);
+
+                Browser.metaMaskWasUnlocked = true;
             }
 
-            Browser.waitForExtensionWindowToDisappear();
-            Thread.sleep(1000);
+            if (wallet.equals("Leap") && !Browser.leapWasUnlocked) {
+                Browser.waitForExtensionWindowToAppear();
 
-            Browser.metaMaskWasUnlocked = true;
-        }
+                Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
+                Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
 
-        if (wallet.equals("Leap") && !Browser.leapWasUnlocked) {
-            Browser.waitForExtensionWindowToAppear();
+                Browser.waitForExtensionWindowToDisappear();
+                Thread.sleep(1000);
 
-            Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
-            Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
-
-            Browser.waitForExtensionWindowToDisappear();
-            Thread.sleep(1000);
-
-            Browser.leapWasUnlocked = true;
+                Browser.leapWasUnlocked = true;
+            }
         }
 
         Browser.findElement(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();

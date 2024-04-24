@@ -81,3 +81,4 @@ Generated "chrome.crx" can now be installed in Google Chrome for Testing.
 2. Follow [this guide](https://developers.google.com/sheets/api/quickstart/java) to create `credentials.json` file.
 3. Save `credentials.json` file to `src/test/resources` directory.
 4. Follow [this guide](https://developers.google.com/drive/api/quickstart/java) to enable Google Drive API.
+5. Follow [this guide](https://developers.google.com/people/quickstart/java) to enable People API.

@@ -15,6 +15,7 @@
         <google-api-client.version>1.23.0</google-api-client.version>
         <google-api-services-sheets.version>v4-rev493-1.23.0</google-api-services-sheets.version>
         <google-api-services-drive.version>v3-rev197-1.25.0</google-api-services-drive.version>
+        <google-api-services-people.version>v1-rev537-1.25.0</google-api-services-people.version>
     </properties>
 
     <dependencies>
@@ -77,6 +78,11 @@
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-drive</artifactId>
             <version>${google-api-services-drive.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-people</artifactId>
+            <version>${google-api-services-people.version}</version>
         </dependency>
     </dependencies>
 </project>

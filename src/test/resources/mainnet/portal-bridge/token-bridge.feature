@@ -19,7 +19,7 @@ Feature: Token bridge, Portal Bridge mainnet
       | xlabs-bridge-automatic | 0.7    | MATIC | Polygon      | Sui        | MetaMask    | Sui       |
       | xlabs-bridge-automatic | 1.2    | CELO  | Celo         | Moonbeam   | MetaMask    | MetaMask  |
       | xlabs-bridge-automatic | 0.04   | AVAX  | Avalanche    | BSC        | MetaMask    | MetaMask  |
-      | xlabs-bridge-automatic | 0.0001 | SUI   | Sui          | Solana     | Sui         | Phantom   |
+      | xlabs-bridge-automatic | 0.7 | SUI   | Sui          | Solana     | Sui         | Phantom   |
 
 
   Scenario Outline: Manual Bridge, Wormhole
