@@ -37,6 +37,8 @@ public class Browser {
     public static Dotenv env;
     private static final SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
+    public static String emailAddress;
+
     public static boolean isMainnet = false;
     public static String url = "";
     public static Date startedAt;
@@ -85,6 +87,7 @@ public class Browser {
 
         env = Dotenv.load();
         Google.getLoggedInUser(); // login to Google Services
+        Browser.emailAddress = Google.getEmailAddress();
 
         ChromeOptions opt = new ChromeOptions();
         if (System.getProperty("os.name").startsWith("Windows")) {
@@ -167,6 +170,7 @@ public class Browser {
         SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy-MM-dd");
 
         String[] fields = {
+                Browser.emailAddress,
                 status,
                 Browser.fromNetwork,
                 Browser.toNetwork,

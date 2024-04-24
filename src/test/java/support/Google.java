@@ -13,10 +13,14 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
+import com.google.api.services.people.v1.PeopleService;
+import com.google.api.services.people.v1.PeopleServiceScopes;
+import com.google.api.services.people.v1.model.Person;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -42,7 +46,10 @@ public class Google {
             InputStream in = Google.class.getResourceAsStream("/credentials.json");
             GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
             GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, Arrays.asList(SheetsScopes.DRIVE_FILE, SheetsScopes.SPREADSHEETS))
+                    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, Arrays.asList(
+                    SheetsScopes.DRIVE_FILE, SheetsScopes.SPREADSHEETS,
+                    PeopleServiceScopes.USERINFO_PROFILE, PeopleServiceScopes.USERINFO_EMAIL
+            ))
                     .setDataStoreFactory(new FileDataStoreFactory(new java.io.File("target")))
                     .setAccessType("offline")
                     .build();
@@ -66,6 +73,13 @@ public class Google {
         Credential user = getLoggedInUser();
         Drive.Builder builder = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, user);
         return builder
+                .setApplicationName("Wormhole Connect Automation")
+                .build();
+    }
+
+    public static PeopleService getPeopleService() {
+        Credential user = getLoggedInUser();
+        return new PeopleService.Builder(HTTP_TRANSPORT, JSON_FACTORY, user)
                 .setApplicationName("Wormhole Connect Automation")
                 .build();
     }
@@ -125,5 +139,16 @@ public class Google {
             System.out.println("Could not save file to Google Drive: " + exception.getMessage());
         }
         return false;
+    }
+
+    public static String getEmailAddress() {
+        try {
+            Person profile = getPeopleService().people().get("people/me")
+                    .setPersonFields("names,emailAddresses")
+                    .execute();
+            return profile.getEmailAddresses().get(0).getValue();
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 }
