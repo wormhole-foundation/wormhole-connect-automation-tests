@@ -37,16 +37,16 @@ public class WormholeConnectSteps {
         Browser.driver.get(Browser.url);
     }
 
-    @Given("I enter page password")
-    public void iEnterPassword() {
-        Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
-        Browser.findElement(PasswordPage.button).click();
-    }
-
     @Given("I open wormhole-connect mainnet")
     public void iOpenWormholeConnectMainnetPageAndEnterPassword() {
         Browser.url = Browser.env.get("URL_WORMHOLE_CONNECT_MAINNET");
         Browser.driver.get(Browser.url);
+    }
+
+    @Given("I enter page password")
+    public void iEnterPassword() {
+        Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
+        Browser.findElement(PasswordPage.button).click();
     }
 
     @Given("I open portal bridge mainnet")
@@ -80,29 +80,31 @@ public class WormholeConnectSteps {
         Browser.findElement(WormholePage.CHOOSE_NETWORK(Browser.toNetwork)).click();
         Thread.sleep(1000);
 
-        Browser.findElement(WormholePage.DESTINATION_CONNECT_WALLET_BUTTON).click();
-        Browser.findElement(WormholePage.CHOOSE_WALLET(Browser.toWallet)).click();
+        if (!Browser.metaMaskWasUnlocked) {
+            Browser.findElement(WormholePage.DESTINATION_CONNECT_WALLET_BUTTON).click();
+            Browser.findElement(WormholePage.CHOOSE_WALLET(Browser.toWallet)).click();
 
-        if (Browser.toWallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
-            Browser.waitForExtensionWindowToAppear();
+            if (Browser.toWallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
+                Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElement(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
-            Browser.findElement(ExtensionPage.METAMASK_UNLOCK_BUTTON).click();
+                Browser.findElement(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
+                Browser.findElement(ExtensionPage.METAMASK_UNLOCK_BUTTON).click();
 
-            Browser.waitForExtensionWindowToDisappear();
-            Browser.metaMaskWasUnlocked = true;
-        }
+                Browser.waitForExtensionWindowToDisappear();
+                Browser.metaMaskWasUnlocked = true;
+            }
 
-        if (Browser.toWallet.equals("Leap") && !Browser.leapWasUnlocked) {
-            Browser.waitForExtensionWindowToAppear();
+            if (Browser.toWallet.equals("Leap") && !Browser.leapWasUnlocked) {
+                Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
-            Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
+                Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
+                Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
 
-            Browser.waitForExtensionWindowToDisappear();
-            Thread.sleep(1000);
+                Browser.waitForExtensionWindowToDisappear();
+                Thread.sleep(1000);
 
-            Browser.leapWasUnlocked = true;
+                Browser.leapWasUnlocked = true;
+            }
         }
 
         Browser.findElement(WormholePage.SOURCE_AMOUNT_INPUT).sendKeys(amount);
@@ -122,6 +124,12 @@ public class WormholeConnectSteps {
         } else {
             Browser.toAmount = Browser.findElement(WormholePage.DESTINATION_AMOUNT_INPUT).getAttribute("value");
         }
+
+        // work around to show balance in To section
+        Browser.findElement(WormholePage.DESTINATION_ASSET_BUTTON).click();
+        Browser.findElement(WormholePage.POPUP_CLOSE_BUTTON).click();
+        // end
+
         Browser.toBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.DESTINATION_BALANCE_TEXT);
 
         switch (route) {
@@ -384,7 +392,7 @@ public class WormholeConnectSteps {
             waitSeconds = 60 * 30;
         } else {
             if (Browser.toWallet.equals("Phantom")) {
-                waitSeconds = 60;
+                waitSeconds = 60 * 10;
             } else {
                 waitSeconds = 60 * 30;
             }

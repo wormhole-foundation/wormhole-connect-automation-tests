@@ -544,37 +544,39 @@ public class Browser {
         Browser.findElement(WormholePage.CHOOSE_NETWORK(network)).click();
         Thread.sleep(1000);
 
-        Browser.findElement(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
-        Browser.findElement(WormholePage.CHOOSE_WALLET(wallet)).click();
+        if (!Browser.metaMaskWasUnlocked) {
+            Browser.findElement(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
+            Browser.findElement(WormholePage.CHOOSE_WALLET(wallet)).click();
 
-        if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
-            Browser.waitForExtensionWindowToAppear();
+            if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
+                Browser.waitForExtensionWindowToAppear();
 
-            Browser.findElement(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
-            Browser.findElement(ExtensionPage.METAMASK_UNLOCK_BUTTON).click();
+                Browser.findElement(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
+                Browser.findElement(ExtensionPage.METAMASK_UNLOCK_BUTTON).click();
 
-            try {
-                System.out.println("Going to Reject a pending transaction (if it exists)...");
-                Browser.findElement(3, ExtensionPage.METAMASK_CANCEL_BUTTON).click();
-            } catch (NoSuchElementException ignore) {
+                try {
+                    System.out.println("Going to Reject a pending transaction (if it exists)...");
+                    Browser.findElement(3, ExtensionPage.METAMASK_CANCEL_BUTTON).click();
+                } catch (NoSuchElementException ignore) {
+                }
+
+                Browser.waitForExtensionWindowToDisappear();
+                Thread.sleep(1000);
+
+                Browser.metaMaskWasUnlocked = true;
             }
 
-            Browser.waitForExtensionWindowToDisappear();
-            Thread.sleep(1000);
+            if (wallet.equals("Leap") && !Browser.leapWasUnlocked) {
+                Browser.waitForExtensionWindowToAppear();
 
-            Browser.metaMaskWasUnlocked = true;
-        }
+                Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
+                Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
 
-        if (wallet.equals("Leap") && !Browser.leapWasUnlocked) {
-            Browser.waitForExtensionWindowToAppear();
+                Browser.waitForExtensionWindowToDisappear();
+                Thread.sleep(1000);
 
-            Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
-            Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
-
-            Browser.waitForExtensionWindowToDisappear();
-            Thread.sleep(1000);
-
-            Browser.leapWasUnlocked = true;
+                Browser.leapWasUnlocked = true;
+            }
         }
 
         Browser.findElement(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();
