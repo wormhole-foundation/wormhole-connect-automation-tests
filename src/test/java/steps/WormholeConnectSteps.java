@@ -78,9 +78,9 @@ public class WormholeConnectSteps {
         Browser.findElement(WormholePage.DESTINATION_SELECT_NETWORK_BUTTON).click();
         Thread.sleep(1000);
         Browser.findElement(WormholePage.CHOOSE_NETWORK(Browser.toNetwork)).click();
-        Thread.sleep(1000);
+        Thread.sleep(3000); // wait for wallet auto-connect
 
-        if (!Browser.metaMaskWasUnlocked) {
+        if (Browser.elementAppears(1, WormholePage.DESTINATION_CONNECT_WALLET_BUTTON)) {
             Browser.findElement(WormholePage.DESTINATION_CONNECT_WALLET_BUTTON).click();
             Browser.findElement(WormholePage.CHOOSE_WALLET(Browser.toWallet)).click();
 
@@ -191,7 +191,7 @@ public class WormholeConnectSteps {
             String nativeAsset = Browser.getNativeAssetByNetworkName(Browser.toNetwork);
 
             System.out.println("Checking native asset (" + nativeAsset + ") balance on " + Browser.toNetwork + " (" + Browser.toWallet + ")");
-            Browser.findElement(WormholePage.OPEN_ASSET_LIST()).click();
+            Browser.findElement(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();
             Browser.findElement(WormholePage.CHOOSE_ASSET(nativeAsset)).click();
 
             Browser.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
@@ -238,9 +238,8 @@ public class WormholeConnectSteps {
                 Browser.findElement(ExtensionPage.PHANTOM_SUBMIT_BUTTON).click();
                 Thread.sleep(1000);
 
-                WebElement link = Browser.findElementIgnoreIfMissing(10, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK);
-                if (link != null ) {
-                    link.click();
+                if (Browser.elementAppears(10, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK)) {
+                    Browser.findElement(ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK).click();
                 }
                 Browser.findElement(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
 
@@ -287,12 +286,11 @@ public class WormholeConnectSteps {
 
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(120));
         webDriverWait.until(webDriver -> {
-            if (Browser.findElementIgnoreIfMissing(0, WormholePage.REDEEM_SCREEN_HEADER) != null) {
+            if (Browser.elementAppears(0, WormholePage.REDEEM_SCREEN_HEADER)) {
                 return true;
             }
-            WebElement errorMessage = Browser.findElementIgnoreIfMissing(0, WormholePage.APPROVE_ERROR_MESSAGE);
-            if (errorMessage != null) {
-                Assert.fail("Transaction failed: " + errorMessage.getText());
+            if (Browser.elementAppears(0, WormholePage.APPROVE_ERROR_MESSAGE)) {
+                Assert.fail("Transaction failed: " + Browser.findElement(WormholePage.APPROVE_ERROR_MESSAGE).getText());
             }
             return null;
         });
@@ -328,9 +326,8 @@ public class WormholeConnectSteps {
                         .until(webDriver -> {
                             if (Browser.extensionWindowIsOpened()) {
                                 Browser.switchToExtensionWindow();
-                                WebElement link = Browser.findElementIgnoreIfMissing(1, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK);
-                                if (link != null ) {
-                                    link.click();
+                                if (Browser.elementAppears(1, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK)) {
+                                    Browser.findElement(ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK).click();
                                     return null;
                                 }
                                 Browser.findElement(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
