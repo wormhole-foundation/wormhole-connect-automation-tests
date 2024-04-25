@@ -82,7 +82,7 @@ public class Browser {
         launch("chrome_profile_testnet");
     }
 
-    public static void launch(String profile) {
+    protected static void launch(String profile) {
         System.out.println("Browser.launch (" + profile + ")");
 
         env = Dotenv.load();
@@ -311,17 +311,18 @@ public class Browser {
         }
     }
 
-    public static WebElement findElementIgnoreIfMissing(int seconds, By locator) {
+    public static boolean elementAppears(int seconds, By locator) {
         if (seconds > 10) {
             System.out.println("Checking if element (" + locator.toString() + ") appears in " + seconds + "s");
         }
         Browser.waitSeconds = seconds;
         try {
-            return Browser.findElement(locator);
+            Browser.findElement(locator);
+            return true;
         } catch (NoSuchElementException ignore) {
         }
         Browser.waitSeconds = 10;
-        return null;
+        return false;
     }
 
     public static WebElement findElement(int seconds, By locator) {

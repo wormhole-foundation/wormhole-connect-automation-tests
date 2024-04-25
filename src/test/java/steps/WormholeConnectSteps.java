@@ -238,9 +238,8 @@ public class WormholeConnectSteps {
                 Browser.findElement(ExtensionPage.PHANTOM_SUBMIT_BUTTON).click();
                 Thread.sleep(1000);
 
-                WebElement link = Browser.findElementIgnoreIfMissing(10, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK);
-                if (link != null ) {
-                    link.click();
+                if (Browser.elementAppears(10, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK)) {
+                    Browser.findElement(ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK).click();
                 }
                 Browser.findElement(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
 
@@ -287,12 +286,11 @@ public class WormholeConnectSteps {
 
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(120));
         webDriverWait.until(webDriver -> {
-            if (Browser.findElementIgnoreIfMissing(0, WormholePage.REDEEM_SCREEN_HEADER) != null) {
+            if (Browser.elementAppears(0, WormholePage.REDEEM_SCREEN_HEADER)) {
                 return true;
             }
-            WebElement errorMessage = Browser.findElementIgnoreIfMissing(0, WormholePage.APPROVE_ERROR_MESSAGE);
-            if (errorMessage != null) {
-                Assert.fail("Transaction failed: " + errorMessage.getText());
+            if (Browser.elementAppears(0, WormholePage.APPROVE_ERROR_MESSAGE)) {
+                Assert.fail("Transaction failed: " + Browser.findElement(WormholePage.APPROVE_ERROR_MESSAGE).getText());
             }
             return null;
         });
@@ -328,9 +326,8 @@ public class WormholeConnectSteps {
                         .until(webDriver -> {
                             if (Browser.extensionWindowIsOpened()) {
                                 Browser.switchToExtensionWindow();
-                                WebElement link = Browser.findElementIgnoreIfMissing(1, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK);
-                                if (link != null ) {
-                                    link.click();
+                                if (Browser.elementAppears(1, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK)) {
+                                    Browser.findElement(ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK).click();
                                     return null;
                                 }
                                 Browser.findElement(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
