@@ -191,7 +191,7 @@ public class WormholeConnectSteps {
             String nativeAsset = Browser.getNativeAssetByNetworkName(Browser.toNetwork);
 
             System.out.println("Checking native asset (" + nativeAsset + ") balance on " + Browser.toNetwork + " (" + Browser.toWallet + ")");
-            Browser.findElement(WormholePage.OPEN_ASSET_LIST()).click();
+            Browser.findElement(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();
             Browser.findElement(WormholePage.CHOOSE_ASSET(nativeAsset)).click();
 
             Browser.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);

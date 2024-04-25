@@ -15,21 +15,21 @@ public class WormholePage {
     public static final By DESTINATION_CONNECT_WALLET_BUTTON = By.cssSelector("[data-testid='destination-section-connect-wallet-button']");
     public static final By DESTINATION_ASSET_BUTTON = By.xpath("(//*[text()='Asset']/following-sibling::*)[2]"); // see DESTINATION_ASSET_TEXT
     public static final By DESTINATION_ASSET_TEXT = By.xpath("(//*[text()='Asset']/following-sibling::*)[2]"); // data-testid="destination-section-asset-text"
-    public static final By DESTINATION_AMOUNT_INPUT = By.xpath("(//*[text()='Amount']/following-sibling::*/input)[2]"); // data-testid="destination-section-amount-input"
+    public static final By DESTINATION_AMOUNT_INPUT = By.cssSelector("[data-testid='destination-section-amount-input']");
     public static final By DESTINATION_AMOUNT_INPUT_ETH_BRIDGE = By.xpath("//*[text()='Expected Amount (-0.05%)']/following-sibling::*/input");
     public static final By DESTINATION_BALANCE_TEXT = By.xpath("(//*[text()='Balance']/following-sibling::*)[2]"); // data-testid="destination-section-balance-text"
 
-    public static final By AUTOMATIC_BRIDGE_OPTION = By.xpath("//*[contains(text(),'Automatic Bridge')]"); // data-testid="automatic-route-option"
-    public static final By MANUAL_BRIDGE_OPTION = By.xpath("//*[contains(text(),'Manual Bridge')]"); // data-testid="manual-route-option"
-    public static final By COSMOS_AUTOMATIC_GATEWAY_OPTION = By.xpath("//*[contains(text(),'Receive tokens automatically')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]");
-    public static final By COSMOS_MANUAL_GATEWAY_OPTION = By.xpath("//*[contains(text(),'Cosmos Gateway')]"); // data-testid="cosmos-gateway-route-option"
-    public static final By CIRCLE_AUTOMATIC_OPTION = By.xpath("//*[contains(text(),'Receive tokens automatically')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]"); // data-testid="circle-automatic-route-option"
-    public static final By CIRCLE_MANUAL_OPTION = By.xpath("//*[contains(text(),'Approve transfer with destination wallet')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]"); // data-testid="circle-manual-route-option"
+    public static final By AUTOMATIC_BRIDGE_OPTION = By.cssSelector("[data-testid='route-option-relay']");
+    public static final By MANUAL_BRIDGE_OPTION = By.cssSelector("[data-testid='route-option-bridge']");
+    public static final By COSMOS_AUTOMATIC_GATEWAY_OPTION = By.cssSelector("[data-testid='route-option-cosmosGateway']");
+    public static final By COSMOS_MANUAL_GATEWAY_OPTION = By.cssSelector("[data-testid='route-option-cosmosGateway']");
+    public static final By CIRCLE_AUTOMATIC_OPTION = By.cssSelector("[data-testid='route-option-cctpRelay']");
+    public static final By CIRCLE_MANUAL_OPTION = By.cssSelector("[data-testid='route-option-cctpManual']");
     public static final By ETH_BRIDGE_AUTOMATIC_OPTION = By.xpath("//*[contains(text(),'Receive tokens automatically')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]");
     public static final By SLIDER_THUMB = By.cssSelector(".MuiSlider-thumb");
 
     public static final By POPUP_CLOSE_BUTTON = By.cssSelector("[data-testid='CloseIcon']");
-    public static final By APPROVE_BUTTON = By.xpath("//*[text()='Approve and proceed with transaction']"); // data-testid="approve-button"
+    public static final By APPROVE_BUTTON = By.cssSelector("[data-testid='approve-button']");
 
     public static final By APPROVE_ERROR_MESSAGE = By.xpath("//*[text()='Error with transfer, please try again']"); // data-testid="approve-error-message"
 
@@ -45,10 +45,6 @@ public class WormholePage {
 
     public static By DESTINATION_SCAN_LINK() {
         return By.xpath("//*[text()='Send to']/../following-sibling::*//*[text()='" + Browser.getScanLinkTextByNetworkName(Browser.toNetwork) + "']/.."); // data-testid="destination-section-scan-link"
-    }
-
-    public static By OPEN_ASSET_LIST() {
-        return By.xpath("//*[contains(@class, 'MuiScopedCssBaseline-root')]//*[contains(text(), '" + Browser.toAsset + "')]");
     }
 
     public static By CHOOSE_WALLET(String wallet) {
