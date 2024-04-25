@@ -78,9 +78,9 @@ public class WormholeConnectSteps {
         Browser.findElement(WormholePage.DESTINATION_SELECT_NETWORK_BUTTON).click();
         Thread.sleep(1000);
         Browser.findElement(WormholePage.CHOOSE_NETWORK(Browser.toNetwork)).click();
-        Thread.sleep(1000);
+        Thread.sleep(3000); // wait for wallet auto-connect
 
-        if (!Browser.metaMaskWasUnlocked) {
+        if (Browser.elementAppears(1, WormholePage.DESTINATION_CONNECT_WALLET_BUTTON)) {
             Browser.findElement(WormholePage.DESTINATION_CONNECT_WALLET_BUTTON).click();
             Browser.findElement(WormholePage.CHOOSE_WALLET(Browser.toWallet)).click();
 

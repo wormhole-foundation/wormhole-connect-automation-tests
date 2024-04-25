@@ -547,9 +547,9 @@ public class Browser {
         Browser.findElement(WormholePage.SOURCE_SELECT_NETWORK_BUTTON).click();
         Thread.sleep(1000);
         Browser.findElement(WormholePage.CHOOSE_NETWORK(network)).click();
-        Thread.sleep(1000);
+        Thread.sleep(3000); // wait for wallet auto-connect
 
-        if (!Browser.metaMaskWasUnlocked) {
+        if (Browser.elementAppears(1, WormholePage.SOURCE_CONNECT_WALLET_BUTTON)) {
             Browser.findElement(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
             Browser.findElement(WormholePage.CHOOSE_WALLET(wallet)).click();
 

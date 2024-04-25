@@ -5,14 +5,14 @@ import support.Browser;
 
 public class WormholePage {
     // Setup Screen
-    public static final By SOURCE_SELECT_NETWORK_BUTTON = By.xpath("//*[text()='Select network']"); // data-testid="source-section-select-network-button"
-    public static final By SOURCE_CONNECT_WALLET_BUTTON = By.xpath("//*[text()='Connect wallet']"); // data-testid="source-section-connect-wallet-button"
-    public static final By SOURCE_SELECT_ASSET_BUTTON = By.xpath("//*[text()='Select']"); // data-testid="source-section-select-asset-button"
-    public static final By SOURCE_AMOUNT_INPUT = By.tagName("input"); // data-testid="source-section-amount-input"
+    public static final By SOURCE_SELECT_NETWORK_BUTTON = By.cssSelector("[data-testid='source-section-select-network-button']");
+    public static final By SOURCE_CONNECT_WALLET_BUTTON = By.cssSelector("[data-testid='source-section-connect-wallet-button']");
+    public static final By SOURCE_SELECT_ASSET_BUTTON = By.cssSelector("[data-testid='source-section-select-asset-button']");
+    public static final By SOURCE_AMOUNT_INPUT = By.cssSelector("[data-testid='source-section-amount-input']");
     public static final By SOURCE_BALANCE_TEXT = By.xpath("(//*[text()='Balance']/following-sibling::*)[1]"); // data-testid="source-section-balance-text"
 
-    public static final By DESTINATION_SELECT_NETWORK_BUTTON = By.xpath("//*[text()='Select network']"); // data-testid="destination-section-select-network-button"
-    public static final By DESTINATION_CONNECT_WALLET_BUTTON = By.xpath("//*[text()='Connect wallet']"); // data-testid="destination-section-connect-wallet-button"
+    public static final By DESTINATION_SELECT_NETWORK_BUTTON = By.cssSelector("[data-testid='destination-section-select-network-button']");
+    public static final By DESTINATION_CONNECT_WALLET_BUTTON = By.cssSelector("[data-testid='destination-section-connect-wallet-button']");
     public static final By DESTINATION_ASSET_BUTTON = By.xpath("(//*[text()='Asset']/following-sibling::*)[2]"); // see DESTINATION_ASSET_TEXT
     public static final By DESTINATION_ASSET_TEXT = By.xpath("(//*[text()='Asset']/following-sibling::*)[2]"); // data-testid="destination-section-asset-text"
     public static final By DESTINATION_AMOUNT_INPUT = By.xpath("(//*[text()='Amount']/following-sibling::*/input)[2]"); // data-testid="destination-section-amount-input"
