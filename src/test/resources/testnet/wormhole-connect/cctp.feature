@@ -36,4 +36,4 @@ Feature: CCTP route, wormhole-connect testnet
     Examples:
       | route         | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | circle-manual | 0.0001 | USDC  | Mumbai       | Fuji       | MetaMask    | MetaMask  |
-      | circle-manual | 0.0001 | USDC  | Fuji         | Mumbai     | MetaMask    | MetaMask  |
+      | circle-manual | 0.0001 | USDC  | Fuji         | Solana     | MetaMask    | Phantom  |

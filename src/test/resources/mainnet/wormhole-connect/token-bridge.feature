@@ -17,7 +17,7 @@ Feature: Token bridge, wormhole-connect mainnet
     Examples:
       | route                  | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | xlabs-bridge-automatic | 0.002  | BNB   | BSC          | Polygon    | MetaMask    | MetaMask  |
-      | xlabs-bridge-automatic | 0.5    | MATIC | Polygon      | Sui        | MetaMask    | Sui       |
+      | xlabs-bridge-automatic | 1      | MATIC | Polygon      | Sui        | MetaMask    | Sui       |
       | xlabs-bridge-automatic | 0.8    | CELO  | Celo         | Moonbeam   | MetaMask    | MetaMask  |
       | xlabs-bridge-automatic | 0.04   | AVAX  | Avalanche    | BSC        | MetaMask    | MetaMask  |
 
