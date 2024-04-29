@@ -134,6 +134,7 @@ public class WormholeConnectSteps {
 
         switch (route) {
             case "xlabs-bridge-automatic":
+            case "circle-automatic":
                 // choose Manual and then again Automatic to enable native gas section
                 Browser.findElement(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
                 Thread.sleep(1000);
@@ -143,6 +144,7 @@ public class WormholeConnectSteps {
                 Thread.sleep(1000);
                 break;
             case "wormhole-bridge-manual":
+            case "circle-manual":
                 Browser.findElement(WormholePage.MANUAL_BRIDGE_OPTION).click();
                 break;
             case "cosmos-manual":
@@ -150,18 +152,6 @@ public class WormholeConnectSteps {
                 break;
             case "cosmos-automatic":
                 Browser.findElement(WormholePage.COSMOS_AUTOMATIC_GATEWAY_OPTION).click();
-                break;
-            case "circle-manual":
-                Browser.findElement(WormholePage.CIRCLE_MANUAL_OPTION).click();
-                break;
-            case "circle-automatic":
-                // choose Manual and then again Automatic to enable native gas section
-                Browser.findElement(WormholePage.CIRCLE_AUTOMATIC_OPTION).click();
-                Thread.sleep(1000);
-                Browser.findElement(WormholePage.CIRCLE_MANUAL_OPTION).click();
-                Thread.sleep(1000);
-                Browser.findElement(WormholePage.CIRCLE_AUTOMATIC_OPTION).click();
-                Thread.sleep(1000);
                 break;
             case "eth-bridge-automatic":
                 Browser.findElement(WormholePage.ETH_BRIDGE_AUTOMATIC_OPTION).click();
