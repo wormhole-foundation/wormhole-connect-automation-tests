@@ -36,16 +36,16 @@ Feature: Cosmos route, Portal Bridge mainnet
 
     Examples:
       | route         | amount  | asset | from_network | to_network | from_wallet | to_wallet |
-#      | cosmos-manual | 0.00001 | USDT  | Osmosis      | BSC        | Leap        | MetaMask  |
-#      | cosmos-manual | 0.00001 | WBNB  | Osmosis      | Polygon    | Leap        | MetaMask  |
+      | cosmos-manual | 0.00001 | USDT  | Osmosis      | BSC        | Leap        | MetaMask  |
+      | cosmos-manual | 0.00001 | WBNB  | Osmosis      | Polygon    | Leap        | MetaMask  |
       | cosmos-manual | 0.00001 | SUI   | Osmosis      | Avalanche  | Leap        | MetaMask  |
       | cosmos-manual | 0.00001 | APT   | Evmos        | Fantom     | Leap        | MetaMask  |
-#      | cosmos-manual | 0.00001 | CELO  | Evmos        | Celo       | Leap        | MetaMask  |
-#      | cosmos-manual | 0.00001 | WFTM  | Evmos        | Moonbeam   | Leap        | MetaMask  |
-#      | cosmos-manual | 0.00001 | APT   | Evmos        | Solana     | Leap        | Phantom   |
-#      | cosmos-manual | 0.00001 | APT   | Kujira       | Sui        | Leap        | Sui       |
-#      | cosmos-manual | 0.00001 | APT   | Kujira       | Aptos      | Leap        | Spika     |
-#      | cosmos-manual | 0.00001 | APT   | Kujira       | Base       | Leap        | MetaMask  |
-#      | cosmos-manual | 0.00001 | DAI   | Injective    | Arbitrum   | Leap        | MetaMask  |
-#      | cosmos-manual | 0.00001 | WAVAX | Injective    | Optimism   | Leap        | MetaMask  |
-#      | cosmos-manual | 0.00001 | WGLMR | Injective    | Klaytn     | Leap        | MetaMask  |
+      | cosmos-manual | 0.00001 | CELO  | Evmos        | Celo       | Leap        | MetaMask  |
+      | cosmos-manual | 0.00001 | WFTM  | Evmos        | Moonbeam   | Leap        | MetaMask  |
+      | cosmos-manual | 0.00001 | APT   | Evmos        | Solana     | Leap        | Phantom   |
+      | cosmos-manual | 0.00001 | APT   | Kujira       | Sui        | Leap        | Sui       |
+      | cosmos-manual | 0.00001 | APT   | Kujira       | Aptos      | Leap        | Spika     |
+      | cosmos-manual | 0.00001 | APT   | Kujira       | Base       | Leap        | MetaMask  |
+      | cosmos-manual | 0.00001 | DAI   | Injective    | Arbitrum   | Leap        | MetaMask  |
+      | cosmos-manual | 0.00001 | WAVAX | Injective    | Optimism   | Leap        | MetaMask  |
+      | cosmos-manual | 0.00001 | WGLMR | Injective    | Klaytn     | Leap        | MetaMask  |
