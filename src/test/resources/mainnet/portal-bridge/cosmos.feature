@@ -12,7 +12,7 @@ Feature: Cosmos route, Portal Bridge mainnet
 
     Examples:
       | route            | amount | asset  | from_network | to_network | from_wallet | to_wallet |
-      | cosmos-automatic | 0.0001 | CELO  | Kujira       | Osmosis    | Leap        | Leap      |
+      | cosmos-automatic | 0.0001 | CELO   | Kujira       | Osmosis    | Leap        | Leap      |
       | cosmos-automatic | 0.0001 | WMATIC | Kujira       | Injective  | Leap        | Leap      |
       | cosmos-automatic | 0.0001 | WFTM   | Evmos        | Osmosis    | Leap        | Leap      |
       | cosmos-automatic | 0.0001 | SUI    | Evmos        | Kujira     | Leap        | Leap      |

@@ -45,7 +45,6 @@ Feature: Token bridge, wormhole-connect testnet
       | xlabs-bridge-automatic | 0.16   | CELO  | Alfajores    | Moonbase   | MetaMask    | MetaMask  |
       | xlabs-bridge-automatic | 0.16   | CELO  | Alfajores    | Fantom     | MetaMask    | MetaMask  |
       | xlabs-bridge-automatic | 0.16   | CELO  | Alfajores    | Mumbai     | MetaMask    | MetaMask  |
-      | xlabs-bridge-automatic | 3.9    | CELO  | Alfajores    | BSC        | MetaMask    | MetaMask  |
       | xlabs-bridge-automatic | 1.8    | CELO  | Alfajores    | Fuji       | MetaMask    | MetaMask  |
       | xlabs-bridge-automatic | 1.2    | CELO  | Alfajores    | Solana     | MetaMask    | Phantom   |
       | xlabs-bridge-automatic | 0.7    | CELO  | Alfajores    | Sui        | MetaMask    | Sui       |
@@ -94,3 +93,5 @@ Feature: Token bridge, wormhole-connect testnet
       | wormhole-bridge-manual | 0.1    | KLAY   | Klaytn       | Fuji       | MetaMask    | MetaMask  |
       | wormhole-bridge-manual | 0.1    | KLAY   | Klaytn       | BSC        | MetaMask    | MetaMask  |
       | wormhole-bridge-manual | 0.1    | GLMR   | Moonbase     | Sepolia    | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.1    | SOL    | Solana       | BSC        | Phantom     | MetaMask  |
+      | wormhole-bridge-manual | 0.0001 | SUI    | Sui          | Solana     | Sui         | Phantom   |
