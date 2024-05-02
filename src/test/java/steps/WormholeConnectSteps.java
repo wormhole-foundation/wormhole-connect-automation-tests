@@ -143,9 +143,21 @@ public class WormholeConnectSteps {
                 Browser.findElement(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
                 Thread.sleep(1000);
                 break;
+            case "circle-cctp-automatic":
+                // choose Manual and then again Automatic to enable native gas section
+                Browser.findElement(WormholePage.CCTP_AUTOMATIC_BRIDGE_OPTION).click();
+                Thread.sleep(1000);
+                Browser.findElement(WormholePage.CCTP_MANUAL_BRIDGE_OPTION).click();
+                Thread.sleep(1000);
+                Browser.findElement(WormholePage.CCTP_AUTOMATIC_BRIDGE_OPTION).click();
+                Thread.sleep(1000);
+                break;
             case "wormhole-bridge-manual":
             case "circle-manual":
                 Browser.findElement(WormholePage.MANUAL_BRIDGE_OPTION).click();
+                break;
+            case "circle-cctp-manual":
+                Browser.findElement(WormholePage.CCTP_MANUAL_BRIDGE_OPTION).click();
                 break;
             case "cosmos-manual":
                 Browser.findElement(WormholePage.COSMOS_MANUAL_GATEWAY_OPTION).click();

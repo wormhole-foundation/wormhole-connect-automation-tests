@@ -14,10 +14,10 @@ Feature: CCTP route, Portal Bridge mainnet
     Then I check balance has increased on destination chain
 
     Examples:
-      | route            | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | circle-automatic | 1.5    | USDC  | Ethereum     | Arbitrum   | MetaMask    | MetaMask  |
-      | circle-automatic | 1.5    | USDC  | Polygon      | Avalanche  | MetaMask    | MetaMask  |
-      | circle-automatic | 1.5    | USDC  | Optimism     | Arbitrum   | MetaMask    | MetaMask  |
+      | route                 | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | circle-cctp-automatic | 1.5    | USDC  | Ethereum     | Arbitrum   | MetaMask    | MetaMask  |
+      | circle-cctp-automatic | 1.5    | USDC  | Polygon      | Avalanche  | MetaMask    | MetaMask  |
+      | circle-cctp-automatic | 1.5    | USDC  | Optimism     | Arbitrum   | MetaMask    | MetaMask  |
 
   Scenario Outline: Manual
     Given I launch mainnet browser
@@ -31,6 +31,6 @@ Feature: CCTP route, Portal Bridge mainnet
     Then I check balance has increased on destination chain
 
     Examples:
-      | route         | amount  | asset | from_network | to_network | from_wallet | to_wallet |
-      | circle-manual | 0.01    | USDC  | Avalanche    | Base       | MetaMask    | MetaMask  |
-      | circle-manual | 0.01    | USDC  | Base         | Polygon    | MetaMask    | MetaMask  |
+      | route              | amount | asset | from_network | to_network | from_wallet | to_wallet |
+      | circle-cctp-manual | 0.01   | USDC  | Avalanche    | Base       | MetaMask    | MetaMask  |
+      | circle-cctp-manual | 0.01   | USDC  | Base         | Polygon    | MetaMask    | MetaMask  |
