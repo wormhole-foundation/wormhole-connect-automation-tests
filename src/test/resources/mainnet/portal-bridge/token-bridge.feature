@@ -16,10 +16,10 @@ Feature: Token bridge, Portal Bridge mainnet
     Examples:
       | route                  | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | xlabs-bridge-automatic | 0.004  | BNB   | BSC          | Polygon    | MetaMask    | MetaMask  |
-      | xlabs-bridge-automatic | 0.7    | MATIC | Polygon      | Sui        | MetaMask    | Sui       |
-      | xlabs-bridge-automatic | 1.2    | CELO  | Celo         | Moonbeam   | MetaMask    | MetaMask  |
+      | xlabs-bridge-automatic | 0.8    | MATIC | Polygon      | Sui        | MetaMask    | Sui       |
+      | xlabs-bridge-automatic | 1.6    | CELO  | Celo         | Moonbeam   | MetaMask    | MetaMask  |
       | xlabs-bridge-automatic | 0.04   | AVAX  | Avalanche    | BSC        | MetaMask    | MetaMask  |
-      | xlabs-bridge-automatic | 0.7 | SUI   | Sui          | Solana     | Sui         | Phantom   |
+      | xlabs-bridge-automatic | 0.7    | SUI   | Sui          | Solana     | Sui         | Phantom   |
 
 
   Scenario Outline: Manual Bridge, Wormhole
@@ -37,7 +37,7 @@ Feature: Token bridge, Portal Bridge mainnet
     Examples:
       | route                  | amount  | asset | from_network | to_network | from_wallet | to_wallet |
       | wormhole-bridge-manual | 0.0001  | CELO  | Celo         | Fantom     | MetaMask    | MetaMask  |
-      | wormhole-bridge-manual | 0.0001  | BNB   | BSC          | Moonbeam   | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.0001  | BNB   | BSC          | Fantom     | MetaMask    | MetaMask  |
       | wormhole-bridge-manual | 0.00001 | DAI   | Fantom       | Avalanche  | MetaMask    | MetaMask  |
-      | wormhole-bridge-manual | 0.0001  | SUI   | Moonbeam     | Celo       | MetaMask    | MetaMask  |
+      | wormhole-bridge-manual | 0.0001  | SUI   | Fantom       | Celo       | MetaMask    | MetaMask  |
       | wormhole-bridge-manual | 0.0001  | WGLMR | Solana       | Avalanche  | Phantom     | MetaMask  |
