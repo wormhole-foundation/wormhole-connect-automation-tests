@@ -51,8 +51,10 @@ public class WormholeConnectSteps {
 
     @Given("I enter page password")
     public void iEnterPassword() {
-        Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
-        Browser.findElement(PasswordPage.button).click();
+        if (Browser.url.contains("netlify.app")) {
+            Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
+            Browser.findElement(PasswordPage.button).click();
+        }
     }
 
     @Given("I open portal bridge mainnet")
