@@ -69,8 +69,8 @@ public class WormholeConnectSteps {
 
         System.out.println("I prepare to send " + Browser.fromAmount + " " + Browser.fromAsset + " from " + Browser.fromNetwork + " to " + Browser.toWallet);
 
-        if (Browser.route.equals("xlabs-bridge-automatic") || Browser.route.equals("circle-automatic")) {
-            Assert.assertNotEquals("Native balance was not checked", "", Browser.toNativeBalance);
+        if (Browser.convertingNativeBalance) {
+            Assert.assertNotEquals("Starting native balance was not checked", "", Browser.toNativeBalance);
         }
 
         Browser.selectAssetInFromSection(Browser.fromWallet, Browser.fromNetwork, Browser.fromAsset);
@@ -189,7 +189,7 @@ public class WormholeConnectSteps {
         Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
         System.out.println(Browser.toFinalBalance + " " + Browser.toAsset);
 
-        if (Browser.route.equals("xlabs-bridge-automatic") || Browser.route.equals("circle-automatic")) {
+        if (Browser.convertingNativeBalance) {
             String nativeAsset = Browser.getNativeAssetByNetworkName(Browser.toNetwork);
 
             System.out.println("Checking native asset (" + nativeAsset + ") balance on " + Browser.toNetwork + " (" + Browser.toWallet + ")");
@@ -206,6 +206,8 @@ public class WormholeConnectSteps {
 
     @And("I check native balance on {string} using {string}")
     public void iCheckNativeBalanceOnToNetworkUsingToWallet(String toNetwork, String toWallet) throws InterruptedException {
+        Browser.convertingNativeBalance = true;
+
         String nativeAsset = Browser.getNativeAssetByNetworkName(toNetwork);
 
         System.out.println("Checking native asset (" + nativeAsset + ") balance on " + toNetwork + " (" + toWallet + ")");
