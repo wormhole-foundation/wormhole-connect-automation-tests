@@ -29,6 +29,7 @@ public class Hooks {
         Browser.toFinalBalance = "";
         Browser.toNativeBalance = "";
         Browser.toFinalNativeBalance = "";
+        Browser.convertingNativeBalance = false;
         Browser.sourceGasFeeUsd = "";
         Browser.destinationGasFeeUsd = "";
         Browser.screenshotUrl = "";

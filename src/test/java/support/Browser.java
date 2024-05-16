@@ -65,6 +65,8 @@ public class Browser {
     public static int waitSeconds = 10;
     public static String toNativeBalance = "";
     public static String toFinalNativeBalance = "";
+    public static boolean convertingNativeBalance = false;
+
     public static boolean metaMaskWasUnlocked = false;
     public static boolean phantomWasUnlocked = false;
     public static boolean leapWasUnlocked = false;
