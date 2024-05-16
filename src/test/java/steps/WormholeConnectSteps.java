@@ -43,6 +43,12 @@ public class WormholeConnectSteps {
         Browser.driver.get(Browser.url);
     }
 
+    @Given("I open {string} URL")
+    public void iOpenURL(String url) {
+        Browser.url = url;
+        Browser.driver.get(Browser.url);
+    }
+
     @Given("I enter page password")
     public void iEnterPassword() {
         Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));

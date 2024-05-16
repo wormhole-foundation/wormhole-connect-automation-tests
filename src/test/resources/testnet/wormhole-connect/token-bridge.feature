@@ -1,6 +1,6 @@
 Feature: Token bridge, wormhole-connect testnet
 
-  Scenario Outline: Automatic route
+  Scenario Outline: Automatic route with native balance conversion
     Given I launch testnet browser
     Given I open wormhole-connect testnet
     And I enter page password
