@@ -179,6 +179,12 @@ public class WormholeConnectSteps {
             case "wst-eth-bridge-automatic":
                 Browser.findElement(WormholePage.ETH_BRIDGE_AUTOMATIC_OPTION).click();
                 break;
+            case "route-option-nttRelay":
+                Browser.findElement(WormholePage.NTT_AUTOMATIC_OPTION).click();
+                break;
+            case "route-option-nttManual":
+                Browser.findElement(WormholePage.NTT_MANUAL_OPTION).click();
+                break;
         }
 
         Thread.sleep(3000); // wait UI to settle
@@ -320,7 +326,7 @@ public class WormholeConnectSteps {
 
     @Then("I should claim assets")
     public void iShouldClaimAssets() throws InterruptedException {
-        if (Browser.route.equals("wormhole-bridge-manual") || Browser.route.equals("circle-manual") || Browser.route.equals("cosmos-manual") ) {
+        if (Browser.route.equals("wormhole-bridge-manual") || Browser.route.equals("circle-manual") || Browser.route.equals("cosmos-manual") || Browser.route.equals("route-option-nttManual")) {
             System.out.println("Waiting for the Claim button...");
             Browser.findElement(3600, WormholePage.CLAIM_BUTTON);
             Thread.sleep(5000);

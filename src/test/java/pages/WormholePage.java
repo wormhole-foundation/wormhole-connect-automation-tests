@@ -25,6 +25,9 @@ public class WormholePage {
     public static final By CCTP_MANUAL_BRIDGE_OPTION = By.cssSelector("[data-testid='route-option-cctpManual']");
     public static final By COSMOS_AUTOMATIC_GATEWAY_OPTION = By.cssSelector("[data-testid='route-option-cosmosGateway']");
     public static final By COSMOS_MANUAL_GATEWAY_OPTION = By.cssSelector("[data-testid='route-option-cosmosGateway']");
+    public static final By NTT_AUTOMATIC_OPTION = By.cssSelector("[data-testid='route-option-nttRelay']");
+    public static final By NTT_MANUAL_OPTION = By.cssSelector("[data-testid='route-option-nttManual']");
+
     public static final By ETH_BRIDGE_AUTOMATIC_OPTION = By.xpath("//*[contains(text(),'Receive tokens automatically')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]");
     public static final By SLIDER_THUMB = By.cssSelector(".MuiSlider-thumb");
 

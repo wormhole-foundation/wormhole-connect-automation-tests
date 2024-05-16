@@ -13,8 +13,9 @@ Feature: Smoke testnet
 
 
     Examples:
-      | route                  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | xlabs-bridge-automatic | 2      | FTM   | Fantom       | Fuji       | MetaMask    | MetaMask  |
+      | route                  | amount | asset  | from_network | to_network | from_wallet | to_wallet |
+      | xlabs-bridge-automatic | 2      | FTM    | Fantom       | Fuji       | MetaMask    | MetaMask  |
+      | route-option-nttRelay  | 0.0001 | USDC.e | Alfajores    | Fuji       | MetaMask    | MetaMask  |
 
 
   Scenario Outline: Manual route
@@ -31,5 +32,7 @@ Feature: Smoke testnet
 
 
     Examples:
-      | route                  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | wormhole-bridge-manual | 0.0001 | CELO  | Alfajores    | Moonbase   | MetaMask    | MetaMask  |
+      | route                  | amount | asset  | from_network | to_network | from_wallet | to_wallet |
+      | wormhole-bridge-manual | 0.0001 | CELO   | Alfajores    | Moonbase   | MetaMask    | MetaMask  |
+      | route-option-nttManual | 0.0001 | USDC.e | Alfajores    | Fuji       | MetaMask    | MetaMask  |
+
