@@ -608,4 +608,21 @@ public class Browser {
         int xPositionUpdated = Browser.driver.findElement(WormholePage.SLIDER_THUMB).getLocation().x;
         Assert.assertTrue("Slider should move", xPositionUpdated > xPosition);
     }
+
+    public static void clickElement(By locator) {
+        findElement(locator).click();
+    }
+
+    public static void unlockMetaMask() {
+        waitForExtensionWindowToAppear();
+
+        WebElement passwordInput = findElement(ExtensionPage.METAMASK_PASSWORD_INPUT);
+        WebElement unlockButton = findElement(ExtensionPage.METAMASK_UNLOCK_BUTTON);
+
+        passwordInput.sendKeys(env.get("WALLET_PASSWORD_METAMASK"));
+        unlockButton.click();
+
+        waitForExtensionWindowToDisappear();
+        metaMaskWasUnlocked = true;
+    }
 }

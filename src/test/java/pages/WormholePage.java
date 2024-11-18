@@ -36,6 +36,12 @@ public class WormholePage {
 
     public static final By APPROVE_ERROR_MESSAGE = By.xpath("//*[text()='Error with transfer, please try again']"); // data-testid="approve-error-message"
 
+    // Connect v2
+    public static final By EXPAND_MORE_ICON = By.cssSelector("[data-testid='ExpandMoreIcon']");
+    public static final By ADD_ICON = By.cssSelector("[data-testid='AddIcon']");
+    public static final By FANTOM = By.xpath("//*[text()='Fantom']");
+    public static final By FTM = By.xpath("//*[text()='FTM']");
+
     // Redeem Screen
     public static final By REDEEM_SCREEN_HEADER = By.xpath("//*[text()='Bridge']"); // data-testid="redeem-screen-header"
     public static final By TRANSACTION_COMPLETE_MESSAGE = By.xpath("//*[text()='The bridge is now complete.']"); // data-testid="transaction-complete-message"
@@ -60,5 +66,10 @@ public class WormholePage {
 
     public static By CHOOSE_ASSET(String wallet) {
         return By.xpath("//*[contains(@class, 'MuiDialog-root')]//*[text()='" + wallet + "']/../../..");
+    }
+
+    // Connect V2
+    public static By FIND_NETWORK(String network) {
+        return By.xpath("//*[text()='" + network + "']");
     }
 }
