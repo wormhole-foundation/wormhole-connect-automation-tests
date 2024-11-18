@@ -3,14 +3,7 @@ package support;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -43,14 +36,14 @@ public class Browser {
     public static String url = "";
     public static Date startedAt;
     public static Date finishedAt;
-    public static String fromWallet = "";
+    public static String sourceWallet = "";
     public static String toWallet = "";
-    public static String fromNetwork = "";
-    public static String toNetwork = "";
+    public static String sourceChain = "";
+    public static String destinationChain = "";
     public static String fromAmount = "";
-    public static String toAmount = "";
-    public static String fromAsset = "";
-    public static String toAsset = "";
+    public static String sendingAmount = "";
+    public static String sourceToken = "";
+    public static String destinationToken = "";
     public static String route = "";
     public static String txFrom = "";
     public static String txTo = "";
@@ -148,6 +141,12 @@ public class Browser {
         actions.perform();
     }
 
+    public static void pressEscape() {
+        Actions actions = new Actions(Browser.driver);
+        actions.sendKeys(Keys.ESCAPE);
+        actions.perform();
+    }
+
     public static void takeScreenshot() {
         try {
             File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -174,22 +173,22 @@ public class Browser {
         String[] fields = {
                 Browser.emailAddress,
                 status,
-                Browser.fromNetwork,
-                Browser.toNetwork,
+                Browser.sourceChain,
+                Browser.destinationChain,
                 Browser.route,
                 Browser.url,
                 Browser.fromAmount,
-                Browser.fromAsset,
+                Browser.sourceToken,
                 Browser.fromBalance,
-                Browser.toAmount,
-                Browser.toAsset,
+                Browser.sendingAmount,
+                Browser.destinationToken,
                 Browser.toBalance,
                 Browser.txFrom,
                 Browser.txTo,
                 Browser.toFinalBalance,
                 Browser.toNativeBalance,
                 Browser.toFinalNativeBalance,
-                Browser.fromWallet,
+                Browser.sourceWallet,
                 Browser.toWallet,
                 dt.format(Browser.startedAt),
                 dt.format(Browser.finishedAt),
@@ -197,11 +196,11 @@ public class Browser {
                 Browser.destinationGasFeeUsd,
                 Browser.screenshotUrl,
                 dateOnly.format(Browser.startedAt),
-                String.valueOf(isEvmNetwork(Browser.fromNetwork) && isEvmNetwork(Browser.toNetwork)),
-                String.valueOf(isSolanaNetwork(Browser.fromNetwork) || isSolanaNetwork(Browser.toNetwork)),
-                String.valueOf(isCosmosNetwork(Browser.fromNetwork) || isCosmosNetwork(Browser.toNetwork)),
-                String.valueOf(isSuiNetwork(Browser.fromNetwork) || isSuiNetwork(Browser.toNetwork)),
-                String.valueOf(isAptosNetwork(Browser.fromNetwork) || isAptosNetwork(Browser.toNetwork)),
+                String.valueOf(isEvmNetwork(Browser.sourceChain) && isEvmNetwork(Browser.destinationChain)),
+                String.valueOf(isSolanaNetwork(Browser.sourceChain) || isSolanaNetwork(Browser.destinationChain)),
+                String.valueOf(isCosmosNetwork(Browser.sourceChain) || isCosmosNetwork(Browser.destinationChain)),
+                String.valueOf(isSuiNetwork(Browser.sourceChain) || isSuiNetwork(Browser.destinationChain)),
+                String.valueOf(isAptosNetwork(Browser.sourceChain) || isAptosNetwork(Browser.destinationChain)),
                 String.valueOf(isCircleRoute(Browser.route)),
                 "",
                 urlToEnvironment(Browser.url)
@@ -610,7 +609,9 @@ public class Browser {
     }
 
     public static void clickElement(By locator) {
-        findElement(locator).click();
+        WebElement element = findElement(locator);
+        waitToBeClickable(element);
+        element.click();
     }
 
     public static void unlockMetaMask() {
