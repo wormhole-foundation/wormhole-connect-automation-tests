@@ -43,7 +43,10 @@ public class WormholePage {
     public static final By OTHER_DESTINATION_CHAIN_ICON = By.xpath("//*[@data-testid='AddIcon']");
     public static final By AMOUNT_INPUT = By.cssSelector("input");
     public static final By REVIEW_TRANSACTION_BUTTON = By.xpath("//*[text()='Review transaction']");
-
+    public static final By CONFIRM_TRANSACTION_BUTTON = By.xpath("//*[text()='Confirm transaction']");
+    public static final By VIEW_ON_WORMHOLESCAN_LINK = By.xpath("//*[text()='View on Wormholescan']/..");
+    public static final By CLAIM_BUTTON_V2 = By.xpath("//*[text()='Claim tokens to complete transfer']");
+    public static final By TRANSACTION_COMPLETE_MESSAGE_V2 = By.xpath("//*[text()='Transaction complete']");
 
     // Redeem Screen
     public static final By REDEEM_SCREEN_HEADER = By.xpath("//*[text()='Bridge']"); // data-testid="redeem-screen-header"

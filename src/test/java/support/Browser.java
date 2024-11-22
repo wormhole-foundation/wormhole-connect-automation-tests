@@ -438,7 +438,7 @@ public class Browser {
                         return null;
                     }
                     if (isClaimStep) {
-                        return Browser.driver.findElement(WormholePage.TRANSACTION_COMPLETE_MESSAGE);
+                        return Browser.driver.findElement(WormholePage.TRANSACTION_COMPLETE_MESSAGE_V2);
                     }
                     return null;
                 });

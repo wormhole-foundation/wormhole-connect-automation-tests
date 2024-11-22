@@ -18,6 +18,9 @@ import java.time.Duration;
 
 import static junit.framework.TestCase.assertTrue;
 
+/**
+ * @deprecated
+ */
 public class WormholeConnectSteps {
 
     @Given("I launch testnet browser")
