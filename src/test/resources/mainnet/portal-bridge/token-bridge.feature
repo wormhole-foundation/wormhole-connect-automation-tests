@@ -15,11 +15,11 @@ Feature: Token bridge, Portal Bridge mainnet
 
     Examples:
       | route                  | amount | asset | from_network | to_network | from_wallet | to_wallet |
-      | xlabs-bridge-automatic | 0.004  | BNB   | BSC          | Polygon    | MetaMask    | MetaMask  |
       | xlabs-bridge-automatic | 0.8    | MATIC | Polygon      | Sui        | MetaMask    | Sui       |
       | xlabs-bridge-automatic | 1.6    | CELO  | Celo         | Moonbeam   | MetaMask    | MetaMask  |
       | xlabs-bridge-automatic | 0.04   | AVAX  | Avalanche    | BSC        | MetaMask    | MetaMask  |
       | xlabs-bridge-automatic | 0.7    | SUI   | Sui          | Solana     | Sui         | Phantom   |
+      | xlabs-bridge-automatic | 0.004  | BNB   | BSC          | Polygon    | MetaMask    | MetaMask  |
 
 
   Scenario Outline: Manual Bridge, Wormhole

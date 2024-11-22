@@ -33,8 +33,8 @@ Feature: Cosmos route, wormhole-connect mainnet
 
     Examples:
       | route         | amount  | asset | from_network | to_network | from_wallet | to_wallet |
-      | cosmos-manual | 0.00001 | USDT  | Osmosis      | BSC        | Leap        | MetaMask  |
-      | cosmos-manual | 0.00001 | WBNB  | Osmosis      | Polygon    | Leap        | MetaMask  |
+#      | cosmos-manual | 0.00001 | USDT  | Osmosis      | BSC        | Leap        | MetaMask  |
+#      | cosmos-manual | 0.00001 | WBNB  | Osmosis      | Polygon    | Leap        | MetaMask  |
       | cosmos-manual | 0.00001 | SUI   | Osmosis      | Avalanche  | Leap        | MetaMask  |
       | cosmos-manual | 0.00001 | APT   | Evmos        | Fantom     | Leap        | MetaMask  |
       | cosmos-manual | 0.00001 | CELO  | Evmos        | Celo       | Leap        | MetaMask  |

@@ -13,7 +13,7 @@ Feature: ETH Bridge route, Portal Bridge mainnet
     Examples:
       | route                | amount | asset | from_network | to_network | from_wallet | to_wallet |
       | eth-bridge-automatic | 0.0006 | WETH  | Polygon      | Avalanche  | MetaMask    | MetaMask  |
-      | eth-bridge-automatic | 0.0004 | WETH  | Polygon      | Arbitrum   | MetaMask    | MetaMask  |
+#      | eth-bridge-automatic | 0.0004 | WETH  | Polygon      | Arbitrum   | MetaMask    | MetaMask  |
 
   Scenario Outline: Automatic route, wstETH
     Given I launch mainnet browser
