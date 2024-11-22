@@ -29,23 +29,23 @@ Copy `.env.example` to `.env` file and enter missing values.
    * Right click "src/test/java/support/Browser" -> "Run Browser.main()"
    * Open chrome://extensions/ 
    * Enable Developer mode 
-   * Drag and drop `metamask-chrome-10.34.5.crx` from IntelliJ IDEA into Chrome
+   * Drag and drop `metamask-chrome-***.crx` from IntelliJ IDEA root directory into Chrome
    * Enable Test networks in MetaMask
-   * Put wallet unlock password to `.env` file
-2. Setup Phantom wallet:
+   * Add wallet unlock password to `.env` file
+2. Setup Phantom wallet (only if needed):
 - Install from https://chromewebstore.google.com/detail/phantom/bfnaelmomeimhlpmgjnjophhpkkoljpa?hl=en-US
 - Enable "Testnet Mode" in Settings > Developer Settings
 - Put wallet unlock password to `.env` file
-3. Setup Leap wallet:
+3. Setup Leap wallet (only if needed):
 - Install from https://chromewebstore.google.com/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg?hl=en
 - Change "Network" to "Testnet"
 - Put wallet unlock password to `.env` file
-4. Setup Sui wallet:
+4. Setup Sui wallet (only if needed):
 - Install from https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil
 - Change "Network" to "Testnet"
 - Put wallet unlock password to `.env` file
 
-For mainnet testing, do the same steps with BrowserMainnet.
+For mainnet testing, setup the same wallet extensions in BrowserMainnet.
 To start mainnet browser: right click "src/test/java/support/BrowserMainnet" -> "Run BrowserMainnet.main()".
 
 # Run Tests
@@ -53,7 +53,7 @@ To start mainnet browser: right click "src/test/java/support/BrowserMainnet" -> 
 1. Install "Cucumber for Java" plugin in IntelliJ IDEA
 2. Right click on any ".feature" file -> Run
 
-# Build MetaMask extension
+# Special case: How to update MetaMask extension to latest version
 ```
 git clone https://github.com/MetaMask/metamask-extension.git
 git checkout master
@@ -73,7 +73,7 @@ Open `chrome://extensions/`, click "Pack extension"
 Set `Extension root directory` to "dist/chrome" directory inside metamask-extension directory.
 Click `Pack extension`.
 
-Generated "chrome.crx" can now be installed in Google Chrome for Testing.
+Generated "chrome.crx" can now be added to this repository and can be installed in Google Chrome for Testing.
 
 # Setup Google Spreadsheets
 
