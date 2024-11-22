@@ -10,4 +10,4 @@ Feature: Check that all routes are working correctly
 
     Examples:
       | source_chain | destination_chain | amount | source_asset | destination_asset | route                     | build                                         |
-      | Fantom       | Celo              | 0.001  | FTM          | FTWM              | Token Bridge Manual route | https://wormhole-connect-mainnet.netlify.app/ |
+      | Fantom       | Celo              | 0.001  | FTM          | WFTM              | Token Bridge Manual route | https://wormhole-connect-mainnet.netlify.app/ |

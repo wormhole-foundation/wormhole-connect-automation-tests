@@ -24,12 +24,15 @@ public class WormholeConnectV2Steps {
     }
 
     @And("Transaction details entered: {string} {string} {string} to {string} {string}, route {string}")
-    public void transactionDetailsEnteredToRoute(String amount, String source_asset, String source_chain, String destination_asset, String destination_chain, String route) {
-        Browser.sourceChain = source_chain;
-        Browser.sourceToken = source_asset;
+    public void transactionDetailsEnteredToRoute(String amount, String sourceToken, String sourceChain, String destinationToken, String destinationChain, String route) throws InterruptedException {
+        Browser.sourceChain = sourceChain;
+        Browser.sourceToken = sourceToken;
+        Browser.destinationChain = destinationChain;
+        Browser.destinationToken = destinationToken;
+        Browser.sendingAmount = amount;
 
-        Browser.clickElement(WormholePage.EXPAND_MORE_ICON);
-        Browser.clickElement(WormholePage.ADD_ICON);
+        Browser.clickElement(WormholePage.EXPAND_SOURCE_MORE_ICON);
+        Browser.clickElement(WormholePage.OTHER_SOURCE_CHAIN_ICON);
         Browser.clickElement(WormholePage.FIND_NETWORK(Browser.sourceChain));
 
         if (!Browser.metaMaskWasUnlocked) {
@@ -37,6 +40,13 @@ public class WormholeConnectV2Steps {
         }
 
         Browser.clickElement(WormholePage.FIND_TOKEN(Browser.sourceToken));
+        Browser.clickElement(WormholePage.EXPAND_DESTINATION_MORE_ICON);
+        Browser.clickElement(WormholePage.OTHER_DESTINATION_CHAIN_ICON);
+        Browser.clickElement(WormholePage.FIND_NETWORK(Browser.destinationChain));
+        Browser.pressEscape();
+        Browser.findElement(WormholePage.AMOUNT_INPUT).sendKeys(amount);
+        Thread.sleep(3000);
+        Browser.clickElement(WormholePage.REVIEW_TRANSACTION_BUTTON);
     }
 
     @And("Transaction approved in the wallet")

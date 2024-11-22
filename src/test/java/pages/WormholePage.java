@@ -37,10 +37,13 @@ public class WormholePage {
     public static final By APPROVE_ERROR_MESSAGE = By.xpath("//*[text()='Error with transfer, please try again']"); // data-testid="approve-error-message"
 
     // Connect v2
-    public static final By EXPAND_MORE_ICON = By.cssSelector("[data-testid='ExpandMoreIcon']");
-    public static final By ADD_ICON = By.cssSelector("[data-testid='AddIcon']");
-    public static final By FANTOM = By.xpath("//*[text()='Fantom']");
-    public static final By FTM = By.xpath("//*[text()='FTM']");
+    public static final By EXPAND_SOURCE_MORE_ICON = By.cssSelector("[data-testid='ExpandMoreIcon']");
+    public static final By EXPAND_DESTINATION_MORE_ICON = By.xpath("(//*[@data-testid='ExpandMoreIcon'])[2]");
+    public static final By OTHER_SOURCE_CHAIN_ICON = By.cssSelector("[data-testid='AddIcon']");
+    public static final By OTHER_DESTINATION_CHAIN_ICON = By.xpath("//*[@data-testid='AddIcon']");
+    public static final By AMOUNT_INPUT = By.cssSelector("input");
+    public static final By REVIEW_TRANSACTION_BUTTON = By.xpath("//*[text()='Review transaction']");
+
 
     // Redeem Screen
     public static final By REDEEM_SCREEN_HEADER = By.xpath("//*[text()='Bridge']"); // data-testid="redeem-screen-header"
