@@ -37,7 +37,7 @@ public class Browser {
     public static Date startedAt;
     public static Date finishedAt;
     public static String sourceWallet = "";
-    public static String toWallet = "";
+    public static String destinationWallet = "";
     public static String sourceChain = "";
     public static String destinationChain = "";
     public static String fromAmount = "";
@@ -45,11 +45,11 @@ public class Browser {
     public static String sourceToken = "";
     public static String destinationToken = "";
     public static String route = "";
-    public static String txFrom = "";
+    public static String wormholescanLink = "";
     public static String txTo = "";
     public static String fromBalance = "";
-    public static String toBalance = "";
-    public static String toFinalBalance = "";
+    public static String destinationBalance = "";
+    public static String destinationFinalBalance = "";
     public static String sourceGasFeeUsd = "";
     public static String destinationGasFeeUsd = "";
     public static String screenshotUrl = "";
@@ -182,14 +182,14 @@ public class Browser {
                 Browser.fromBalance,
                 Browser.sendingAmount,
                 Browser.destinationToken,
-                Browser.toBalance,
-                Browser.txFrom,
+                Browser.destinationBalance,
+                Browser.wormholescanLink,
                 Browser.txTo,
-                Browser.toFinalBalance,
+                Browser.destinationFinalBalance,
                 Browser.toNativeBalance,
                 Browser.toFinalNativeBalance,
                 Browser.sourceWallet,
-                Browser.toWallet,
+                Browser.destinationWallet,
                 dt.format(Browser.startedAt),
                 dt.format(Browser.finishedAt),
                 Browser.sourceGasFeeUsd,

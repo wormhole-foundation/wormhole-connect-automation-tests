@@ -14,7 +14,7 @@ public class Hooks {
         Browser.startedAt = new Date();
         Browser.finishedAt = null;
         Browser.sourceWallet = "";
-        Browser.toWallet = "";
+        Browser.destinationWallet = "";
         Browser.sourceChain = "";
         Browser.destinationChain = "";
         Browser.fromAmount = "";
@@ -22,11 +22,11 @@ public class Hooks {
         Browser.sourceToken = "";
         Browser.destinationToken = "";
         Browser.route = "";
-        Browser.txFrom = "";
+        Browser.wormholescanLink = "";
         Browser.txTo = "";
         Browser.fromBalance = "";
-        Browser.toBalance = "";
-        Browser.toFinalBalance = "";
+        Browser.destinationBalance = "";
+        Browser.destinationFinalBalance = "";
         Browser.toNativeBalance = "";
         Browser.toFinalNativeBalance = "";
         Browser.convertingNativeBalance = false;

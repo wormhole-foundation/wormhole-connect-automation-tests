@@ -66,16 +66,16 @@ public class WormholeConnectSteps {
     @And("I prepare to send {string} {string} from {string}\\({string}) to {string}\\({string}) with {string} route")
     public void iFillInTransactionDetails(String amount, String asset, String fromNetwork, String fromWallet, String toNetwork, String toWallet, String route) throws InterruptedException {
         Browser.sourceWallet = fromWallet;
-        Browser.toWallet = toWallet;
+        Browser.destinationWallet = toWallet;
         Browser.sourceChain = fromNetwork;
         Browser.destinationChain = toNetwork;
         Browser.fromAmount = amount;
         Browser.sourceToken = asset;
         Browser.route = route;
-        Browser.txFrom = "";
+        Browser.wormholescanLink = "";
         Browser.txTo = "";
 
-        System.out.println("I prepare to send " + Browser.fromAmount + " " + Browser.sourceToken + " from " + Browser.sourceChain + " to " + Browser.toWallet);
+        System.out.println("I prepare to send " + Browser.fromAmount + " " + Browser.sourceToken + " from " + Browser.sourceChain + " to " + Browser.destinationWallet);
 
         if (Browser.convertingNativeBalance) {
             Assert.assertNotEquals("Starting native balance was not checked", "", Browser.toNativeBalance);
@@ -90,9 +90,9 @@ public class WormholeConnectSteps {
 
         if (Browser.elementAppears(1, WormholePage.DESTINATION_CONNECT_WALLET_BUTTON)) {
             Browser.findElement(WormholePage.DESTINATION_CONNECT_WALLET_BUTTON).click();
-            Browser.findElement(WormholePage.CHOOSE_WALLET(Browser.toWallet)).click();
+            Browser.findElement(WormholePage.CHOOSE_WALLET(Browser.destinationWallet)).click();
 
-            if (Browser.toWallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
+            if (Browser.destinationWallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
                 Browser.waitForExtensionWindowToAppear();
 
                 Browser.findElement(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
@@ -102,7 +102,7 @@ public class WormholeConnectSteps {
                 Browser.metaMaskWasUnlocked = true;
             }
 
-            if (Browser.toWallet.equals("Leap") && !Browser.leapWasUnlocked) {
+            if (Browser.destinationWallet.equals("Leap") && !Browser.leapWasUnlocked) {
                 Browser.waitForExtensionWindowToAppear();
 
                 Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
@@ -138,7 +138,7 @@ public class WormholeConnectSteps {
         Browser.findElement(WormholePage.POPUP_CLOSE_BUTTON).click();
         // end
 
-        Browser.toBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.DESTINATION_BALANCE_TEXT);
+        Browser.destinationBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.DESTINATION_BALANCE_TEXT);
 
         switch (route) {
             case "xlabs-bridge-automatic":
@@ -197,16 +197,16 @@ public class WormholeConnectSteps {
             System.out.println("Waiting 20 seconds to receive asset on Solana");
             Thread.sleep(20000);
         }
-        System.out.println("Checking " + Browser.destinationToken + " balance on " + Browser.destinationChain + " (" + Browser.toWallet + ")");
-        Browser.selectAssetInFromSection(Browser.toWallet, Browser.destinationChain, Browser.destinationToken);
+        System.out.println("Checking " + Browser.destinationToken + " balance on " + Browser.destinationChain + " (" + Browser.destinationWallet + ")");
+        Browser.selectAssetInFromSection(Browser.destinationWallet, Browser.destinationChain, Browser.destinationToken);
 
-        Browser.toFinalBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
-        System.out.println(Browser.toFinalBalance + " " + Browser.destinationToken);
+        Browser.destinationFinalBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
+        System.out.println(Browser.destinationFinalBalance + " " + Browser.destinationToken);
 
         if (Browser.convertingNativeBalance) {
             String nativeAsset = Browser.getNativeAssetByNetworkName(Browser.destinationChain);
 
-            System.out.println("Checking native asset (" + nativeAsset + ") balance on " + Browser.destinationChain + " (" + Browser.toWallet + ")");
+            System.out.println("Checking native asset (" + nativeAsset + ") balance on " + Browser.destinationChain + " (" + Browser.destinationWallet + ")");
             Browser.findElement(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();
             Browser.findElement(WormholePage.CHOOSE_ASSET(nativeAsset)).click();
 
@@ -215,7 +215,7 @@ public class WormholeConnectSteps {
 
             Assert.assertTrue("Native balance should have increased", Double.parseDouble(Browser.toFinalNativeBalance) > Double.parseDouble(Browser.toNativeBalance));
         }
-        Assert.assertTrue("Balance should have increased", Double.parseDouble(Browser.toFinalBalance) > Double.parseDouble(Browser.toBalance));
+        Assert.assertTrue("Balance should have increased", Double.parseDouble(Browser.destinationFinalBalance) > Double.parseDouble(Browser.destinationBalance));
     }
 
     @And("I check native balance on {string} using {string}")
@@ -321,7 +321,7 @@ public class WormholeConnectSteps {
         System.out.println("Waiting for the send from link...");
         WebElement sendFromLink = Browser.findElement(3600, WormholePage.SOURCE_SCAN_LINK());
 
-        Browser.txFrom = sendFromLink.getAttribute("href");
+        Browser.wormholescanLink = sendFromLink.getAttribute("href");
     }
 
     @Then("I should claim assets")
@@ -333,7 +333,7 @@ public class WormholeConnectSteps {
             Browser.findElement(WormholePage.CLAIM_BUTTON).click();
             Thread.sleep(2000);
 
-            if (Browser.toWallet.equals("Phantom")) {
+            if (Browser.destinationWallet.equals("Phantom")) {
                 Browser.waitForExtensionWindowToAppear();
 
                 Browser.findElement(ExtensionPage.PHANTOM_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
@@ -360,7 +360,7 @@ public class WormholeConnectSteps {
                         });
 
                 Browser.waitForExtensionWindowToDisappear();
-            } else if (Browser.toWallet.equals("Sui")) {
+            } else if (Browser.destinationWallet.equals("Sui")) {
                 Browser.waitForExtensionWindowToAppear();
                 Browser.findElement(ExtensionPage.SUI_UNLOCK_TO_APPROVE_BUTTON).click();
 
@@ -376,7 +376,7 @@ public class WormholeConnectSteps {
                 } catch (NoSuchElementException ignore) {
                 }
                 Browser.waitForExtensionWindowToDisappear();
-            } else if (Browser.toWallet.equals("Spika")) {
+            } else if (Browser.destinationWallet.equals("Spika")) {
                 Browser.waitForExtensionWindowToAppear();
 
                 Browser.findElement(ExtensionPage.SPIKA_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SPIKA"));
@@ -387,7 +387,7 @@ public class WormholeConnectSteps {
                 Thread.sleep(1000);
 
                 Browser.waitForExtensionWindowToDisappear();
-            } else if (Browser.toWallet.equals("Leap")) {
+            } else if (Browser.destinationWallet.equals("Leap")) {
                 Browser.waitForExtensionWindowToAppear();
                 Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
                 Thread.sleep(1000);
@@ -406,7 +406,7 @@ public class WormholeConnectSteps {
         if (Browser.route.equals("automatic") || Browser.route.equals("circle-automatic")) {
             waitSeconds = 60 * 30;
         } else {
-            if (Browser.toWallet.equals("Phantom")) {
+            if (Browser.destinationWallet.equals("Phantom")) {
                 waitSeconds = 60 * 10;
             } else {
                 waitSeconds = 60 * 30;
