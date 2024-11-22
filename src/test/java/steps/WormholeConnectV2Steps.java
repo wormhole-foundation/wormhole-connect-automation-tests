@@ -17,7 +17,7 @@ public class WormholeConnectV2Steps {
         BrowserMainnet.launch();
         Browser.url = build;
         Browser.driver.get(Browser.url);
-        if (build.contains("https://wormhole-connect-mainnet.netlify.app/")) {
+        if (build.contains("netlify.app")) {
             Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
             Browser.findElement(PasswordPage.button).click();
         }
