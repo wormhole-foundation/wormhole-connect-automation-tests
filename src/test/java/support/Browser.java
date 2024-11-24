@@ -184,9 +184,8 @@ public class Browser {
                 Browser.wormholescanLink,
 
                 "-", // Tx is displayed in the In-progress widget
-                "-", // Tx can be resumed
+                (Browser.requiresClaim ? "-" : "n/a"), // Tx can be resumed
                 "-", // Tx is displayed in history
-                "-", // Issues/ Comments
                 status,
 
                 Browser.url,
