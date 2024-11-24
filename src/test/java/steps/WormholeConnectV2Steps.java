@@ -149,9 +149,9 @@ public class WormholeConnectV2Steps {
         Assert.assertTrue(Browser.wormholescanLink.startsWith("https://wormholescan.io/#/tx/"));
     }
 
-    @And("Claim assets on destination network if needed \\(requires claim: {string})")
+    @And("Claim assets on destination network if needed")
     public void claimAssetsOnDestinationNetwork(String requiresClaim) throws InterruptedException {
-        if (requiresClaim.equals("no")) {
+        if (Browser.requiresClaim) {
             return;
         }
 

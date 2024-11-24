@@ -64,6 +64,7 @@ public class Browser {
     public static boolean phantomWasUnlocked = false;
     public static boolean leapWasUnlocked = false;
     public static boolean spikaWasUnlocked = false;
+    public static boolean requiresClaim = false;
 
     public static void main(String[] args) {
         launch();
@@ -621,15 +622,19 @@ public class Browser {
     public static void validateRouteName() {
         switch (Browser.route) {
             case "Token Bridge Manual route":
-            case "Token Bridge Automatic route":
             case "CCTP Manual route":
+            case "NTT Manual route":
+                Browser.requiresClaim = true;
+                return;
+
+            case "Token Bridge Automatic route":
             case "CCTP Automatic route":
             case "Mayan Route":
             case "Mayan Swift route":
             case "Mayan MCTP route":
-            case "NTT Manual route":
             case "NTT Automatic route":
             case "NTT + Axelar":
+                Browser.requiresClaim = false;
                 return;
             default:
                 throw new RuntimeException("Unsupported route: " + Browser.route);

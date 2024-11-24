@@ -34,6 +34,7 @@ public class Hooks {
         Browser.destinationGasFeeUsd = "";
         Browser.screenshotUrl = "";
         Browser.isBlocked = false;
+        Browser.requiresClaim = false;
 
         Browser.metaMaskWasUnlocked = false;
         Browser.phantomWasUnlocked = false;
