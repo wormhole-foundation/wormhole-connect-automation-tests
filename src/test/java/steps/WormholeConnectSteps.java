@@ -72,13 +72,13 @@ public class WormholeConnectSteps {
         Browser.destinationWallet = toWallet;
         Browser.sourceChain = fromNetwork;
         Browser.destinationChain = toNetwork;
-        Browser.fromAmount = amount;
+        Browser.sourceAmount = amount;
         Browser.sourceToken = asset;
         Browser.route = route;
         Browser.wormholescanLink = "";
         Browser.txTo = "";
 
-        System.out.println("I prepare to send " + Browser.fromAmount + " " + Browser.sourceToken + " from " + Browser.sourceChain + " to " + Browser.destinationWallet);
+        System.out.println("I prepare to send " + Browser.sourceAmount + " " + Browser.sourceToken + " from " + Browser.sourceChain + " to " + Browser.destinationWallet);
 
         if (Browser.convertingNativeBalance) {
             Assert.assertNotEquals("Starting native balance was not checked", "", Browser.toNativeBalance);
@@ -131,9 +131,9 @@ public class WormholeConnectSteps {
         Browser.destinationToken = Browser.findElement(WormholePage.DESTINATION_ASSET_BUTTON).getText();
         Browser.destinationToken = Browser.destinationToken.split("\n")[0]; // "CELO\n(Alfajores)" -> "CELO"
         if (Browser.route.equals("eth-bridge-automatic") || Browser.route.equals("wst-eth-bridge-automatic")) {
-            Browser.sendingAmount = Browser.findElement(WormholePage.DESTINATION_AMOUNT_INPUT_ETH_BRIDGE).getAttribute("value");
+            Browser.destinationAmount = Browser.findElement(WormholePage.DESTINATION_AMOUNT_INPUT_ETH_BRIDGE).getAttribute("value");
         } else {
-            Browser.sendingAmount = Browser.findElement(WormholePage.DESTINATION_AMOUNT_INPUT).getAttribute("value");
+            Browser.destinationAmount = Browser.findElement(WormholePage.DESTINATION_AMOUNT_INPUT).getAttribute("value");
         }
 
         // work around to show balance in To section

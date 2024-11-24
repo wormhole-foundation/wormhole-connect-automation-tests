@@ -17,8 +17,8 @@ public class Hooks {
         Browser.destinationWallet = "";
         Browser.sourceChain = "";
         Browser.destinationChain = "";
-        Browser.fromAmount = "";
-        Browser.sendingAmount = "";
+        Browser.sourceAmount = "";
+        Browser.destinationAmount = "";
         Browser.sourceToken = "";
         Browser.destinationToken = "";
         Browser.route = "";

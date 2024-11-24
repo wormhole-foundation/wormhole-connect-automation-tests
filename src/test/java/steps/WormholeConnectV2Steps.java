@@ -35,13 +35,14 @@ public class WormholeConnectV2Steps {
 
     @And("Transaction details entered: {string} {string} {string} to {string} {string}, from {string} to {string} route {string}")
     public void transactionDetailsEnteredToRoute(String amount, String sourceToken, String sourceChain, String destinationToken, String destinationChain, String sourceWallet, String destinationWallet, String route) throws InterruptedException {
+        Browser.route = route;
         Browser.sourceWallet = sourceWallet;
         Browser.destinationWallet = destinationWallet;
         Browser.sourceChain = sourceChain;
         Browser.sourceToken = sourceToken;
         Browser.destinationChain = destinationChain;
         Browser.destinationToken = destinationToken;
-        Browser.sendingAmount = amount;
+        Browser.sourceAmount = amount;
 
         Browser.validateRouteName();
 

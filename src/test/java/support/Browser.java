@@ -40,8 +40,8 @@ public class Browser {
     public static String destinationWallet = "";
     public static String sourceChain = "";
     public static String destinationChain = "";
-    public static String fromAmount = "";
-    public static String sendingAmount = "";
+    public static String sourceAmount = "";
+    public static String destinationAmount = "";
     public static String sourceToken = "";
     public static String destinationToken = "";
     public static String route = "";
@@ -171,39 +171,30 @@ public class Browser {
         SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy-MM-dd");
 
         String[] fields = {
-                "Automation: " + Browser.emailAddress,
-                status,
-                Browser.sourceChain,
-                Browser.destinationChain,
                 Browser.route,
-                Browser.url,
-                Browser.fromAmount,
-                Browser.sourceToken,
-                Browser.fromBalance,
-                Browser.sendingAmount,
-                Browser.destinationToken,
-                Browser.destinationBalance,
+
+                Browser.sourceChain + "\n" + Browser.destinationChain,
+
+                Browser.sourceAmount + " " + Browser.sourceToken + "\n" +
+                Browser.destinationAmount + " " + Browser.destinationToken,
+
+                Browser.sourceWallet + "\n" + Browser.destinationWallet,
+
                 Browser.wormholescanLink,
-                Browser.txTo,
-                Browser.destinationFinalBalance,
-                Browser.toNativeBalance,
-                Browser.toFinalNativeBalance,
-                Browser.sourceWallet,
-                Browser.destinationWallet,
+
+                "-", // Tx is displayed in the In-progress widget
+                "-", // Tx can be resumed
+                "-", // Tx is displayed in history
+                "-", // Issues/ Comments
+                status,
+
+                Browser.url,
+
                 dt.format(Browser.startedAt),
                 dt.format(Browser.finishedAt),
-                Browser.sourceGasFeeUsd,
-                Browser.destinationGasFeeUsd,
                 Browser.screenshotUrl,
-                dateOnly.format(Browser.startedAt),
-                String.valueOf(isEvmNetwork(Browser.sourceChain) && isEvmNetwork(Browser.destinationChain)),
-                String.valueOf(isSolanaNetwork(Browser.sourceChain) || isSolanaNetwork(Browser.destinationChain)),
-                String.valueOf(isCosmosNetwork(Browser.sourceChain) || isCosmosNetwork(Browser.destinationChain)),
-                String.valueOf(isSuiNetwork(Browser.sourceChain) || isSuiNetwork(Browser.destinationChain)),
-                String.valueOf(isAptosNetwork(Browser.sourceChain) || isAptosNetwork(Browser.destinationChain)),
-                String.valueOf(isCircleRoute(Browser.route)),
-                "",
-                urlToEnvironment(Browser.url)
+
+                "Automation: " + Browser.emailAddress,
         };
 
         boolean savedSuccessfully = Google.writeResultsToGoogleSpreadsheet(fields);
