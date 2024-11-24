@@ -43,6 +43,8 @@ public class WormholeConnectV2Steps {
         Browser.destinationToken = destinationToken;
         Browser.sendingAmount = amount;
 
+        Browser.validateRouteName();
+
         Browser.clickElement(WormholePage.EXPAND_SOURCE_MORE_ICON);
         Browser.clickElement(WormholePage.OTHER_SOURCE_CHAIN_ICON);
         Browser.clickElement(WormholePage.FIND_NETWORK(Browser.sourceChain));

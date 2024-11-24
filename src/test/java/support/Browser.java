@@ -171,7 +171,7 @@ public class Browser {
         SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy-MM-dd");
 
         String[] fields = {
-                Browser.emailAddress,
+                "Automation: " + Browser.emailAddress,
                 status,
                 Browser.sourceChain,
                 Browser.destinationChain,
@@ -625,5 +625,23 @@ public class Browser {
 
         waitForExtensionWindowToDisappear();
         metaMaskWasUnlocked = true;
+    }
+
+    public static void validateRouteName() {
+        switch (Browser.route) {
+            case "Token Bridge Manual route":
+            case "Token Bridge Automatic route":
+            case "CCTP Manual route":
+            case "CCTP Automatic route":
+            case "Mayan Route":
+            case "Mayan Swift route":
+            case "Mayan MCTP route":
+            case "NTT Manual route":
+            case "NTT Automatic route":
+            case "NTT + Axelar":
+                return;
+            default:
+                throw new RuntimeException("Unsupported route: " + Browser.route);
+        }
     }
 }
