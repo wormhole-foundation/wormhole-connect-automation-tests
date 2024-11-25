@@ -32,6 +32,8 @@ Copy `.env.example` to `.env` file and enter missing values.
    * Drag and drop `metamask-chrome-***.crx` from IntelliJ IDEA root directory into Chrome
    * Enable Test networks in MetaMask
    * Add wallet unlock password to `.env` file
+   * NOTE: When tests are run for the first time, MetaMask wallet needs to be manually connected to website.
+   Click "Connect source wallet" button and then select MetaMask in sidebar, choose testnet or mainnet account and confirm.
 2. Setup Phantom wallet (only if needed):
 - Install from https://chromewebstore.google.com/detail/phantom/bfnaelmomeimhlpmgjnjophhpkkoljpa?hl=en-US
 - Enable "Testnet Mode" in Settings > Developer Settings
