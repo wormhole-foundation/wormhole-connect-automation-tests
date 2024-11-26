@@ -150,8 +150,8 @@ public class WormholeConnectV2Steps {
     }
 
     @And("Claim assets on destination network if needed")
-    public void claimAssetsOnDestinationNetwork(String requiresClaim) throws InterruptedException {
-        if (Browser.requiresClaim) {
+    public void claimAssetsOnDestinationNetwork() throws InterruptedException {
+        if (!Browser.requiresClaim) {
             return;
         }
 
