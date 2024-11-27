@@ -73,16 +73,15 @@ public class WormholeConnectSteps {
         TestCase.destinationWallet = toWallet;
         TestCase.sourceChain = fromNetwork;
         TestCase.destinationChain = toNetwork;
-        TestCase.sourceAmount = amount;
+        TestCase.inputAmount = amount;
         TestCase.sourceToken = asset;
         TestCase.route = route;
         TestCase.wormholescanLink = "";
-        TestCase.txTo = "";
 
-        System.out.println("I prepare to send " + TestCase.sourceAmount + " " + TestCase.sourceToken + " from " + TestCase.sourceChain + " to " + TestCase.destinationWallet);
+        System.out.println("I prepare to send " + TestCase.inputAmount + " " + TestCase.sourceToken + " from " + TestCase.sourceChain + " to " + TestCase.destinationWallet);
 
-        if (TestCase.convertingNativeBalance) {
-            Assert.assertNotEquals("Starting native balance was not checked", "", TestCase.toNativeBalance);
+        if (!TestCase.destinationNetworkNativeBalanceIsKnown) {
+            Assert.assertNotEquals("Starting native balance was not checked", "", TestCase.destinationNativeBalance);
         }
 
         Browser.selectAssetInFromSection(TestCase.sourceWallet, TestCase.sourceChain, TestCase.sourceToken);
@@ -121,8 +120,6 @@ public class WormholeConnectSteps {
 
         Browser.findElement(WormholePage.SOURCE_AMOUNT_INPUT).sendKeys(amount);
         Thread.sleep(1000);
-
-        TestCase.fromBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
 
         try {
             Browser.findElement(WormholePage.POPUP_CLOSE_BUTTON).click();
@@ -207,32 +204,32 @@ public class WormholeConnectSteps {
         TestCase.destinationFinalBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
         System.out.println(TestCase.destinationFinalBalance + " " + TestCase.destinationToken);
 
-        if (TestCase.convertingNativeBalance) {
+        if (TestCase.destinationNetworkNativeBalanceIsKnown) {
             String nativeAsset = Browser.getNativeAssetByNetworkName(TestCase.destinationChain);
 
             System.out.println("Checking native asset (" + nativeAsset + ") balance on " + TestCase.destinationChain + " (" + TestCase.destinationWallet + ")");
             Browser.findElement(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();
             Browser.findElement(WormholePage.CHOOSE_ASSET(nativeAsset)).click();
 
-            TestCase.toFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
-            System.out.println(TestCase.toFinalNativeBalance + " " + nativeAsset);
+            TestCase.destinationFinalNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
+            System.out.println(TestCase.destinationFinalNativeBalance + " " + nativeAsset);
 
-            Assert.assertTrue("Native balance should have increased", Double.parseDouble(TestCase.toFinalNativeBalance) > Double.parseDouble(TestCase.toNativeBalance));
+            Assert.assertTrue("Native balance should have increased", Double.parseDouble(TestCase.destinationFinalNativeBalance) > Double.parseDouble(TestCase.destinationNativeBalance));
         }
         Assert.assertTrue("Balance should have increased", Double.parseDouble(TestCase.destinationFinalBalance) > Double.parseDouble(TestCase.destinationBalance));
     }
 
     @And("I check native balance on {string} using {string}")
     public void iCheckNativeBalanceOnToNetworkUsingToWallet(String toNetwork, String toWallet) throws InterruptedException {
-        TestCase.convertingNativeBalance = true;
-
         String nativeAsset = Browser.getNativeAssetByNetworkName(toNetwork);
 
         System.out.println("Checking native asset (" + nativeAsset + ") balance on " + toNetwork + " (" + toWallet + ")");
         Browser.selectAssetInFromSection(toWallet, toNetwork, nativeAsset);
 
-        TestCase.toNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
-        System.out.println(TestCase.toNativeBalance + " " + nativeAsset);
+        TestCase.destinationNativeBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.SOURCE_BALANCE_TEXT);
+        System.out.println(TestCase.destinationNativeBalance + " " + nativeAsset);
+
+        TestCase.destinationNetworkNativeBalanceIsKnown = true;
     }
 
     @When("I click on Approve button")
@@ -397,8 +394,7 @@ public class WormholeConnectSteps {
                 Thread.sleep(1000);
 
                 Browser.waitForExtensionWindowToDisappear();
-            }
-            else {
+            } else {
                 Browser.confirmTransactionInMetaMask(true);
             }
         }
@@ -421,8 +417,6 @@ public class WormholeConnectSteps {
         WebElement sendToLink = Browser.findElement(waitSeconds, WormholePage.DESTINATION_SCAN_LINK());
 
         assertTrue(sendToLink.isDisplayed());
-
-        TestCase.txTo = sendToLink.getAttribute("href");
 
         System.out.println("Finished");
     }

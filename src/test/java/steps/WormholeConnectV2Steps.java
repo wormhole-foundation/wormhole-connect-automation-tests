@@ -41,7 +41,7 @@ public class WormholeConnectV2Steps {
         TestCase.sourceToken = sourceToken;
         TestCase.destinationChain = destinationChain;
         TestCase.destinationToken = destinationToken;
-        TestCase.sourceAmount = amount;
+        TestCase.inputAmount = amount;
 
         Browser.validateRouteName();
 

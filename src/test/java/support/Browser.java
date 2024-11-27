@@ -141,7 +141,7 @@ public class Browser {
 
                 TestCase.sourceChain + "\n" + TestCase.destinationChain,
 
-                TestCase.sourceAmount + " " + TestCase.sourceToken + "\n" +
+                TestCase.inputAmount + " " + TestCase.sourceToken + "\n" +
                         TestCase.destinationAmount + " " + TestCase.destinationToken,
 
                 TestCase.sourceWallet + "\n" + TestCase.destinationWallet,
@@ -354,9 +354,9 @@ public class Browser {
                                 String gasFeeText = gasAmount.getText().replace("$", "");
                                 double gasFeeUsd = Double.parseDouble(gasFeeText);
                                 if (isClaimStep) {
-                                    TestCase.destinationGasFeeUsd = gasFeeText;
+                                    TestCase.claimGasFeeUsd = gasFeeText;
                                 } else {
-                                    TestCase.sourceGasFeeUsd = gasFeeText;
+                                    TestCase.transactionGasFeeUsd = gasFeeText;
                                 }
                                 if (gasFeeUsd >= 3.0) {
                                     TestCase.isBlockedByHighFee = true;
