@@ -32,6 +32,8 @@ public class Google {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static NetHttpTransport HTTP_TRANSPORT;
 
+    public static String emailAddress;
+
     public static Credential getLoggedInUser() {
         String spreadsheetID = Browser.env.get("GOOGLE_SPREADSHEETS_DOCUMENT_ID");
         String folderId = Browser.env.get("GOOGLE_DRIVE_FOLDER_ID");
@@ -132,7 +134,7 @@ public class Google {
             File result = getDriveService().files().create(fileMetadata, mediaContent)
                     .setFields("id, parents, webViewLink")
                     .execute();
-            Browser.screenshotUrl = result.getWebViewLink();
+            TestCase.screenshotUrl = result.getWebViewLink();
 
             return true;
         } catch (Exception exception) {

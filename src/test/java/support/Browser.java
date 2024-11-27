@@ -30,41 +30,7 @@ public class Browser {
     public static Dotenv env;
     private static final SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
-    public static String emailAddress;
-
-    public static boolean isMainnet = false;
-    public static String url = "";
-    public static Date startedAt;
-    public static Date finishedAt;
-    public static String sourceWallet = "";
-    public static String destinationWallet = "";
-    public static String sourceChain = "";
-    public static String destinationChain = "";
-    public static String sourceAmount = "";
-    public static String destinationAmount = "";
-    public static String sourceToken = "";
-    public static String destinationToken = "";
-    public static String route = "";
-    public static String wormholescanLink = "";
-    public static String txTo = "";
-    public static String fromBalance = "";
-    public static String destinationBalance = "";
-    public static String destinationFinalBalance = "";
-    public static String sourceGasFeeUsd = "";
-    public static String destinationGasFeeUsd = "";
-    public static String screenshotUrl = "";
-    public static boolean isBlocked = false;
-
     public static int waitSeconds = 10;
-    public static String toNativeBalance = "";
-    public static String toFinalNativeBalance = "";
-    public static boolean convertingNativeBalance = false;
-
-    public static boolean metaMaskWasUnlocked = false;
-    public static boolean phantomWasUnlocked = false;
-    public static boolean leapWasUnlocked = false;
-    public static boolean spikaWasUnlocked = false;
-    public static boolean requiresClaim = false;
 
     public static void main(String[] args) {
         launch();
@@ -83,7 +49,7 @@ public class Browser {
 
         env = Dotenv.load();
         Google.getLoggedInUser(); // login to Google Services
-        Browser.emailAddress = Google.getEmailAddress();
+        Google.emailAddress = Google.getEmailAddress();
 
         ChromeOptions opt = new ChromeOptions();
         if (System.getProperty("os.name").startsWith("Windows")) {
@@ -100,7 +66,7 @@ public class Browser {
             System.err.println("Could not start Chrome. Please make sure all test browser windows are closed. ERROR: " + ex.getMessage());
             System.exit(1);
         }
-        Browser.waitSeconds = 10;
+        waitSeconds = 10;
     }
 
     public static void quit() {
@@ -161,7 +127,7 @@ public class Browser {
             }
         } catch (WebDriverException e) {
             System.err.println("Could not take a screenshot");
-            Browser.screenshotUrl = "N/A";
+            TestCase.screenshotUrl = "N/A";
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -172,29 +138,29 @@ public class Browser {
         SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy-MM-dd");
 
         String[] fields = {
-                Browser.route,
+                TestCase.route,
 
-                Browser.sourceChain + "\n" + Browser.destinationChain,
+                TestCase.sourceChain + "\n" + TestCase.destinationChain,
 
-                Browser.sourceAmount + " " + Browser.sourceToken + "\n" +
-                Browser.destinationAmount + " " + Browser.destinationToken,
+                TestCase.sourceAmount + " " + TestCase.sourceToken + "\n" +
+                        TestCase.destinationAmount + " " + TestCase.destinationToken,
 
-                Browser.sourceWallet + "\n" + Browser.destinationWallet,
+                TestCase.sourceWallet + "\n" + TestCase.destinationWallet,
 
-                Browser.wormholescanLink,
+                TestCase.wormholescanLink,
 
                 "-", // Tx is displayed in the In-progress widget
-                (Browser.requiresClaim ? "-" : "n/a"), // Tx can be resumed
+                (TestCase.requiresClaim ? "-" : "n/a"), // Tx can be resumed
                 "-", // Tx is displayed in history
                 status,
 
-                Browser.url,
+                TestCase.url,
 
-                dt.format(Browser.startedAt),
-                dt.format(Browser.finishedAt),
-                Browser.screenshotUrl,
+                dt.format(TestCase.startedAt),
+                dt.format(TestCase.finishedAt),
+                TestCase.screenshotUrl,
 
-                "Automation: " + Browser.emailAddress,
+                "Automation: " + Google.emailAddress,
         };
 
         boolean savedSuccessfully = Google.writeResultsToGoogleSpreadsheet(fields);
@@ -288,7 +254,7 @@ public class Browser {
     }
 
     public static WebElement findElement(By locator) throws NoSuchElementException {
-        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(Browser.waitSeconds));
+        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(waitSeconds));
         try {
             webDriverWait.until((webDriver) -> {
                 return Browser.driver.findElement(locator);
@@ -307,13 +273,13 @@ public class Browser {
         if (seconds > 10) {
             System.out.println("Checking if element (" + locator.toString() + ") appears in " + seconds + "s");
         }
-        Browser.waitSeconds = seconds;
+        waitSeconds = seconds;
         try {
             Browser.findElement(locator);
             return true;
         } catch (NoSuchElementException ignore) {
         }
-        Browser.waitSeconds = 10;
+        waitSeconds = 10;
         return false;
     }
 
@@ -321,14 +287,14 @@ public class Browser {
         if (seconds > 10) {
             System.out.println("Waiting for element (" + locator.toString() + ")  to appear in " + seconds + "s");
         }
-        Browser.waitSeconds = seconds;
+        waitSeconds = seconds;
         WebElement element = Browser.findElement(locator);
-        Browser.waitSeconds = 10;
+        waitSeconds = 10;
         return element;
     }
 
     public static void waitToBeClickable(WebElement el) throws NoSuchElementException {
-        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(Browser.waitSeconds));
+        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(waitSeconds));
         try {
             webDriverWait
                     .until(ExpectedConditions.elementToBeClickable(el));
@@ -383,18 +349,18 @@ public class Browser {
                     if (Browser.extensionWindowIsOpened()) {
                         Browser.switchToExtensionWindow();
 
-                        if (Browser.isMainnet) {
+                        if (TestCase.isMainnet) {
                             try {
                                 WebElement gasAmount = Browser.driver.findElement(ExtensionPage.METAMASK_GAS_AMOUNT_TEXT);
                                 String gasFeeText = gasAmount.getText().replace("$", "");
                                 double gasFeeUsd = Double.parseDouble(gasFeeText);
                                 if (isClaimStep) {
-                                    Browser.destinationGasFeeUsd = gasFeeText;
+                                    TestCase.destinationGasFeeUsd = gasFeeText;
                                 } else {
-                                    Browser.sourceGasFeeUsd = gasFeeText;
+                                    TestCase.sourceGasFeeUsd = gasFeeText;
                                 }
                                 if (gasFeeUsd >= 3.0) {
-                                    Browser.isBlocked = true;
+                                    TestCase.isBlockedByHighFee = true;
                                     Assert.fail("Fee exceeds 3$ in MetaMask");
                                 }
                             } catch (NoSuchElementException | NumberFormatException ignore) {
@@ -446,7 +412,7 @@ public class Browser {
                 return "Etherscan";
             case "Mumbai":
             case "Polygon":
-                if (Browser.isMainnet) {
+                if (TestCase.isMainnet) {
                     return "PolygonScan";
                 }
                 return "Polygonscan";
@@ -456,7 +422,7 @@ public class Browser {
             case "Avalanche":
                 return "Avascan";
             case "Fantom":
-                if (Browser.isMainnet) {
+                if (TestCase.isMainnet) {
                     return "FTMscan";
                 }
                 return "FtmScan";
@@ -545,7 +511,7 @@ public class Browser {
             Browser.findElement(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
             Browser.findElement(WormholePage.CHOOSE_WALLET(wallet)).click();
 
-            if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
+            if (wallet.equals("MetaMask") && !TestCase.metaMaskWasUnlocked) {
                 Browser.waitForExtensionWindowToAppear();
 
                 Browser.findElement(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
@@ -560,10 +526,10 @@ public class Browser {
                 Browser.waitForExtensionWindowToDisappear();
                 Thread.sleep(1000);
 
-                Browser.metaMaskWasUnlocked = true;
+                TestCase.metaMaskWasUnlocked = true;
             }
 
-            if (wallet.equals("Leap") && !Browser.leapWasUnlocked) {
+            if (wallet.equals("Leap") && !TestCase.leapWasUnlocked) {
                 Browser.waitForExtensionWindowToAppear();
 
                 Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
@@ -572,7 +538,7 @@ public class Browser {
                 Browser.waitForExtensionWindowToDisappear();
                 Thread.sleep(1000);
 
-                Browser.leapWasUnlocked = true;
+                TestCase.leapWasUnlocked = true;
             }
         }
 
@@ -615,15 +581,15 @@ public class Browser {
         unlockButton.click();
 
         waitForExtensionWindowToDisappear();
-        metaMaskWasUnlocked = true;
+        TestCase.metaMaskWasUnlocked = true;
     }
 
     public static void validateRouteName() {
-        switch (Browser.route) {
+        switch (TestCase.route) {
             case "Token Bridge Manual route":
             case "CCTP Manual route":
             case "NTT Manual route":
-                Browser.requiresClaim = true;
+                TestCase.requiresClaim = true;
                 return;
 
             case "Token Bridge Automatic route":
@@ -633,10 +599,10 @@ public class Browser {
             case "Mayan MCTP route":
             case "NTT Automatic route":
             case "NTT + Axelar":
-                Browser.requiresClaim = false;
+                TestCase.requiresClaim = false;
                 return;
             default:
-                throw new RuntimeException("Unsupported route: " + Browser.route);
+                throw new RuntimeException("Unsupported route: " + TestCase.route);
         }
     }
 }

@@ -10,24 +10,23 @@ import pages.PasswordPage;
 import pages.WormholePage;
 import support.Browser;
 import support.BrowserMainnet;
+import support.TestCase;
 
 import java.time.Duration;
 
-import static junit.framework.TestCase.assertTrue;
-
 public class WormholeConnectV2Steps {
-    @Given("{string} opens")
-    public void opens(String build) {
-        if (build.contains("mainnet") || build.contains("portalbridge.com")) {
-            Browser.isMainnet = true;
+    @Given("I open {string}")
+    public void opens(String url) {
+        if (url.contains("mainnet") || url.contains("portalbridge.com")) {
+            TestCase.isMainnet = true;
             BrowserMainnet.launch();
         } else {
-            Browser.isMainnet = false;
+            TestCase.isMainnet = false;
             Browser.launch();
         }
-        Browser.url = build;
-        Browser.driver.get(Browser.url);
-        if (build.contains("netlify.app")) {
+        TestCase.url = url;
+        Browser.driver.get(TestCase.url);
+        if (url.contains("netlify.app")) {
             Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
             Browser.findElement(PasswordPage.button).click();
         }
@@ -35,29 +34,29 @@ public class WormholeConnectV2Steps {
 
     @And("Transaction details entered: {string} {string} {string} to {string} {string}, from {string} to {string} route {string}")
     public void transactionDetailsEnteredToRoute(String amount, String sourceToken, String sourceChain, String destinationToken, String destinationChain, String sourceWallet, String destinationWallet, String route) throws InterruptedException {
-        Browser.route = route;
-        Browser.sourceWallet = sourceWallet;
-        Browser.destinationWallet = destinationWallet;
-        Browser.sourceChain = sourceChain;
-        Browser.sourceToken = sourceToken;
-        Browser.destinationChain = destinationChain;
-        Browser.destinationToken = destinationToken;
-        Browser.sourceAmount = amount;
+        TestCase.route = route;
+        TestCase.sourceWallet = sourceWallet;
+        TestCase.destinationWallet = destinationWallet;
+        TestCase.sourceChain = sourceChain;
+        TestCase.sourceToken = sourceToken;
+        TestCase.destinationChain = destinationChain;
+        TestCase.destinationToken = destinationToken;
+        TestCase.sourceAmount = amount;
 
         Browser.validateRouteName();
 
         Browser.clickElement(WormholePage.EXPAND_SOURCE_MORE_ICON);
         Browser.clickElement(WormholePage.OTHER_SOURCE_CHAIN_ICON);
-        Browser.clickElement(WormholePage.FIND_NETWORK(Browser.sourceChain));
+        Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.sourceChain));
 
-        if (!Browser.metaMaskWasUnlocked) {
+        if (!TestCase.metaMaskWasUnlocked) {
             Browser.unlockMetaMask();
         }
 
-        Browser.clickElement(WormholePage.FIND_TOKEN(Browser.sourceToken));
+        Browser.clickElement(WormholePage.FIND_TOKEN(TestCase.sourceToken));
         Browser.clickElement(WormholePage.EXPAND_DESTINATION_MORE_ICON);
         Browser.clickElement(WormholePage.OTHER_DESTINATION_CHAIN_ICON);
-        Browser.clickElement(WormholePage.FIND_NETWORK(Browser.destinationChain));
+        Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.destinationChain));
         Browser.pressEscape();
         Thread.sleep(1000);
         Browser.findElement(WormholePage.AMOUNT_INPUT).sendKeys(amount);
@@ -72,7 +71,7 @@ public class WormholeConnectV2Steps {
     public void transactionApprovedInTheWallet() throws InterruptedException {
         System.out.println("Going to confirm transaction...");
 
-        switch (Browser.sourceWallet) {
+        switch (TestCase.sourceWallet) {
             case "MetaMask":
                 Browser.confirmTransactionInMetaMask(false);
 
@@ -144,14 +143,14 @@ public class WormholeConnectV2Steps {
 
     @And("Link to Wormholescan is displayed")
     public void linkToWormholescanIsDisplayed() {
-        Browser.wormholescanLink = Browser.findElement(WormholePage.VIEW_ON_WORMHOLESCAN_LINK).getAttribute("href");
+        TestCase.wormholescanLink = Browser.findElement(WormholePage.VIEW_ON_WORMHOLESCAN_LINK).getAttribute("href");
 
-        Assert.assertTrue(Browser.wormholescanLink.startsWith("https://wormholescan.io/#/tx/"));
+        Assert.assertTrue(TestCase.wormholescanLink.startsWith("https://wormholescan.io/#/tx/"));
     }
 
     @And("Claim assets on destination network if needed")
     public void claimAssetsOnDestinationNetwork() throws InterruptedException {
-        if (!Browser.requiresClaim) {
+        if (!TestCase.requiresClaim) {
             return;
         }
 
@@ -161,7 +160,7 @@ public class WormholeConnectV2Steps {
         Browser.findElement(WormholePage.CLAIM_BUTTON_V2).click();
         Thread.sleep(2000);
 
-        if (Browser.destinationWallet.equals("Phantom")) {
+        if (TestCase.destinationWallet.equals("Phantom")) {
             Browser.waitForExtensionWindowToAppear();
 
             Browser.findElement(ExtensionPage.PHANTOM_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
@@ -188,7 +187,7 @@ public class WormholeConnectV2Steps {
                     });
 
             Browser.waitForExtensionWindowToDisappear();
-        } else if (Browser.destinationWallet.equals("Sui")) {
+        } else if (TestCase.destinationWallet.equals("Sui")) {
             Browser.waitForExtensionWindowToAppear();
             Browser.findElement(ExtensionPage.SUI_UNLOCK_TO_APPROVE_BUTTON).click();
 
@@ -204,7 +203,7 @@ public class WormholeConnectV2Steps {
             } catch (NoSuchElementException ignore) {
             }
             Browser.waitForExtensionWindowToDisappear();
-        } else if (Browser.destinationWallet.equals("Spika")) {
+        } else if (TestCase.destinationWallet.equals("Spika")) {
             Browser.waitForExtensionWindowToAppear();
 
             Browser.findElement(ExtensionPage.SPIKA_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SPIKA"));
@@ -215,7 +214,7 @@ public class WormholeConnectV2Steps {
             Thread.sleep(1000);
 
             Browser.waitForExtensionWindowToDisappear();
-        } else if (Browser.destinationWallet.equals("Leap")) {
+        } else if (TestCase.destinationWallet.equals("Leap")) {
             Browser.waitForExtensionWindowToAppear();
             Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
             Thread.sleep(1000);
