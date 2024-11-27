@@ -25,6 +25,9 @@ public class WormholePage {
     public static final By CCTP_MANUAL_BRIDGE_OPTION = By.cssSelector("[data-testid='route-option-cctpManual']");
     public static final By COSMOS_AUTOMATIC_GATEWAY_OPTION = By.cssSelector("[data-testid='route-option-cosmosGateway']");
     public static final By COSMOS_MANUAL_GATEWAY_OPTION = By.cssSelector("[data-testid='route-option-cosmosGateway']");
+    public static final By NTT_AUTOMATIC_OPTION = By.cssSelector("[data-testid='route-option-nttRelay']");
+    public static final By NTT_MANUAL_OPTION = By.cssSelector("[data-testid='route-option-nttManual']");
+
     public static final By ETH_BRIDGE_AUTOMATIC_OPTION = By.xpath("//*[contains(text(),'Receive tokens automatically')]//ancestor::*[contains(@class, 'MuiCollapse-root') and contains(@class, '-option')]");
     public static final By SLIDER_THUMB = By.cssSelector(".MuiSlider-thumb");
 
@@ -33,6 +36,18 @@ public class WormholePage {
 
     public static final By APPROVE_ERROR_MESSAGE = By.xpath("//*[text()='Error with transfer, please try again']"); // data-testid="approve-error-message"
 
+    // Connect v2
+    public static final By EXPAND_SOURCE_MORE_ICON = By.cssSelector("[data-testid='ExpandMoreIcon']");
+    public static final By EXPAND_DESTINATION_MORE_ICON = By.xpath("(//*[@data-testid='ExpandMoreIcon'])[2]");
+    public static final By OTHER_SOURCE_CHAIN_ICON = By.cssSelector("[data-testid='AddIcon']");
+    public static final By OTHER_DESTINATION_CHAIN_ICON = By.xpath("//*[@data-testid='AddIcon']");
+    public static final By AMOUNT_INPUT = By.cssSelector("input");
+    public static final By REVIEW_TRANSACTION_BUTTON = By.xpath("//*[text()='Review transaction']");
+    public static final By CONFIRM_TRANSACTION_BUTTON = By.xpath("//*[text()='Confirm transaction']");
+    public static final By VIEW_ON_WORMHOLESCAN_LINK = By.xpath("//*[text()='View on Wormholescan']/..");
+    public static final By CLAIM_BUTTON_V2 = By.xpath("//*[text()='Claim tokens to complete transfer']");
+    public static final By TRANSACTION_COMPLETE_MESSAGE_V2 = By.xpath("//*[text()='Transaction complete']");
+
     // Redeem Screen
     public static final By REDEEM_SCREEN_HEADER = By.xpath("//*[text()='Bridge']"); // data-testid="redeem-screen-header"
     public static final By TRANSACTION_COMPLETE_MESSAGE = By.xpath("//*[text()='The bridge is now complete.']"); // data-testid="transaction-complete-message"
@@ -40,11 +55,11 @@ public class WormholePage {
     public static final By CLAIM_ERROR_MESSAGE = By.xpath("//*[contains(text()='Your claim has failed, please try again')]");
 
     public static By SOURCE_SCAN_LINK() {
-        return By.xpath("//*[text()= '" + Browser.getScanLinkTextByNetworkName(Browser.fromNetwork) + "' ]/.."); // data-testid="source-section-scan-link"
+        return By.xpath("//*[text()= '" + Browser.getScanLinkTextByNetworkName(Browser.sourceChain) + "' ]/.."); // data-testid="source-section-scan-link"
     }
 
     public static By DESTINATION_SCAN_LINK() {
-        return By.xpath("//*[text()='Send to']/../following-sibling::*//*[text()='" + Browser.getScanLinkTextByNetworkName(Browser.toNetwork) + "']/.."); // data-testid="destination-section-scan-link"
+        return By.xpath("//*[text()='Send to']/../following-sibling::*//*[text()='" + Browser.getScanLinkTextByNetworkName(Browser.destinationChain) + "']/.."); // data-testid="destination-section-scan-link"
     }
 
     public static By CHOOSE_WALLET(String wallet) {
@@ -57,5 +72,14 @@ public class WormholePage {
 
     public static By CHOOSE_ASSET(String wallet) {
         return By.xpath("//*[contains(@class, 'MuiDialog-root')]//*[text()='" + wallet + "']/../../..");
+    }
+
+    // Connect V2
+    public static By FIND_NETWORK(String network) {
+        return By.xpath("//*[text()='" + network + "']");
+    }
+
+    public static By FIND_TOKEN(String token) {
+        return By.xpath("//*[text()='" + token + "']");
     }
 }

@@ -1,6 +1,6 @@
 Feature: CCTP route, wormhole-connect testnet
 
-  Scenario Outline: Automatic
+  Scenario Outline: CCTP Automatic
     Given I launch testnet browser
     Given I open wormhole-connect testnet
     And I enter page password
@@ -20,7 +20,7 @@ Feature: CCTP route, wormhole-connect testnet
       | circle-automatic | 1.1    | USDC  | Mumbai       | Fuji       | MetaMask    | MetaMask  |
 
 
-  Scenario Outline: Manual
+  Scenario Outline: CCTP Manual
     Given I launch testnet browser
     Given I open wormhole-connect testnet
     And I enter page password

@@ -3,14 +3,7 @@ package support;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -43,20 +36,20 @@ public class Browser {
     public static String url = "";
     public static Date startedAt;
     public static Date finishedAt;
-    public static String fromWallet = "";
-    public static String toWallet = "";
-    public static String fromNetwork = "";
-    public static String toNetwork = "";
-    public static String fromAmount = "";
-    public static String toAmount = "";
-    public static String fromAsset = "";
-    public static String toAsset = "";
+    public static String sourceWallet = "";
+    public static String destinationWallet = "";
+    public static String sourceChain = "";
+    public static String destinationChain = "";
+    public static String sourceAmount = "";
+    public static String destinationAmount = "";
+    public static String sourceToken = "";
+    public static String destinationToken = "";
     public static String route = "";
-    public static String txFrom = "";
+    public static String wormholescanLink = "";
     public static String txTo = "";
     public static String fromBalance = "";
-    public static String toBalance = "";
-    public static String toFinalBalance = "";
+    public static String destinationBalance = "";
+    public static String destinationFinalBalance = "";
     public static String sourceGasFeeUsd = "";
     public static String destinationGasFeeUsd = "";
     public static String screenshotUrl = "";
@@ -65,10 +58,13 @@ public class Browser {
     public static int waitSeconds = 10;
     public static String toNativeBalance = "";
     public static String toFinalNativeBalance = "";
+    public static boolean convertingNativeBalance = false;
+
     public static boolean metaMaskWasUnlocked = false;
     public static boolean phantomWasUnlocked = false;
     public static boolean leapWasUnlocked = false;
     public static boolean spikaWasUnlocked = false;
+    public static boolean requiresClaim = false;
 
     public static void main(String[] args) {
         launch();
@@ -146,6 +142,12 @@ public class Browser {
         actions.perform();
     }
 
+    public static void pressEscape() {
+        Actions actions = new Actions(Browser.driver);
+        actions.sendKeys(Keys.ESCAPE);
+        actions.perform();
+    }
+
     public static void takeScreenshot() {
         try {
             File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -170,39 +172,29 @@ public class Browser {
         SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy-MM-dd");
 
         String[] fields = {
-                Browser.emailAddress,
-                status,
-                Browser.fromNetwork,
-                Browser.toNetwork,
                 Browser.route,
+
+                Browser.sourceChain + "\n" + Browser.destinationChain,
+
+                Browser.sourceAmount + " " + Browser.sourceToken + "\n" +
+                Browser.destinationAmount + " " + Browser.destinationToken,
+
+                Browser.sourceWallet + "\n" + Browser.destinationWallet,
+
+                Browser.wormholescanLink,
+
+                "-", // Tx is displayed in the In-progress widget
+                (Browser.requiresClaim ? "-" : "n/a"), // Tx can be resumed
+                "-", // Tx is displayed in history
+                status,
+
                 Browser.url,
-                Browser.fromAmount,
-                Browser.fromAsset,
-                Browser.fromBalance,
-                Browser.toAmount,
-                Browser.toAsset,
-                Browser.toBalance,
-                Browser.txFrom,
-                Browser.txTo,
-                Browser.toFinalBalance,
-                Browser.toNativeBalance,
-                Browser.toFinalNativeBalance,
-                Browser.fromWallet,
-                Browser.toWallet,
+
                 dt.format(Browser.startedAt),
                 dt.format(Browser.finishedAt),
-                Browser.sourceGasFeeUsd,
-                Browser.destinationGasFeeUsd,
                 Browser.screenshotUrl,
-                dateOnly.format(Browser.startedAt),
-                String.valueOf(isEvmNetwork(Browser.fromNetwork) && isEvmNetwork(Browser.toNetwork)),
-                String.valueOf(isSolanaNetwork(Browser.fromNetwork) || isSolanaNetwork(Browser.toNetwork)),
-                String.valueOf(isCosmosNetwork(Browser.fromNetwork) || isCosmosNetwork(Browser.toNetwork)),
-                String.valueOf(isSuiNetwork(Browser.fromNetwork) || isSuiNetwork(Browser.toNetwork)),
-                String.valueOf(isAptosNetwork(Browser.fromNetwork) || isAptosNetwork(Browser.toNetwork)),
-                String.valueOf(isCircleRoute(Browser.route)),
-                "",
-                urlToEnvironment(Browser.url)
+
+                "Automation: " + Browser.emailAddress,
         };
 
         boolean savedSuccessfully = Google.writeResultsToGoogleSpreadsheet(fields);
@@ -437,7 +429,7 @@ public class Browser {
                         return null;
                     }
                     if (isClaimStep) {
-                        return Browser.driver.findElement(WormholePage.TRANSACTION_COMPLETE_MESSAGE);
+                        return Browser.driver.findElement(WormholePage.TRANSACTION_COMPLETE_MESSAGE_V2);
                     }
                     return null;
                 });
@@ -605,5 +597,46 @@ public class Browser {
 
         int xPositionUpdated = Browser.driver.findElement(WormholePage.SLIDER_THUMB).getLocation().x;
         Assert.assertTrue("Slider should move", xPositionUpdated > xPosition);
+    }
+
+    public static void clickElement(By locator) {
+        WebElement element = findElement(locator);
+        waitToBeClickable(element);
+        element.click();
+    }
+
+    public static void unlockMetaMask() {
+        waitForExtensionWindowToAppear();
+
+        WebElement passwordInput = findElement(ExtensionPage.METAMASK_PASSWORD_INPUT);
+        WebElement unlockButton = findElement(ExtensionPage.METAMASK_UNLOCK_BUTTON);
+
+        passwordInput.sendKeys(env.get("WALLET_PASSWORD_METAMASK"));
+        unlockButton.click();
+
+        waitForExtensionWindowToDisappear();
+        metaMaskWasUnlocked = true;
+    }
+
+    public static void validateRouteName() {
+        switch (Browser.route) {
+            case "Token Bridge Manual route":
+            case "CCTP Manual route":
+            case "NTT Manual route":
+                Browser.requiresClaim = true;
+                return;
+
+            case "Token Bridge Automatic route":
+            case "CCTP Automatic route":
+            case "Mayan Route":
+            case "Mayan Swift route":
+            case "Mayan MCTP route":
+            case "NTT Automatic route":
+            case "NTT + Axelar":
+                Browser.requiresClaim = false;
+                return;
+            default:
+                throw new RuntimeException("Unsupported route: " + Browser.route);
+        }
     }
 }
