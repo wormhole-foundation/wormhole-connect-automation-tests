@@ -49,7 +49,6 @@ public class Browser {
 
         env = Dotenv.load();
         Google.getLoggedInUser(); // login to Google Services
-        Google.emailAddress = Google.getEmailAddress();
 
         ChromeOptions opt = new ChromeOptions();
         if (System.getProperty("os.name").startsWith("Windows")) {
