@@ -38,10 +38,11 @@ public class WormholePage {
     public static final By APPROVE_ERROR_MESSAGE = By.xpath("//*[text()='Error with transfer, please try again']"); // data-testid="approve-error-message"
 
     // Connect v2
-    public static final By EXPAND_SOURCE_MORE_ICON = By.cssSelector("[data-testid='ExpandMoreIcon']");
-    public static final By EXPAND_DESTINATION_MORE_ICON = By.xpath("(//*[@data-testid='ExpandMoreIcon'])[2]");
-    public static final By OTHER_SOURCE_CHAIN_ICON = By.cssSelector("[data-testid='AddIcon']");
-    public static final By OTHER_DESTINATION_CHAIN_ICON = By.xpath("//*[@data-testid='AddIcon']");
+    public static final By SOURCE_BALANCE_TEXT_V2 = By.xpath("//*[text()='Balance:']/following-sibling::p");
+    public static final By SELECT_SOURCE_CHAIN = By.cssSelector("[data-testid='ExpandMoreIcon']");
+    public static final By SELECT_DESTINATION_CHAIN = By.xpath("(//*[@data-testid='ExpandMoreIcon'])[2]");
+    public static final By SELECT_OTHER_SOURCE_CHAIN = By.cssSelector("[data-testid='AddIcon']");
+    public static final By SELECT_OTHER_DESTINATION_CHAIN = By.xpath("//*[@data-testid='AddIcon']");
     public static final By AMOUNT_INPUT = By.cssSelector("input");
     public static final By REVIEW_TRANSACTION_BUTTON = By.xpath("//*[text()='Review transaction']");
     public static final By CONFIRM_TRANSACTION_BUTTON = By.xpath("//*[text()='Confirm transaction']");
@@ -84,7 +85,7 @@ public class WormholePage {
         return By.xpath("//*[text()='" + token + "']");
     }
 
-    public static By TOKEN_BALANCE(String token) {
+    public static By TOKEN_BALANCE_IN_TOKEN_LIST(String token) {
         return By.xpath("//*[text()='" + token + "']/../../../p"); // TODO: replace with testid
     }
 }

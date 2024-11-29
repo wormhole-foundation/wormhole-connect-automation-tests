@@ -2,6 +2,7 @@ package steps;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -48,8 +49,8 @@ public class WormholeConnectV2Steps {
     public void transactionDetailsEnteredToRoute() {
         Browser.validateRouteName();
 
-        Browser.clickElement(WormholePage.EXPAND_SOURCE_MORE_ICON);
-        Browser.clickElement(WormholePage.OTHER_SOURCE_CHAIN_ICON);
+        Browser.clickElement(WormholePage.SELECT_SOURCE_CHAIN);
+        Browser.clickElement(WormholePage.SELECT_OTHER_SOURCE_CHAIN);
         Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.sourceChain));
 
         if (!TestCase.metaMaskWasUnlocked) {
@@ -57,11 +58,11 @@ public class WormholeConnectV2Steps {
         }
 
         Browser.clickElement(WormholePage.FIND_TOKEN(TestCase.sourceToken));
-        Browser.clickElement(WormholePage.EXPAND_DESTINATION_MORE_ICON);
-        Browser.clickElement(WormholePage.OTHER_DESTINATION_CHAIN_ICON);
+        Browser.clickElement(WormholePage.SELECT_DESTINATION_CHAIN);
+        Browser.clickElement(WormholePage.SELECT_OTHER_DESTINATION_CHAIN);
         Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.destinationChain));
 
-        TestCase.destinationStartingBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.TOKEN_BALANCE(TestCase.destinationToken));
+        TestCase.destinationStartingBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.TOKEN_BALANCE_IN_TOKEN_LIST(TestCase.destinationToken));
         System.out.println("Destination chain balance: " + TestCase.destinationStartingBalance + " " + TestCase.destinationToken);
 
         Browser.pressEscape();
