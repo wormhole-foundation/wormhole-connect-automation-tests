@@ -4,11 +4,10 @@ Feature: Check that all routes are working correctly
     Given Test data: "<URL>" "<route>" "<amount>" "<sourceToken>" "<sourceChain>" "<sourceWallet>" "<destinationToken>" "<destinationChain>" "<destinationWallet>"
     Given I open the page
     And Transaction details entered
-#    And Transaction approved in the wallet
-#    And Link to Wormholescan is displayed
-#    And Claim assets on destination network if needed
-#    And I check "<destination_asset>" balance on "<destination_chain>" using "<destination_wallet>"
-#    Then I check that amount is received
+    And Transaction approved in the wallet
+    And Link to Wormholescan is displayed
+    And Claim assets on destination network if needed
+    Then I check that amount is received
 
     Examples:
       | route                     | URL                                   | sourceWallet | destinationWallet | sourceChain | destinationChain | amount | sourceToken | destinationToken |

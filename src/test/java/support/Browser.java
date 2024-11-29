@@ -319,26 +319,21 @@ public class Browser {
     public static void confirmTransactionInMetaMask(boolean isClaimStep) {
         Browser.waitForExtensionWindowToAppear();
 
-        System.out.println("Going to Approve adding new network (if MetaMask requires it)...");
         try {
             Browser.findElement(2, ExtensionPage.METAMASK_APPROVE_BUTTON).click();
             Browser.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
-        System.out.println("Going to confirm warning (if MetaMask requires it)...");
         try {
             Browser.findElement(2, ExtensionPage.METAMASK_GOT_IT_BUTTON).click();
             Browser.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
-        System.out.println("Going to Switch network (if MetaMask requires it)...");
         try {
             Browser.findElement(2, ExtensionPage.METAMASK_SWITCH_NETWORK_BUTTON).click();
             Browser.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
-
-        System.out.println("Confirming transaction in MetaMask...");
 
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(900));
         webDriverWait
@@ -397,65 +392,6 @@ public class Browser {
         System.out.println("Transaction was confirmed in MetaMask");
         Browser.switchToMainWindow();
     }
-
-    public static String getScanLinkTextByNetworkName(String network) {
-        switch (network) {
-            case "Goerli":
-            case "Ethereum":
-            case "Sepolia":
-                return "Etherscan";
-            case "Mumbai":
-            case "Polygon":
-                if (TestCase.isMainnet) {
-                    return "PolygonScan";
-                }
-                return "Polygonscan";
-            case "BSC":
-                return "BscScan";
-            case "Fuji":
-            case "Avalanche":
-                return "Avascan";
-            case "Fantom":
-                if (TestCase.isMainnet) {
-                    return "FTMscan";
-                }
-                return "FtmScan";
-            case "Alfajores":
-            case "Celo":
-                return "Celo Explorer";
-            case "Moonbase":
-            case "Moonbeam":
-                return "Moonscan";
-            case "Base Goerli":
-            case "Base":
-                return "BaseScan";
-            case "Arbitrum Goerli":
-                return "Arbitrum Goerli Explorer";
-            case "Arbitrum":
-                return "Arbitrum Explorer";
-            case "Optimism Goerli":
-                return "Optimistic Goerli";
-            case "Optimism":
-                return "Optimistic Etherscan";
-            case "Solana":
-                return "Solana Explorer";
-            case "Sui":
-                return "Sui Explorer";
-            case "Kujira":
-                return "Kujira Finder";
-            case "Evmos":
-            case "Osmosis":
-                return "MintScan";
-            case "Klaytn":
-                return "Klaytn Scope";
-            case "Aptos":
-                return "Aptos Explorer";
-            case "Injective":
-                return "Injective Explorer";
-        }
-        throw new RuntimeException("Unsupported network: " + network);
-    }
-
 
     public static String getNativeAssetByNetworkName(String network) {
         switch (network) {

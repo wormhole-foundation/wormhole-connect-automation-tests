@@ -315,15 +315,6 @@ public class WormholeConnectSteps {
         });
     }
 
-    @Then("I should see Send From link")
-    public void iShouldSeeSendFromLink() {
-        Browser.findElement(120, WormholePage.REDEEM_SCREEN_HEADER);
-
-        System.out.println("Waiting for the send from link...");
-        WebElement sendFromLink = Browser.findElement(3600, WormholePage.SOURCE_SCAN_LINK());
-
-        TestCase.wormholescanLink = sendFromLink.getAttribute("href");
-    }
 
     @Then("I should claim assets")
     public void iShouldClaimAssets() {
@@ -395,27 +386,6 @@ public class WormholeConnectSteps {
                 Browser.confirmTransactionInMetaMask(true);
             }
         }
-    }
-
-    @Then("I should see Send To link")
-    public void iShouldSeeSendToLink() {
-        int waitSeconds;
-        if (TestCase.route.equals("automatic") || TestCase.route.equals("circle-automatic")) {
-            waitSeconds = 60 * 30;
-        } else {
-            if (TestCase.destinationWallet.equals("Phantom")) {
-                waitSeconds = 60 * 10;
-            } else {
-                waitSeconds = 60 * 30;
-            }
-        }
-
-        System.out.println("Waiting for the send to link...");
-        WebElement sendToLink = Browser.findElement(waitSeconds, WormholePage.DESTINATION_SCAN_LINK());
-
-        assertTrue(sendToLink.isDisplayed());
-
-        System.out.println("Finished");
     }
 
     @And("I move slider")

@@ -56,14 +56,6 @@ public class WormholePage {
     public static final By CLAIM_BUTTON = By.xpath("//*[text()='Claim']"); // data-testid="claim-button"
     public static final By CLAIM_ERROR_MESSAGE = By.xpath("//*[contains(text()='Your claim has failed, please try again')]");
 
-    public static By SOURCE_SCAN_LINK() {
-        return By.xpath("//*[text()= '" + Browser.getScanLinkTextByNetworkName(TestCase.sourceChain) + "' ]/.."); // data-testid="source-section-scan-link"
-    }
-
-    public static By DESTINATION_SCAN_LINK() {
-        return By.xpath("//*[text()='Send to']/../following-sibling::*//*[text()='" + Browser.getScanLinkTextByNetworkName(TestCase.destinationChain) + "']/.."); // data-testid="destination-section-scan-link"
-    }
-
     public static By CHOOSE_WALLET(String wallet) {
         return By.xpath("//*[@role='dialog']//*[text()='" + wallet + "']");
     }

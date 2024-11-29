@@ -76,13 +76,12 @@ public class WormholeConnectV2Steps {
     }
 
     @And("Transaction approved in the wallet")
-    public void transactionApprovedInTheWallet() throws InterruptedException {
-        System.out.println("Going to confirm transaction...");
+    public void transactionApprovedInTheWallet(){
+        System.out.println("Confirming transaction in the wallet");
 
         switch (TestCase.sourceWallet) {
             case "MetaMask":
                 Browser.confirmTransactionInMetaMask(false);
-
                 break;
             case "Phantom":
                 Browser.waitForExtensionWindowToAppear();
@@ -228,5 +227,20 @@ public class WormholeConnectV2Steps {
         } else {
             Browser.confirmTransactionInMetaMask(true);
         }
+    }
+
+    @Then("I check that amount is received")
+    public void iCheckThatAmountIsReceived() {
+        Browser.driver.get(TestCase.url);
+
+        Browser.clickElement(WormholePage.SELECT_SOURCE_CHAIN);
+        Browser.clickElement(WormholePage.SELECT_OTHER_SOURCE_CHAIN);
+        Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.destinationChain));
+        Browser.clickElement(WormholePage.FIND_TOKEN(TestCase.destinationToken));
+
+
+        TestCase.destinationFinalBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.TOKEN_BALANCE_IN_TOKEN_LIST(TestCase.destinationToken));
+        System.out.println("Destination chain final balance: " + TestCase.destinationFinalBalance + " " + TestCase.destinationToken);
+        Assert.assertTrue("Balance should have increased", Double.parseDouble(TestCase.destinationFinalBalance) > Double.parseDouble(TestCase.destinationStartingBalance));
     }
 }
