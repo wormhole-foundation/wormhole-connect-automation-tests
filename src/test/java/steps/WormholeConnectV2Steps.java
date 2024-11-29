@@ -7,10 +7,8 @@ import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.ExtensionPage;
-import pages.PasswordPage;
 import pages.WormholePage;
 import support.Browser;
-import support.BrowserMainnet;
 import support.TestCase;
 
 import java.time.Duration;
@@ -40,14 +38,11 @@ public class WormholeConnectV2Steps {
     }
 
     @Given("I open the page")
-    public void opens() {
+    public void openThePage() {
         Browser.determineEnvironment();
         Browser.launchBrowser();
-        Browser.navigateToUrl();
-        if (Browser.isNetlifyPage()) {
-            Browser.enterPassword();
-        }
-
+        Browser.navigateTo(TestCase.url);
+        Browser.enterNetlifyPagePasswordIfNeeded();
     }
 
     @And("Transaction details entered")

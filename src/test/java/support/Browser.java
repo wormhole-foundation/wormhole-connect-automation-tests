@@ -28,9 +28,8 @@ import java.util.Date;
 public class Browser {
     public static ChromeDriver driver;
     public static Dotenv env;
-    private static final SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
-    public static int waitSeconds = 10;
+    private static int waitSeconds = 10;
 
     public static void main(String[] args) {
         launch();
@@ -134,7 +133,6 @@ public class Browser {
 
     public static void saveResults(String status) {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy-MM-dd");
 
         String[] fields = {
                 TestCase.route,
@@ -176,80 +174,6 @@ public class Browser {
                 System.err.println(e.getMessage());
             }
         }
-    }
-
-    private static String urlToEnvironment(String url) {
-        switch (url) {
-            case "https://wormhole-connect.netlify.app/":
-                return "wormhole-testnet";
-            case "https://wormhole-connect-mainnet.netlify.app/":
-                return "wormhole-mainnet";
-            case "https://portalbridge.com/":
-                return "portal-mainnet";
-        }
-        return "";
-    }
-
-    private static boolean isCircleRoute(String route) {
-        switch (route) {
-            case "circle-manual":
-            case "circle-automatic":
-                return true;
-        }
-        return false;
-    }
-
-    private static boolean isEvmNetwork(String network) {
-        switch (network) {
-            case "Goerli":
-            case "Ethereum":
-            case "Mumbai":
-            case "Polygon":
-            case "BSC":
-            case "Fuji":
-            case "Avalanche":
-            case "Fantom":
-            case "Alfajores":
-            case "Celo":
-            case "Moonbase":
-            case "Moonbeam":
-            case "Base Goerli":
-            case "Base":
-            case "Klaytn":
-            case "Arbitrum Goerli":
-            case "Arbitrum":
-            case "Optimism Goerli":
-            case "Optimism":
-            case "Sepolia":
-            case "Arbitrum Sepolia":
-            case "Base Sepolia":
-            case "Optimism Sepolia":
-                return true;
-        }
-        return false;
-    }
-
-    private static boolean isSolanaNetwork(String network) {
-        return network.equals("Solana");
-    }
-
-    private static boolean isCosmosNetwork(String network) {
-        switch (network) {
-            case "Kujira":
-            case "Osmosis":
-            case "Evmos":
-            case "Cosmoshub":
-                return true;
-        }
-        return false;
-    }
-
-    private static boolean isSuiNetwork(String network) {
-        return network.equals("Sui");
-    }
-
-    private static boolean isAptosNetwork(String network) {
-        return network.equals("Aptos");
     }
 
     public static WebElement findElement(By locator) throws NoSuchElementException {
@@ -565,15 +489,7 @@ public class Browser {
 
 
     public static void determineEnvironment() {
-        if (isMainnetUrl(TestCase.url)) {
-            TestCase.isMainnet = true;
-        } else {
-            TestCase.isMainnet = false;
-        }
-    }
-
-    public static boolean isMainnetUrl(String url) {
-        return url.contains("mainnet") || url.contains("portalbridge.com");
+        TestCase.isMainnet = TestCase.url.contains("mainnet") || TestCase.url.contains("portalbridge.com");
     }
 
     public static void launchBrowser() {
@@ -584,19 +500,14 @@ public class Browser {
         }
     }
 
-    public static void navigateToUrl() {
-        Browser.driver.get(TestCase.url);
+    public static void navigateTo(String url) {
+        Browser.driver.get(url);
     }
 
-    public static boolean isNetlifyPage() {
-        return TestCase.url.contains("netlify.app");
+    public static void enterNetlifyPagePasswordIfNeeded() {
+        if (TestCase.url.contains("netlify.app")) {
+            Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
+            Browser.findElement(PasswordPage.button).click();
+        }
     }
-
-    public static void enterPassword() {
-        Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
-        Browser.findElement(PasswordPage.button).click();
-    }
-
-
-
 }
