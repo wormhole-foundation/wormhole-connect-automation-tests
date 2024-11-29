@@ -459,12 +459,10 @@ public class Browser {
 
     public static String getNativeAssetByNetworkName(String network) {
         switch (network) {
-            case "Goerli":
             case "Ethereum":
                 return "ETH";
-            case "Mumbai":
             case "Polygon":
-                return "MATIC";
+                return "POL";
             case "BSC":
                 return "BNB";
             case "Fuji":
@@ -478,13 +476,10 @@ public class Browser {
             case "Moonbase":
             case "Moonbeam":
                 return "GLMR";
-            case "Base Goerli":
             case "Base":
                 return "ETH";
-            case "Arbitrum Goerli":
             case "Arbitrum":
                 return "ETH";
-            case "Optimism Goerli":
             case "Optimism":
                 return "ETH";
             case "Solana":
