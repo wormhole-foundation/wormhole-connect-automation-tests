@@ -139,7 +139,7 @@ public class WormholeConnectSteps {
         Browser.findElement(WormholePage.POPUP_CLOSE_BUTTON).click();
         // end
 
-        TestCase.destinationBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.DESTINATION_BALANCE_TEXT);
+        TestCase.destinationStartingBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.DESTINATION_BALANCE_TEXT);
 
         switch (route) {
             case "xlabs-bridge-automatic":
@@ -216,7 +216,7 @@ public class WormholeConnectSteps {
 
             Assert.assertTrue("Native balance should have increased", Double.parseDouble(TestCase.destinationFinalNativeBalance) > Double.parseDouble(TestCase.destinationNativeBalance));
         }
-        Assert.assertTrue("Balance should have increased", Double.parseDouble(TestCase.destinationFinalBalance) > Double.parseDouble(TestCase.destinationBalance));
+        Assert.assertTrue("Balance should have increased", Double.parseDouble(TestCase.destinationFinalBalance) > Double.parseDouble(TestCase.destinationStartingBalance));
     }
 
     @And("I check native balance on {string} using {string}")

@@ -15,34 +15,37 @@ import support.TestCase;
 import java.time.Duration;
 
 public class WormholeConnectV2Steps {
-    @Given("I open {string}")
-    public void opens(String url) {
-        if (url.contains("mainnet") || url.contains("portalbridge.com")) {
+    @Given("Test data: {string} {string} {string} {string} {string} {string} {string} {string} {string}")
+    public void testData(String url, String route, String amount, String sourceToken, String sourceChain, String sourceWallet, String destinationToken, String destinationChain, String destinationWallet) {
+        TestCase.url = url;
+        TestCase.route = route;
+        TestCase.inputAmount = amount;
+        TestCase.sourceToken = sourceToken;
+        TestCase.sourceChain = sourceChain;
+        TestCase.sourceWallet = sourceWallet;
+        TestCase.destinationToken = destinationToken;
+        TestCase.destinationChain = destinationChain;
+        TestCase.destinationWallet = destinationWallet;
+    }
+
+    @Given("I open the page")
+    public void opens() {
+        if (TestCase.url.contains("mainnet") || TestCase.url.contains("portalbridge.com")) {
             TestCase.isMainnet = true;
             BrowserMainnet.launch();
         } else {
             TestCase.isMainnet = false;
             Browser.launch();
         }
-        TestCase.url = url;
         Browser.driver.get(TestCase.url);
-        if (url.contains("netlify.app")) {
+        if (TestCase.url.contains("netlify.app")) {
             Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
             Browser.findElement(PasswordPage.button).click();
         }
     }
 
-    @And("Transaction details entered: {string} {string} {string} to {string} {string}, from {string} to {string} route {string}")
-    public void transactionDetailsEnteredToRoute(String amount, String sourceToken, String sourceChain, String destinationToken, String destinationChain, String sourceWallet, String destinationWallet, String route) throws InterruptedException {
-        TestCase.route = route;
-        TestCase.sourceWallet = sourceWallet;
-        TestCase.destinationWallet = destinationWallet;
-        TestCase.sourceChain = sourceChain;
-        TestCase.sourceToken = sourceToken;
-        TestCase.destinationChain = destinationChain;
-        TestCase.destinationToken = destinationToken;
-        TestCase.inputAmount = amount;
-
+    @And("Transaction details entered")
+    public void transactionDetailsEnteredToRoute() throws InterruptedException {
         Browser.validateRouteName();
 
         Browser.clickElement(WormholePage.EXPAND_SOURCE_MORE_ICON);
@@ -57,9 +60,14 @@ public class WormholeConnectV2Steps {
         Browser.clickElement(WormholePage.EXPAND_DESTINATION_MORE_ICON);
         Browser.clickElement(WormholePage.OTHER_DESTINATION_CHAIN_ICON);
         Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.destinationChain));
+
+        TestCase.destinationStartingBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.TOKEN_BALANCE(TestCase.destinationToken));
+        System.out.println("Destination chain balance: " + TestCase.destinationStartingBalance + " " + TestCase.destinationToken);
+
         Browser.pressEscape();
+
         Thread.sleep(1000);
-        Browser.findElement(WormholePage.AMOUNT_INPUT).sendKeys(amount);
+        Browser.findElement(WormholePage.AMOUNT_INPUT).sendKeys(TestCase.inputAmount);
         Thread.sleep(3000);
         Browser.clickElement(WormholePage.REVIEW_TRANSACTION_BUTTON);
 

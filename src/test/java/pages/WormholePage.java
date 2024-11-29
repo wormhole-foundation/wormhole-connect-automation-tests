@@ -83,4 +83,8 @@ public class WormholePage {
     public static By FIND_TOKEN(String token) {
         return By.xpath("//*[text()='" + token + "']");
     }
+
+    public static By TOKEN_BALANCE(String token) {
+        return By.xpath("//*[text()='" + token + "']/../../../p"); // TODO: replace with testid
+    }
 }

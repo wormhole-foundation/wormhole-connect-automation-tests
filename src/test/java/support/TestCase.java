@@ -24,7 +24,7 @@ public class TestCase {
     public static String wormholescanLink = "";
 
     public static String destinationAmount = "";
-    public static String destinationBalance = "";
+    public static String destinationStartingBalance = "";
     public static String destinationFinalBalance = "";
 
     public static String transactionGasFeeUsd = "";
@@ -57,7 +57,7 @@ public class TestCase {
         TestCase.destinationToken = "";
         TestCase.route = "";
         TestCase.wormholescanLink = "";
-        TestCase.destinationBalance = "";
+        TestCase.destinationStartingBalance = "";
         TestCase.destinationFinalBalance = "";
         TestCase.destinationNativeBalance = "";
         TestCase.destinationFinalNativeBalance = "";
