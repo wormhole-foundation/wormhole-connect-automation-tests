@@ -9,37 +9,7 @@ import java.util.Date;
 public class Hooks {
     @Before
     public void before() {
-        Browser.isMainnet = false;
-        Browser.url = "";
-        Browser.startedAt = new Date();
-        Browser.finishedAt = null;
-        Browser.sourceWallet = "";
-        Browser.destinationWallet = "";
-        Browser.sourceChain = "";
-        Browser.destinationChain = "";
-        Browser.sourceAmount = "";
-        Browser.destinationAmount = "";
-        Browser.sourceToken = "";
-        Browser.destinationToken = "";
-        Browser.route = "";
-        Browser.wormholescanLink = "";
-        Browser.txTo = "";
-        Browser.fromBalance = "";
-        Browser.destinationBalance = "";
-        Browser.destinationFinalBalance = "";
-        Browser.toNativeBalance = "";
-        Browser.toFinalNativeBalance = "";
-        Browser.convertingNativeBalance = false;
-        Browser.sourceGasFeeUsd = "";
-        Browser.destinationGasFeeUsd = "";
-        Browser.screenshotUrl = "";
-        Browser.isBlocked = false;
-        Browser.requiresClaim = false;
-
-        Browser.metaMaskWasUnlocked = false;
-        Browser.phantomWasUnlocked = false;
-        Browser.leapWasUnlocked = false;
-        Browser.spikaWasUnlocked = false;
+        TestCase.initializeAllFields();
     }
 
     @After
@@ -48,8 +18,8 @@ public class Hooks {
             Browser.takeScreenshot();
         }
 
-        Browser.finishedAt = new Date();
-        if (Browser.isBlocked) {
+        TestCase.finishedAt = new Date();
+        if (TestCase.isBlockedByHighFee) {
             Browser.saveResults("blocked");
         } else {
             Browser.saveResults(scenario.isFailed() ? "fail" : "pass");

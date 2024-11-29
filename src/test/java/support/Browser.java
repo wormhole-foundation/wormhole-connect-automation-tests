@@ -28,43 +28,8 @@ import java.util.Date;
 public class Browser {
     public static ChromeDriver driver;
     public static Dotenv env;
-    private static final SimpleDateFormat formatter = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]");
 
-    public static String emailAddress;
-
-    public static boolean isMainnet = false;
-    public static String url = "";
-    public static Date startedAt;
-    public static Date finishedAt;
-    public static String sourceWallet = "";
-    public static String destinationWallet = "";
-    public static String sourceChain = "";
-    public static String destinationChain = "";
-    public static String sourceAmount = "";
-    public static String destinationAmount = "";
-    public static String sourceToken = "";
-    public static String destinationToken = "";
-    public static String route = "";
-    public static String wormholescanLink = "";
-    public static String txTo = "";
-    public static String fromBalance = "";
-    public static String destinationBalance = "";
-    public static String destinationFinalBalance = "";
-    public static String sourceGasFeeUsd = "";
-    public static String destinationGasFeeUsd = "";
-    public static String screenshotUrl = "";
-    public static boolean isBlocked = false;
-
-    public static int waitSeconds = 10;
-    public static String toNativeBalance = "";
-    public static String toFinalNativeBalance = "";
-    public static boolean convertingNativeBalance = false;
-
-    public static boolean metaMaskWasUnlocked = false;
-    public static boolean phantomWasUnlocked = false;
-    public static boolean leapWasUnlocked = false;
-    public static boolean spikaWasUnlocked = false;
-    public static boolean requiresClaim = false;
+    private static int waitSeconds = 10;
 
     public static void main(String[] args) {
         launch();
@@ -83,7 +48,6 @@ public class Browser {
 
         env = Dotenv.load();
         Google.getLoggedInUser(); // login to Google Services
-        Browser.emailAddress = Google.getEmailAddress();
 
         ChromeOptions opt = new ChromeOptions();
         if (System.getProperty("os.name").startsWith("Windows")) {
@@ -100,7 +64,7 @@ public class Browser {
             System.err.println("Could not start Chrome. Please make sure all test browser windows are closed. ERROR: " + ex.getMessage());
             System.exit(1);
         }
-        Browser.waitSeconds = 10;
+        waitSeconds = 10;
     }
 
     public static void quit() {
@@ -161,7 +125,7 @@ public class Browser {
             }
         } catch (WebDriverException e) {
             System.err.println("Could not take a screenshot");
-            Browser.screenshotUrl = "N/A";
+            TestCase.screenshotUrl = "N/A";
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -169,32 +133,31 @@ public class Browser {
 
     public static void saveResults(String status) {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy-MM-dd");
 
         String[] fields = {
-                Browser.route,
+                TestCase.route,
 
-                Browser.sourceChain + "\n" + Browser.destinationChain,
+                TestCase.sourceChain + "\n" + TestCase.destinationChain,
 
-                Browser.sourceAmount + " " + Browser.sourceToken + "\n" +
-                Browser.destinationAmount + " " + Browser.destinationToken,
+                TestCase.inputAmount + " " + TestCase.sourceToken + "\n" +
+                        TestCase.destinationAmount + " " + TestCase.destinationToken,
 
-                Browser.sourceWallet + "\n" + Browser.destinationWallet,
+                TestCase.sourceWallet + "\n" + TestCase.destinationWallet,
 
-                Browser.wormholescanLink,
+                TestCase.wormholescanLink,
 
                 "-", // Tx is displayed in the In-progress widget
-                (Browser.requiresClaim ? "-" : "n/a"), // Tx can be resumed
+                (TestCase.requiresClaim ? "-" : "n/a"), // Tx can be resumed
                 "-", // Tx is displayed in history
                 status,
 
-                Browser.url,
+                TestCase.url,
 
-                dt.format(Browser.startedAt),
-                dt.format(Browser.finishedAt),
-                Browser.screenshotUrl,
+                dt.format(TestCase.startedAt),
+                dt.format(TestCase.finishedAt),
+                TestCase.screenshotUrl,
 
-                "Automation: " + Browser.emailAddress,
+                "Automation: " + Google.emailAddress,
         };
 
         boolean savedSuccessfully = Google.writeResultsToGoogleSpreadsheet(fields);
@@ -213,90 +176,14 @@ public class Browser {
         }
     }
 
-    private static String urlToEnvironment(String url) {
-        switch (url) {
-            case "https://wormhole-connect.netlify.app/":
-                return "wormhole-testnet";
-            case "https://wormhole-connect-mainnet.netlify.app/":
-                return "wormhole-mainnet";
-            case "https://portalbridge.com/":
-                return "portal-mainnet";
-        }
-        return "";
-    }
-
-    private static boolean isCircleRoute(String route) {
-        switch (route) {
-            case "circle-manual":
-            case "circle-automatic":
-                return true;
-        }
-        return false;
-    }
-
-    private static boolean isEvmNetwork(String network) {
-        switch (network) {
-            case "Goerli":
-            case "Ethereum":
-            case "Mumbai":
-            case "Polygon":
-            case "BSC":
-            case "Fuji":
-            case "Avalanche":
-            case "Fantom":
-            case "Alfajores":
-            case "Celo":
-            case "Moonbase":
-            case "Moonbeam":
-            case "Base Goerli":
-            case "Base":
-            case "Klaytn":
-            case "Arbitrum Goerli":
-            case "Arbitrum":
-            case "Optimism Goerli":
-            case "Optimism":
-            case "Sepolia":
-            case "Arbitrum Sepolia":
-            case "Base Sepolia":
-            case "Optimism Sepolia":
-                return true;
-        }
-        return false;
-    }
-
-    private static boolean isSolanaNetwork(String network) {
-        return network.equals("Solana");
-    }
-
-    private static boolean isCosmosNetwork(String network) {
-        switch (network) {
-            case "Kujira":
-            case "Osmosis":
-            case "Evmos":
-            case "Cosmoshub":
-                return true;
-        }
-        return false;
-    }
-
-    private static boolean isSuiNetwork(String network) {
-        return network.equals("Sui");
-    }
-
-    private static boolean isAptosNetwork(String network) {
-        return network.equals("Aptos");
-    }
-
     public static WebElement findElement(By locator) throws NoSuchElementException {
-        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(Browser.waitSeconds));
+        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(waitSeconds));
         try {
             webDriverWait.until((webDriver) -> {
                 return Browser.driver.findElement(locator);
             });
-            try {
-                Thread.sleep(500); // UI settle
-            } catch (InterruptedException ignore) {
-            }
+
+            Browser.sleep(500); // UI settle
             return Browser.driver.findElement(locator); // find element again in case it moved
         } catch (TimeoutException ex) {
             throw new NoSuchElementException("Element was not found.", ex);
@@ -307,13 +194,13 @@ public class Browser {
         if (seconds > 10) {
             System.out.println("Checking if element (" + locator.toString() + ") appears in " + seconds + "s");
         }
-        Browser.waitSeconds = seconds;
+        waitSeconds = seconds;
         try {
             Browser.findElement(locator);
             return true;
         } catch (NoSuchElementException ignore) {
         }
-        Browser.waitSeconds = 10;
+        waitSeconds = 10;
         return false;
     }
 
@@ -321,14 +208,14 @@ public class Browser {
         if (seconds > 10) {
             System.out.println("Waiting for element (" + locator.toString() + ")  to appear in " + seconds + "s");
         }
-        Browser.waitSeconds = seconds;
+        waitSeconds = seconds;
         WebElement element = Browser.findElement(locator);
-        Browser.waitSeconds = 10;
+        waitSeconds = 10;
         return element;
     }
 
     public static void waitToBeClickable(WebElement el) throws NoSuchElementException {
-        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(Browser.waitSeconds));
+        WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(waitSeconds));
         try {
             webDriverWait
                     .until(ExpectedConditions.elementToBeClickable(el));
@@ -353,52 +240,22 @@ public class Browser {
         }
     }
 
-    public static void confirmTransactionInMetaMask(boolean isClaimStep) throws InterruptedException {
+    public static void confirmTransactionInMetaMask(boolean isClaimStep) {
         Browser.waitForExtensionWindowToAppear();
 
-        System.out.println("Going to Approve adding new network (if MetaMask requires it)...");
-        try {
-            Browser.findElement(2, ExtensionPage.METAMASK_APPROVE_BUTTON).click();
-            Thread.sleep(2000);
-        } catch (NoSuchElementException ignore) {
-        }
-        System.out.println("Going to confirm warning (if MetaMask requires it)...");
-        try {
-            Browser.findElement(2, ExtensionPage.METAMASK_GOT_IT_BUTTON).click();
-            Thread.sleep(2000);
-        } catch (NoSuchElementException ignore) {
-        }
-        System.out.println("Going to Switch network (if MetaMask requires it)...");
-        try {
-            Browser.findElement(2, ExtensionPage.METAMASK_SWITCH_NETWORK_BUTTON).click();
-            Thread.sleep(2000);
-        } catch (NoSuchElementException ignore) {
-        }
-
-        System.out.println("Confirming transaction in MetaMask...");
+        clickMetaMaskButton(ExtensionPage.METAMASK_APPROVE_BUTTON);
+        clickMetaMaskButton(ExtensionPage.METAMASK_GOT_IT_BUTTON);
+        clickMetaMaskButton(ExtensionPage.METAMASK_SWITCH_NETWORK_BUTTON);
 
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(900));
+
         webDriverWait
                 .until(webDriver -> {
                     if (Browser.extensionWindowIsOpened()) {
                         Browser.switchToExtensionWindow();
 
-                        if (Browser.isMainnet) {
-                            try {
-                                WebElement gasAmount = Browser.driver.findElement(ExtensionPage.METAMASK_GAS_AMOUNT_TEXT);
-                                String gasFeeText = gasAmount.getText().replace("$", "");
-                                double gasFeeUsd = Double.parseDouble(gasFeeText);
-                                if (isClaimStep) {
-                                    Browser.destinationGasFeeUsd = gasFeeText;
-                                } else {
-                                    Browser.sourceGasFeeUsd = gasFeeText;
-                                }
-                                if (gasFeeUsd >= 3.0) {
-                                    Browser.isBlocked = true;
-                                    Assert.fail("Fee exceeds 3$ in MetaMask");
-                                }
-                            } catch (NoSuchElementException | NumberFormatException ignore) {
-                            }
+                        if (TestCase.isMainnet) {
+                            handleGasFeeValidation(isClaimStep);
                         }
 
                         WebElement metamaskFooterButton = Browser.findElement(ExtensionPage.METAMASK_FOOTER_NEXT_BUTTON);
@@ -422,10 +279,7 @@ public class Browser {
                                 return metamaskFooterButton;
                         }
 
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException ignore) {
-                        }
+                        Browser.sleep(2000);
                         return null;
                     }
                     if (isClaimStep) {
@@ -438,73 +292,40 @@ public class Browser {
         Browser.switchToMainWindow();
     }
 
-    public static String getScanLinkTextByNetworkName(String network) {
-        switch (network) {
-            case "Goerli":
-            case "Ethereum":
-            case "Sepolia":
-                return "Etherscan";
-            case "Mumbai":
-            case "Polygon":
-                if (Browser.isMainnet) {
-                    return "PolygonScan";
-                }
-                return "Polygonscan";
-            case "BSC":
-                return "BscScan";
-            case "Fuji":
-            case "Avalanche":
-                return "Avascan";
-            case "Fantom":
-                if (Browser.isMainnet) {
-                    return "FTMscan";
-                }
-                return "FtmScan";
-            case "Alfajores":
-            case "Celo":
-                return "Celo Explorer";
-            case "Moonbase":
-            case "Moonbeam":
-                return "Moonscan";
-            case "Base Goerli":
-            case "Base":
-                return "BaseScan";
-            case "Arbitrum Goerli":
-                return "Arbitrum Goerli Explorer";
-            case "Arbitrum":
-                return "Arbitrum Explorer";
-            case "Optimism Goerli":
-                return "Optimistic Goerli";
-            case "Optimism":
-                return "Optimistic Etherscan";
-            case "Solana":
-                return "Solana Explorer";
-            case "Sui":
-                return "Sui Explorer";
-            case "Kujira":
-                return "Kujira Finder";
-            case "Evmos":
-            case "Osmosis":
-                return "MintScan";
-            case "Klaytn":
-                return "Klaytn Scope";
-            case "Aptos":
-                return "Aptos Explorer";
-            case "Injective":
-                return "Injective Explorer";
+    private static void clickMetaMaskButton(By buttonLocator) {
+        try {
+            Browser.findElement(2, buttonLocator).click();
+            Browser.sleep(2000);
+        } catch (NoSuchElementException ignore) {
         }
-        throw new RuntimeException("Unsupported network: " + network);
     }
 
+    private static void handleGasFeeValidation(boolean isClaimStep) {
+        try {
+            WebElement gasAmount = Browser.driver.findElement(ExtensionPage.METAMASK_GAS_AMOUNT_TEXT);
+            String gasFeeText = gasAmount.getText().replace("$", "");
+            double gasFeeUsd = Double.parseDouble(gasFeeText);
+
+            if (isClaimStep) {
+                TestCase.claimGasFeeUsd = gasFeeText;
+            } else {
+                TestCase.transactionGasFeeUsd = gasFeeText;
+            }
+
+            if (gasFeeUsd >= 3.0) {
+                TestCase.isBlockedByHighFee = true;
+                Assert.fail("Fee exceeds $3 in MetaMask");
+            }
+        } catch (NoSuchElementException | NumberFormatException ignore) {
+        }
+    }
 
     public static String getNativeAssetByNetworkName(String network) {
         switch (network) {
-            case "Goerli":
             case "Ethereum":
                 return "ETH";
-            case "Mumbai":
             case "Polygon":
-                return "MATIC";
+                return "POL";
             case "BSC":
                 return "BNB";
             case "Fuji":
@@ -518,13 +339,10 @@ public class Browser {
             case "Moonbase":
             case "Moonbeam":
                 return "GLMR";
-            case "Base Goerli":
             case "Base":
                 return "ETH";
-            case "Arbitrum Goerli":
             case "Arbitrum":
                 return "ETH";
-            case "Optimism Goerli":
             case "Optimism":
                 return "ETH";
             case "Solana":
@@ -535,17 +353,17 @@ public class Browser {
         throw new RuntimeException("Unsupported network: " + network);
     }
 
-    public static void selectAssetInFromSection(String wallet, String network, String asset) throws InterruptedException {
+    public static void selectAssetInFromSection(String wallet, String network, String asset) {
         Browser.findElement(WormholePage.SOURCE_SELECT_NETWORK_BUTTON).click();
-        Thread.sleep(1000);
+        Browser.sleep(1000);
         Browser.findElement(WormholePage.CHOOSE_NETWORK(network)).click();
-        Thread.sleep(3000); // wait for wallet auto-connect
+        Browser.sleep(3000); // wait for wallet auto-connect
 
         if (Browser.elementAppears(1, WormholePage.SOURCE_CONNECT_WALLET_BUTTON)) {
             Browser.findElement(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
             Browser.findElement(WormholePage.CHOOSE_WALLET(wallet)).click();
 
-            if (wallet.equals("MetaMask") && !Browser.metaMaskWasUnlocked) {
+            if (wallet.equals("MetaMask") && !TestCase.metaMaskWasUnlocked) {
                 Browser.waitForExtensionWindowToAppear();
 
                 Browser.findElement(ExtensionPage.METAMASK_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_METAMASK"));
@@ -558,31 +376,31 @@ public class Browser {
                 }
 
                 Browser.waitForExtensionWindowToDisappear();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
-                Browser.metaMaskWasUnlocked = true;
+                TestCase.metaMaskWasUnlocked = true;
             }
 
-            if (wallet.equals("Leap") && !Browser.leapWasUnlocked) {
+            if (wallet.equals("Leap") && !TestCase.leapWasUnlocked) {
                 Browser.waitForExtensionWindowToAppear();
 
                 Browser.findElement(ExtensionPage.LEAP_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_LEAP"));
                 Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
 
                 Browser.waitForExtensionWindowToDisappear();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
-                Browser.leapWasUnlocked = true;
+                TestCase.leapWasUnlocked = true;
             }
         }
 
         Browser.findElement(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();
-        Thread.sleep(1000);
+        Browser.sleep(1000);
         Browser.findElement(WormholePage.CHOOSE_ASSET(asset)).click();
-        Thread.sleep(1000);
+        Browser.sleep(1000);
     }
 
-    public static void moveSliderByOffset(int xOffset) throws InterruptedException {
+    public static void moveSliderByOffset(int xOffset) {
         WebElement slider = Browser.findElement(WormholePage.SLIDER_THUMB);
         Browser.scrollToElement(slider);
 
@@ -615,15 +433,15 @@ public class Browser {
         unlockButton.click();
 
         waitForExtensionWindowToDisappear();
-        metaMaskWasUnlocked = true;
+        TestCase.metaMaskWasUnlocked = true;
     }
 
     public static void validateRouteName() {
-        switch (Browser.route) {
+        switch (TestCase.route) {
             case "Token Bridge Manual route":
             case "CCTP Manual route":
             case "NTT Manual route":
-                Browser.requiresClaim = true;
+                TestCase.requiresClaim = true;
                 return;
 
             case "Token Bridge Automatic route":
@@ -633,10 +451,63 @@ public class Browser {
             case "Mayan MCTP route":
             case "NTT Automatic route":
             case "NTT + Axelar":
-                Browser.requiresClaim = false;
+                TestCase.requiresClaim = false;
                 return;
             default:
-                throw new RuntimeException("Unsupported route: " + Browser.route);
+                throw new RuntimeException("Unsupported route: " + TestCase.route);
+        }
+    }
+
+    public static void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ignore) {
+        }
+    }
+
+    public static void selectSourceChain() {
+        Browser.clickElement(WormholePage.SELECT_SOURCE_CHAIN);
+        Browser.clickElement(WormholePage.SELECT_OTHER_SOURCE_CHAIN);
+        Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.sourceChain));
+    }
+
+    public static void unlockMetaMaskIfNeeded(boolean metaMaskWasUnlocked) {
+        if (!metaMaskWasUnlocked) {
+            Browser.unlockMetaMask();
+        }
+    }
+
+    public static void selectDestinationChain() {
+        Browser.clickElement(WormholePage.SELECT_DESTINATION_CHAIN);
+        Browser.clickElement(WormholePage.SELECT_OTHER_DESTINATION_CHAIN);
+        Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.destinationChain));
+    }
+
+    public static String getDestinationTokenBalance(String destinationToken) {
+        return Browser.findElementAndWaitToHaveNumber(WormholePage.TOKEN_BALANCE_IN_TOKEN_LIST(destinationToken));
+    }
+
+
+    public static void determineEnvironment() {
+        TestCase.isMainnet = TestCase.url.contains("mainnet") || TestCase.url.contains("portalbridge.com");
+    }
+
+    public static void launchBrowser() {
+        if (TestCase.isMainnet) {
+            BrowserMainnet.launch();
+        } else {
+            Browser.launch();
+        }
+    }
+
+    public static void navigateTo(String url) {
+        Browser.driver.get(url);
+    }
+
+    public static void enterNetlifyPagePasswordIfNeeded() {
+        if (TestCase.url.contains("netlify.app")) {
+            Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
+            Browser.findElement(PasswordPage.button).click();
         }
     }
 }

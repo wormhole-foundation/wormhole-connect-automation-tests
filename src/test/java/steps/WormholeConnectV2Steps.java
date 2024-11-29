@@ -2,87 +2,83 @@ package steps;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.ExtensionPage;
-import pages.PasswordPage;
 import pages.WormholePage;
 import support.Browser;
-import support.BrowserMainnet;
+import support.TestCase;
 
 import java.time.Duration;
 
-import static junit.framework.TestCase.assertTrue;
-
 public class WormholeConnectV2Steps {
-    @Given("{string} opens")
-    public void opens(String build) {
-        if (build.contains("mainnet") || build.contains("portalbridge.com")) {
-            Browser.isMainnet = true;
-            BrowserMainnet.launch();
-        } else {
-            Browser.isMainnet = false;
-            Browser.launch();
-        }
-        Browser.url = build;
-        Browser.driver.get(Browser.url);
-        if (build.contains("netlify.app")) {
-            Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
-            Browser.findElement(PasswordPage.button).click();
-        }
+    @Given("Test data: {string} {string} {string} {string} {string} {string} {string} {string} {string}")
+    public void testData(String url, String route, String amount, String sourceToken, String sourceChain, String sourceWallet, String destinationToken, String destinationChain, String destinationWallet) {
+        TestCase.url = url;
+        TestCase.route = route;
+        TestCase.inputAmount = amount;
+        TestCase.sourceToken = sourceToken;
+        TestCase.sourceChain = sourceChain;
+        TestCase.sourceWallet = sourceWallet;
+        TestCase.destinationToken = destinationToken;
+        TestCase.destinationChain = destinationChain;
+        TestCase.destinationWallet = destinationWallet;
+
+        System.out.println("url: " + TestCase.url);
+        System.out.println("route: " + TestCase.route);
+        System.out.println("amount: " + TestCase.inputAmount);
+        System.out.println("source token: " + TestCase.sourceToken);
+        System.out.println("source chain: " + TestCase.sourceChain);
+        System.out.println("source wallet: " + TestCase.sourceWallet);
+        System.out.println("destination token: " + TestCase.destinationToken);
+        System.out.println("destination chain: " + TestCase.destinationChain);
+        System.out.println("destination wallet: " + TestCase.destinationWallet);
     }
 
-    @And("Transaction details entered: {string} {string} {string} to {string} {string}, from {string} to {string} route {string}")
-    public void transactionDetailsEnteredToRoute(String amount, String sourceToken, String sourceChain, String destinationToken, String destinationChain, String sourceWallet, String destinationWallet, String route) throws InterruptedException {
-        Browser.route = route;
-        Browser.sourceWallet = sourceWallet;
-        Browser.destinationWallet = destinationWallet;
-        Browser.sourceChain = sourceChain;
-        Browser.sourceToken = sourceToken;
-        Browser.destinationChain = destinationChain;
-        Browser.destinationToken = destinationToken;
-        Browser.sourceAmount = amount;
+    @Given("I open the page")
+    public void openThePage() {
+        Browser.determineEnvironment();
+        Browser.launchBrowser();
+        Browser.navigateTo(TestCase.url);
+        Browser.enterNetlifyPagePasswordIfNeeded();
+    }
 
+    @And("Transaction details entered")
+    public void transactionDetailsEnteredToRoute() {
         Browser.validateRouteName();
+        Browser.selectSourceChain();
 
-        Browser.clickElement(WormholePage.EXPAND_SOURCE_MORE_ICON);
-        Browser.clickElement(WormholePage.OTHER_SOURCE_CHAIN_ICON);
-        Browser.clickElement(WormholePage.FIND_NETWORK(Browser.sourceChain));
+        Browser.unlockMetaMaskIfNeeded(TestCase.metaMaskWasUnlocked);
+        Browser.clickElement(WormholePage.FIND_TOKEN(TestCase.sourceToken));
 
-        if (!Browser.metaMaskWasUnlocked) {
-            Browser.unlockMetaMask();
-        }
+        Browser.selectDestinationChain();
+        TestCase.destinationStartingBalance = Browser.getDestinationTokenBalance(TestCase.destinationToken);
 
-        Browser.clickElement(WormholePage.FIND_TOKEN(Browser.sourceToken));
-        Browser.clickElement(WormholePage.EXPAND_DESTINATION_MORE_ICON);
-        Browser.clickElement(WormholePage.OTHER_DESTINATION_CHAIN_ICON);
-        Browser.clickElement(WormholePage.FIND_NETWORK(Browser.destinationChain));
         Browser.pressEscape();
-        Thread.sleep(1000);
-        Browser.findElement(WormholePage.AMOUNT_INPUT).sendKeys(amount);
-        Thread.sleep(3000);
-        Browser.clickElement(WormholePage.REVIEW_TRANSACTION_BUTTON);
+        Browser.sleep(1000);
 
-        // Review page
+        Browser.findElement(WormholePage.AMOUNT_INPUT).sendKeys(TestCase.inputAmount);
+        Browser.sleep(3000);
+        Browser.clickElement(WormholePage.REVIEW_TRANSACTION_BUTTON);
         Browser.clickElement(WormholePage.CONFIRM_TRANSACTION_BUTTON);
     }
 
     @And("Transaction approved in the wallet")
-    public void transactionApprovedInTheWallet() throws InterruptedException {
-        System.out.println("Going to confirm transaction...");
+    public void transactionApprovedInTheWallet(){
+        System.out.println("Confirming transaction in the wallet");
 
-        switch (Browser.sourceWallet) {
+        switch (TestCase.sourceWallet) {
             case "MetaMask":
                 Browser.confirmTransactionInMetaMask(false);
-
                 break;
             case "Phantom":
                 Browser.waitForExtensionWindowToAppear();
 
                 Browser.findElement(ExtensionPage.PHANTOM_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
                 Browser.findElement(ExtensionPage.PHANTOM_SUBMIT_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 if (Browser.elementAppears(10, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK)) {
                     Browser.findElement(ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK).click();
@@ -98,10 +94,10 @@ public class WormholeConnectV2Steps {
 
                 Browser.findElement(ExtensionPage.SUI_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
                 Browser.findElement(ExtensionPage.SUI_UNLOCK_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.findElement(ExtensionPage.SUI_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 try {
                     Browser.findElement(ExtensionPage.SUI_DIALOG_APPROVE_BUTTON).click();
@@ -112,7 +108,7 @@ public class WormholeConnectV2Steps {
             case "Leap":
                 Browser.waitForExtensionWindowToAppear();
                 Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.waitForExtensionWindowToDisappear();
                 break;
@@ -121,10 +117,10 @@ public class WormholeConnectV2Steps {
 
                 Browser.findElement(ExtensionPage.SPIKA_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SPIKA"));
                 Browser.findElement(ExtensionPage.SPIKA_LOGIN_BUTTON).click();
-                Thread.sleep(2000);
+                Browser.sleep(2000);
 
                 Browser.findElement(ExtensionPage.SPIKA_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.waitForExtensionWindowToDisappear();
                 break;
@@ -144,24 +140,23 @@ public class WormholeConnectV2Steps {
 
     @And("Link to Wormholescan is displayed")
     public void linkToWormholescanIsDisplayed() {
-        Browser.wormholescanLink = Browser.findElement(WormholePage.VIEW_ON_WORMHOLESCAN_LINK).getAttribute("href");
-
-        Assert.assertTrue(Browser.wormholescanLink.startsWith("https://wormholescan.io/#/tx/"));
+        TestCase.wormholescanLink = Browser.findElement(WormholePage.VIEW_ON_WORMHOLESCAN_LINK).getAttribute("href");
+        Assert.assertTrue(TestCase.wormholescanLink.startsWith("https://wormholescan.io/#/tx/"));
     }
 
     @And("Claim assets on destination network if needed")
     public void claimAssetsOnDestinationNetwork() throws InterruptedException {
-        if (!Browser.requiresClaim) {
+        if (!TestCase.requiresClaim) {
             return;
         }
 
         System.out.println("Waiting for the Claim button...");
         Browser.findElement(3600, WormholePage.CLAIM_BUTTON_V2);
-        Thread.sleep(5000);
+        Browser.sleep(5000);
         Browser.findElement(WormholePage.CLAIM_BUTTON_V2).click();
-        Thread.sleep(2000);
+        Browser.sleep(2000);
 
-        if (Browser.destinationWallet.equals("Phantom")) {
+        if (TestCase.destinationWallet.equals("Phantom")) {
             Browser.waitForExtensionWindowToAppear();
 
             Browser.findElement(ExtensionPage.PHANTOM_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
@@ -177,10 +172,7 @@ public class WormholeConnectV2Steps {
                                 return null;
                             }
                             Browser.findElement(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException ignore) {
-                            }
+                            Browser.sleep(2000);
                             Browser.switchToMainWindow();
                             return null;
                         }
@@ -188,41 +180,56 @@ public class WormholeConnectV2Steps {
                     });
 
             Browser.waitForExtensionWindowToDisappear();
-        } else if (Browser.destinationWallet.equals("Sui")) {
+        } else if (TestCase.destinationWallet.equals("Sui")) {
             Browser.waitForExtensionWindowToAppear();
             Browser.findElement(ExtensionPage.SUI_UNLOCK_TO_APPROVE_BUTTON).click();
 
             Browser.findElement(ExtensionPage.SUI_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
             Browser.findElement(ExtensionPage.SUI_UNLOCK_BUTTON).click();
-            Thread.sleep(1000);
+            Browser.sleep(1000);
 
             Browser.findElement(ExtensionPage.SUI_APPROVE_BUTTON).click();
-            Thread.sleep(1000);
+            Browser.sleep(1000);
 
             try {
                 Browser.findElement(ExtensionPage.SUI_DIALOG_APPROVE_BUTTON).click();
             } catch (NoSuchElementException ignore) {
             }
             Browser.waitForExtensionWindowToDisappear();
-        } else if (Browser.destinationWallet.equals("Spika")) {
+        } else if (TestCase.destinationWallet.equals("Spika")) {
             Browser.waitForExtensionWindowToAppear();
 
             Browser.findElement(ExtensionPage.SPIKA_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SPIKA"));
             Browser.findElement(ExtensionPage.SPIKA_LOGIN_BUTTON).click();
-            Thread.sleep(2000);
+            Browser.sleep(2000);
 
             Browser.findElement(ExtensionPage.SPIKA_APPROVE_BUTTON).click();
-            Thread.sleep(1000);
+            Browser.sleep(1000);
 
             Browser.waitForExtensionWindowToDisappear();
-        } else if (Browser.destinationWallet.equals("Leap")) {
+        } else if (TestCase.destinationWallet.equals("Leap")) {
             Browser.waitForExtensionWindowToAppear();
             Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
-            Thread.sleep(1000);
+            Browser.sleep(1000);
 
             Browser.waitForExtensionWindowToDisappear();
         } else {
             Browser.confirmTransactionInMetaMask(true);
         }
+    }
+
+    @Then("I check that amount is received")
+    public void iCheckThatAmountIsReceived() {
+        Browser.driver.get(TestCase.url);
+
+        Browser.clickElement(WormholePage.SELECT_SOURCE_CHAIN);
+        Browser.clickElement(WormholePage.SELECT_OTHER_SOURCE_CHAIN);
+        Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.destinationChain));
+        Browser.clickElement(WormholePage.FIND_TOKEN(TestCase.destinationToken));
+
+
+        TestCase.destinationFinalBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.TOKEN_BALANCE_IN_TOKEN_LIST(TestCase.destinationToken));
+        System.out.println("Destination chain final balance: " + TestCase.destinationFinalBalance + " " + TestCase.destinationToken);
+        Assert.assertTrue("Balance should have increased", Double.parseDouble(TestCase.destinationFinalBalance) > Double.parseDouble(TestCase.destinationStartingBalance));
     }
 }
