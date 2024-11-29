@@ -319,44 +319,19 @@ public class Browser {
     public static void confirmTransactionInMetaMask(boolean isClaimStep) {
         Browser.waitForExtensionWindowToAppear();
 
-        try {
-            Browser.findElement(2, ExtensionPage.METAMASK_APPROVE_BUTTON).click();
-            Browser.sleep(2000);
-        } catch (NoSuchElementException ignore) {
-        }
-        try {
-            Browser.findElement(2, ExtensionPage.METAMASK_GOT_IT_BUTTON).click();
-            Browser.sleep(2000);
-        } catch (NoSuchElementException ignore) {
-        }
-        try {
-            Browser.findElement(2, ExtensionPage.METAMASK_SWITCH_NETWORK_BUTTON).click();
-            Browser.sleep(2000);
-        } catch (NoSuchElementException ignore) {
-        }
+        clickMetaMaskButton(ExtensionPage.METAMASK_APPROVE_BUTTON);
+        clickMetaMaskButton(ExtensionPage.METAMASK_GOT_IT_BUTTON);
+        clickMetaMaskButton(ExtensionPage.METAMASK_SWITCH_NETWORK_BUTTON);
 
         WebDriverWait webDriverWait = new WebDriverWait(Browser.driver, Duration.ofSeconds(900));
+
         webDriverWait
                 .until(webDriver -> {
                     if (Browser.extensionWindowIsOpened()) {
                         Browser.switchToExtensionWindow();
 
                         if (TestCase.isMainnet) {
-                            try {
-                                WebElement gasAmount = Browser.driver.findElement(ExtensionPage.METAMASK_GAS_AMOUNT_TEXT);
-                                String gasFeeText = gasAmount.getText().replace("$", "");
-                                double gasFeeUsd = Double.parseDouble(gasFeeText);
-                                if (isClaimStep) {
-                                    TestCase.claimGasFeeUsd = gasFeeText;
-                                } else {
-                                    TestCase.transactionGasFeeUsd = gasFeeText;
-                                }
-                                if (gasFeeUsd >= 3.0) {
-                                    TestCase.isBlockedByHighFee = true;
-                                    Assert.fail("Fee exceeds 3$ in MetaMask");
-                                }
-                            } catch (NoSuchElementException | NumberFormatException ignore) {
-                            }
+                            handleGasFeeValidation(isClaimStep);
                         }
 
                         WebElement metamaskFooterButton = Browser.findElement(ExtensionPage.METAMASK_FOOTER_NEXT_BUTTON);
@@ -391,6 +366,34 @@ public class Browser {
 
         System.out.println("Transaction was confirmed in MetaMask");
         Browser.switchToMainWindow();
+    }
+
+    private static void clickMetaMaskButton(By buttonLocator) {
+        try {
+            Browser.findElement(2, buttonLocator).click();
+            Browser.sleep(2000);
+        } catch (NoSuchElementException ignore) {
+        }
+    }
+
+    private static void handleGasFeeValidation(boolean isClaimStep) {
+        try {
+            WebElement gasAmount = Browser.driver.findElement(ExtensionPage.METAMASK_GAS_AMOUNT_TEXT);
+            String gasFeeText = gasAmount.getText().replace("$", "");
+            double gasFeeUsd = Double.parseDouble(gasFeeText);
+
+            if (isClaimStep) {
+                TestCase.claimGasFeeUsd = gasFeeText;
+            } else {
+                TestCase.transactionGasFeeUsd = gasFeeText;
+            }
+
+            if (gasFeeUsd >= 3.0) {
+                TestCase.isBlockedByHighFee = true;
+                Assert.fail("Fee exceeds $3 in MetaMask");
+            }
+        } catch (NoSuchElementException | NumberFormatException ignore) {
+        }
     }
 
     public static String getNativeAssetByNetworkName(String network) {
