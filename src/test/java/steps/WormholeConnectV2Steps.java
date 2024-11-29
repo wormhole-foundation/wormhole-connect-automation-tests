@@ -45,7 +45,7 @@ public class WormholeConnectV2Steps {
     }
 
     @And("Transaction details entered")
-    public void transactionDetailsEnteredToRoute() throws InterruptedException {
+    public void transactionDetailsEnteredToRoute() {
         Browser.validateRouteName();
 
         Browser.clickElement(WormholePage.EXPAND_SOURCE_MORE_ICON);
@@ -66,12 +66,11 @@ public class WormholeConnectV2Steps {
 
         Browser.pressEscape();
 
-        Thread.sleep(1000);
+        Browser.sleep(1000);
         Browser.findElement(WormholePage.AMOUNT_INPUT).sendKeys(TestCase.inputAmount);
-        Thread.sleep(3000);
+        Browser.sleep(3000);
         Browser.clickElement(WormholePage.REVIEW_TRANSACTION_BUTTON);
 
-        // Review page
         Browser.clickElement(WormholePage.CONFIRM_TRANSACTION_BUTTON);
     }
 
@@ -89,7 +88,7 @@ public class WormholeConnectV2Steps {
 
                 Browser.findElement(ExtensionPage.PHANTOM_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
                 Browser.findElement(ExtensionPage.PHANTOM_SUBMIT_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 if (Browser.elementAppears(10, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK)) {
                     Browser.findElement(ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK).click();
@@ -105,10 +104,10 @@ public class WormholeConnectV2Steps {
 
                 Browser.findElement(ExtensionPage.SUI_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
                 Browser.findElement(ExtensionPage.SUI_UNLOCK_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.findElement(ExtensionPage.SUI_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 try {
                     Browser.findElement(ExtensionPage.SUI_DIALOG_APPROVE_BUTTON).click();
@@ -119,7 +118,7 @@ public class WormholeConnectV2Steps {
             case "Leap":
                 Browser.waitForExtensionWindowToAppear();
                 Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.waitForExtensionWindowToDisappear();
                 break;
@@ -128,10 +127,10 @@ public class WormholeConnectV2Steps {
 
                 Browser.findElement(ExtensionPage.SPIKA_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SPIKA"));
                 Browser.findElement(ExtensionPage.SPIKA_LOGIN_BUTTON).click();
-                Thread.sleep(2000);
+                Browser.sleep(2000);
 
                 Browser.findElement(ExtensionPage.SPIKA_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.waitForExtensionWindowToDisappear();
                 break;
@@ -164,9 +163,9 @@ public class WormholeConnectV2Steps {
 
         System.out.println("Waiting for the Claim button...");
         Browser.findElement(3600, WormholePage.CLAIM_BUTTON_V2);
-        Thread.sleep(5000);
+        Browser.sleep(5000);
         Browser.findElement(WormholePage.CLAIM_BUTTON_V2).click();
-        Thread.sleep(2000);
+        Browser.sleep(2000);
 
         if (TestCase.destinationWallet.equals("Phantom")) {
             Browser.waitForExtensionWindowToAppear();
@@ -184,10 +183,7 @@ public class WormholeConnectV2Steps {
                                 return null;
                             }
                             Browser.findElement(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException ignore) {
-                            }
+                            Browser.sleep(2000);
                             Browser.switchToMainWindow();
                             return null;
                         }
@@ -201,10 +197,10 @@ public class WormholeConnectV2Steps {
 
             Browser.findElement(ExtensionPage.SUI_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
             Browser.findElement(ExtensionPage.SUI_UNLOCK_BUTTON).click();
-            Thread.sleep(1000);
+            Browser.sleep(1000);
 
             Browser.findElement(ExtensionPage.SUI_APPROVE_BUTTON).click();
-            Thread.sleep(1000);
+            Browser.sleep(1000);
 
             try {
                 Browser.findElement(ExtensionPage.SUI_DIALOG_APPROVE_BUTTON).click();
@@ -216,16 +212,16 @@ public class WormholeConnectV2Steps {
 
             Browser.findElement(ExtensionPage.SPIKA_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SPIKA"));
             Browser.findElement(ExtensionPage.SPIKA_LOGIN_BUTTON).click();
-            Thread.sleep(2000);
+            Browser.sleep(2000);
 
             Browser.findElement(ExtensionPage.SPIKA_APPROVE_BUTTON).click();
-            Thread.sleep(1000);
+            Browser.sleep(1000);
 
             Browser.waitForExtensionWindowToDisappear();
         } else if (TestCase.destinationWallet.equals("Leap")) {
             Browser.waitForExtensionWindowToAppear();
             Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
-            Thread.sleep(1000);
+            Browser.sleep(1000);
 
             Browser.waitForExtensionWindowToDisappear();
         } else {
