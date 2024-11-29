@@ -68,7 +68,7 @@ public class WormholeConnectSteps {
     }
 
     @And("I prepare to send {string} {string} from {string}\\({string}) to {string}\\({string}) with {string} route")
-    public void iFillInTransactionDetails(String amount, String asset, String fromNetwork, String fromWallet, String toNetwork, String toWallet, String route) throws InterruptedException {
+    public void iFillInTransactionDetails(String amount, String asset, String fromNetwork, String fromWallet, String toNetwork, String toWallet, String route) {
         TestCase.sourceWallet = fromWallet;
         TestCase.destinationWallet = toWallet;
         TestCase.sourceChain = fromNetwork;
@@ -87,9 +87,9 @@ public class WormholeConnectSteps {
         Browser.selectAssetInFromSection(TestCase.sourceWallet, TestCase.sourceChain, TestCase.sourceToken);
 
         Browser.findElement(WormholePage.DESTINATION_SELECT_NETWORK_BUTTON).click();
-        Thread.sleep(1000);
+        Browser.sleep(1000);
         Browser.findElement(WormholePage.CHOOSE_NETWORK(TestCase.destinationChain)).click();
-        Thread.sleep(3000); // wait for wallet auto-connect
+        Browser.sleep(3000); // wait for wallet auto-connect
 
         if (Browser.elementAppears(1, WormholePage.DESTINATION_CONNECT_WALLET_BUTTON)) {
             Browser.findElement(WormholePage.DESTINATION_CONNECT_WALLET_BUTTON).click();
@@ -112,14 +112,14 @@ public class WormholeConnectSteps {
                 Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
 
                 Browser.waitForExtensionWindowToDisappear();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 TestCase.leapWasUnlocked = true;
             }
         }
 
         Browser.findElement(WormholePage.SOURCE_AMOUNT_INPUT).sendKeys(amount);
-        Thread.sleep(1000);
+        Browser.sleep(1000);
 
         try {
             Browser.findElement(WormholePage.POPUP_CLOSE_BUTTON).click();
@@ -146,20 +146,20 @@ public class WormholeConnectSteps {
             case "circle-automatic":
                 // choose Manual and then again Automatic to enable native gas section
                 Browser.findElement(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
                 Browser.findElement(WormholePage.MANUAL_BRIDGE_OPTION).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
                 Browser.findElement(WormholePage.AUTOMATIC_BRIDGE_OPTION).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
                 break;
             case "circle-cctp-automatic":
                 // choose Manual and then again Automatic to enable native gas section
                 Browser.findElement(WormholePage.CCTP_AUTOMATIC_BRIDGE_OPTION).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
                 Browser.findElement(WormholePage.CCTP_MANUAL_BRIDGE_OPTION).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
                 Browser.findElement(WormholePage.CCTP_AUTOMATIC_BRIDGE_OPTION).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
                 break;
             case "wormhole-bridge-manual":
             case "circle-manual":
@@ -188,15 +188,15 @@ public class WormholeConnectSteps {
                 break;
         }
 
-        Thread.sleep(3000); // wait UI to settle
+        Browser.sleep(3000); // wait UI to settle
     }
 
     @Then("I check balance has increased on destination chain")
-    public void iCheckFinalBalance() throws InterruptedException {
+    public void iCheckFinalBalance() {
         Browser.driver.get(TestCase.url);
         if (TestCase.destinationChain.equals("Solana")) {
             System.out.println("Waiting 20 seconds to receive asset on Solana");
-            Thread.sleep(20000);
+            Browser.sleep(20000);
         }
         System.out.println("Checking " + TestCase.destinationToken + " balance on " + TestCase.destinationChain + " (" + TestCase.destinationWallet + ")");
         Browser.selectAssetInFromSection(TestCase.destinationWallet, TestCase.destinationChain, TestCase.destinationToken);
@@ -233,16 +233,16 @@ public class WormholeConnectSteps {
     }
 
     @When("I click on Approve button")
-    public void iApproveTransfer() throws InterruptedException {
+    public void iApproveTransfer() {
         WebElement approveButton = Browser.findElement(WormholePage.APPROVE_BUTTON);
         Browser.scrollToElement(approveButton);
-        Thread.sleep(5000);
+        Browser.sleep(5000);
         approveButton.click();
-        Thread.sleep(2000);
+        Browser.sleep(2000);
     }
 
     @When("I approve wallet notifications")
-    public void iApproveWalletNotification() throws InterruptedException {
+    public void iApproveWalletNotification() {
         System.out.println("Going to confirm transaction...");
 
         switch (TestCase.sourceWallet) {
@@ -255,7 +255,7 @@ public class WormholeConnectSteps {
 
                 Browser.findElement(ExtensionPage.PHANTOM_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_PHANTOM"));
                 Browser.findElement(ExtensionPage.PHANTOM_SUBMIT_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 if (Browser.elementAppears(10, ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK)) {
                     Browser.findElement(ExtensionPage.IGNORE_WARNING_PROCEED_ANYWAY_LINK).click();
@@ -271,10 +271,10 @@ public class WormholeConnectSteps {
 
                 Browser.findElement(ExtensionPage.SUI_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
                 Browser.findElement(ExtensionPage.SUI_UNLOCK_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.findElement(ExtensionPage.SUI_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 try {
                     Browser.findElement(ExtensionPage.SUI_DIALOG_APPROVE_BUTTON).click();
@@ -285,7 +285,7 @@ public class WormholeConnectSteps {
             case "Leap":
                 Browser.waitForExtensionWindowToAppear();
                 Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.waitForExtensionWindowToDisappear();
                 break;
@@ -294,10 +294,10 @@ public class WormholeConnectSteps {
 
                 Browser.findElement(ExtensionPage.SPIKA_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SPIKA"));
                 Browser.findElement(ExtensionPage.SPIKA_LOGIN_BUTTON).click();
-                Thread.sleep(2000);
+                Browser.sleep(2000);
 
                 Browser.findElement(ExtensionPage.SPIKA_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.waitForExtensionWindowToDisappear();
                 break;
@@ -326,13 +326,13 @@ public class WormholeConnectSteps {
     }
 
     @Then("I should claim assets")
-    public void iShouldClaimAssets() throws InterruptedException {
+    public void iShouldClaimAssets() {
         if (TestCase.route.equals("wormhole-bridge-manual") || TestCase.route.equals("circle-manual") || TestCase.route.equals("cosmos-manual") || TestCase.route.equals("route-option-nttManual")) {
             System.out.println("Waiting for the Claim button...");
             Browser.findElement(3600, WormholePage.CLAIM_BUTTON);
-            Thread.sleep(5000);
+            Browser.sleep(5000);
             Browser.findElement(WormholePage.CLAIM_BUTTON).click();
-            Thread.sleep(2000);
+            Browser.sleep(2000);
 
             if (TestCase.destinationWallet.equals("Phantom")) {
                 Browser.waitForExtensionWindowToAppear();
@@ -350,10 +350,7 @@ public class WormholeConnectSteps {
                                     return null;
                                 }
                                 Browser.findElement(ExtensionPage.PHANTOM_PRIMARY_BUTTON).click(); // Confirm
-                                try {
-                                    Thread.sleep(2000);
-                                } catch (InterruptedException ignore) {
-                                }
+                                Browser.sleep(2000);
                                 Browser.switchToMainWindow();
                                 return null;
                             }
@@ -367,10 +364,10 @@ public class WormholeConnectSteps {
 
                 Browser.findElement(ExtensionPage.SUI_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SUI"));
                 Browser.findElement(ExtensionPage.SUI_UNLOCK_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.findElement(ExtensionPage.SUI_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 try {
                     Browser.findElement(ExtensionPage.SUI_DIALOG_APPROVE_BUTTON).click();
@@ -382,16 +379,16 @@ public class WormholeConnectSteps {
 
                 Browser.findElement(ExtensionPage.SPIKA_PASSWORD_INPUT).sendKeys(Browser.env.get("WALLET_PASSWORD_SPIKA"));
                 Browser.findElement(ExtensionPage.SPIKA_LOGIN_BUTTON).click();
-                Thread.sleep(2000);
+                Browser.sleep(2000);
 
                 Browser.findElement(ExtensionPage.SPIKA_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.waitForExtensionWindowToDisappear();
             } else if (TestCase.destinationWallet.equals("Leap")) {
                 Browser.waitForExtensionWindowToAppear();
                 Browser.findElement(ExtensionPage.LEAP_APPROVE_BUTTON).click();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 Browser.waitForExtensionWindowToDisappear();
             } else {
@@ -422,7 +419,7 @@ public class WormholeConnectSteps {
     }
 
     @And("I move slider")
-    public void iMoveSlider() throws InterruptedException {
+    public void iMoveSlider() {
         Browser.moveSliderByOffset(220);
     }
 }

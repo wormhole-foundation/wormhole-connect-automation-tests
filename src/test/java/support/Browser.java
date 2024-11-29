@@ -258,10 +258,8 @@ public class Browser {
             webDriverWait.until((webDriver) -> {
                 return Browser.driver.findElement(locator);
             });
-            try {
-                Thread.sleep(500); // UI settle
-            } catch (InterruptedException ignore) {
-            }
+
+            Browser.sleep(500); // UI settle
             return Browser.driver.findElement(locator); // find element again in case it moved
         } catch (TimeoutException ex) {
             throw new NoSuchElementException("Element was not found.", ex);
@@ -318,25 +316,25 @@ public class Browser {
         }
     }
 
-    public static void confirmTransactionInMetaMask(boolean isClaimStep) throws InterruptedException {
+    public static void confirmTransactionInMetaMask(boolean isClaimStep) {
         Browser.waitForExtensionWindowToAppear();
 
         System.out.println("Going to Approve adding new network (if MetaMask requires it)...");
         try {
             Browser.findElement(2, ExtensionPage.METAMASK_APPROVE_BUTTON).click();
-            Thread.sleep(2000);
+            Browser.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
         System.out.println("Going to confirm warning (if MetaMask requires it)...");
         try {
             Browser.findElement(2, ExtensionPage.METAMASK_GOT_IT_BUTTON).click();
-            Thread.sleep(2000);
+            Browser.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
         System.out.println("Going to Switch network (if MetaMask requires it)...");
         try {
             Browser.findElement(2, ExtensionPage.METAMASK_SWITCH_NETWORK_BUTTON).click();
-            Thread.sleep(2000);
+            Browser.sleep(2000);
         } catch (NoSuchElementException ignore) {
         }
 
@@ -387,10 +385,7 @@ public class Browser {
                                 return metamaskFooterButton;
                         }
 
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException ignore) {
-                        }
+                        Browser.sleep(2000);
                         return null;
                     }
                     if (isClaimStep) {
@@ -500,11 +495,11 @@ public class Browser {
         throw new RuntimeException("Unsupported network: " + network);
     }
 
-    public static void selectAssetInFromSection(String wallet, String network, String asset) throws InterruptedException {
+    public static void selectAssetInFromSection(String wallet, String network, String asset) {
         Browser.findElement(WormholePage.SOURCE_SELECT_NETWORK_BUTTON).click();
-        Thread.sleep(1000);
+        Browser.sleep(1000);
         Browser.findElement(WormholePage.CHOOSE_NETWORK(network)).click();
-        Thread.sleep(3000); // wait for wallet auto-connect
+        Browser.sleep(3000); // wait for wallet auto-connect
 
         if (Browser.elementAppears(1, WormholePage.SOURCE_CONNECT_WALLET_BUTTON)) {
             Browser.findElement(WormholePage.SOURCE_CONNECT_WALLET_BUTTON).click();
@@ -523,7 +518,7 @@ public class Browser {
                 }
 
                 Browser.waitForExtensionWindowToDisappear();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 TestCase.metaMaskWasUnlocked = true;
             }
@@ -535,19 +530,19 @@ public class Browser {
                 Browser.findElement(ExtensionPage.LEAP_UNLOCK_BUTTON).click();
 
                 Browser.waitForExtensionWindowToDisappear();
-                Thread.sleep(1000);
+                Browser.sleep(1000);
 
                 TestCase.leapWasUnlocked = true;
             }
         }
 
         Browser.findElement(WormholePage.SOURCE_SELECT_ASSET_BUTTON).click();
-        Thread.sleep(1000);
+        Browser.sleep(1000);
         Browser.findElement(WormholePage.CHOOSE_ASSET(asset)).click();
-        Thread.sleep(1000);
+        Browser.sleep(1000);
     }
 
-    public static void moveSliderByOffset(int xOffset) throws InterruptedException {
+    public static void moveSliderByOffset(int xOffset) {
         WebElement slider = Browser.findElement(WormholePage.SLIDER_THUMB);
         Browser.scrollToElement(slider);
 
@@ -602,6 +597,13 @@ public class Browser {
                 return;
             default:
                 throw new RuntimeException("Unsupported route: " + TestCase.route);
+        }
+    }
+
+    public static void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ignore) {
         }
     }
 }
