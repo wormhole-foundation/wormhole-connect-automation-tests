@@ -27,51 +27,46 @@ public class WormholeConnectV2Steps {
         TestCase.destinationToken = destinationToken;
         TestCase.destinationChain = destinationChain;
         TestCase.destinationWallet = destinationWallet;
+
+        System.out.println("url: " + TestCase.url);
+        System.out.println("route: " + TestCase.route);
+        System.out.println("amount: " + TestCase.inputAmount);
+        System.out.println("source token: " + TestCase.sourceToken);
+        System.out.println("source chain: " + TestCase.sourceChain);
+        System.out.println("source wallet: " + TestCase.sourceWallet);
+        System.out.println("destination token: " + TestCase.destinationToken);
+        System.out.println("destination chain: " + TestCase.destinationChain);
+        System.out.println("destination wallet: " + TestCase.destinationWallet);
     }
 
     @Given("I open the page")
     public void opens() {
-        if (TestCase.url.contains("mainnet") || TestCase.url.contains("portalbridge.com")) {
-            TestCase.isMainnet = true;
-            BrowserMainnet.launch();
-        } else {
-            TestCase.isMainnet = false;
-            Browser.launch();
+        Browser.determineEnvironment();
+        Browser.launchBrowser();
+        Browser.navigateToUrl();
+        if (Browser.isNetlifyPage()) {
+            Browser.enterPassword();
         }
-        Browser.driver.get(TestCase.url);
-        if (TestCase.url.contains("netlify.app")) {
-            Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
-            Browser.findElement(PasswordPage.button).click();
-        }
+
     }
 
     @And("Transaction details entered")
     public void transactionDetailsEnteredToRoute() {
         Browser.validateRouteName();
+        Browser.selectSourceChain();
 
-        Browser.clickElement(WormholePage.SELECT_SOURCE_CHAIN);
-        Browser.clickElement(WormholePage.SELECT_OTHER_SOURCE_CHAIN);
-        Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.sourceChain));
-
-        if (!TestCase.metaMaskWasUnlocked) {
-            Browser.unlockMetaMask();
-        }
-
+        Browser.unlockMetaMaskIfNeeded(TestCase.metaMaskWasUnlocked);
         Browser.clickElement(WormholePage.FIND_TOKEN(TestCase.sourceToken));
-        Browser.clickElement(WormholePage.SELECT_DESTINATION_CHAIN);
-        Browser.clickElement(WormholePage.SELECT_OTHER_DESTINATION_CHAIN);
-        Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.destinationChain));
 
-        TestCase.destinationStartingBalance = Browser.findElementAndWaitToHaveNumber(WormholePage.TOKEN_BALANCE_IN_TOKEN_LIST(TestCase.destinationToken));
-        System.out.println("Destination chain balance: " + TestCase.destinationStartingBalance + " " + TestCase.destinationToken);
+        Browser.selectDestinationChain();
+        TestCase.destinationStartingBalance = Browser.getDestinationTokenBalance(TestCase.destinationToken);
 
         Browser.pressEscape();
-
         Browser.sleep(1000);
+
         Browser.findElement(WormholePage.AMOUNT_INPUT).sendKeys(TestCase.inputAmount);
         Browser.sleep(3000);
         Browser.clickElement(WormholePage.REVIEW_TRANSACTION_BUTTON);
-
         Browser.clickElement(WormholePage.CONFIRM_TRANSACTION_BUTTON);
     }
 
@@ -151,7 +146,6 @@ public class WormholeConnectV2Steps {
     @And("Link to Wormholescan is displayed")
     public void linkToWormholescanIsDisplayed() {
         TestCase.wormholescanLink = Browser.findElement(WormholePage.VIEW_ON_WORMHOLESCAN_LINK).getAttribute("href");
-
         Assert.assertTrue(TestCase.wormholescanLink.startsWith("https://wormholescan.io/#/tx/"));
     }
 

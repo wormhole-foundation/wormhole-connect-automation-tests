@@ -537,4 +537,63 @@ public class Browser {
         } catch (InterruptedException ignore) {
         }
     }
+
+    public static void selectSourceChain() {
+        Browser.clickElement(WormholePage.SELECT_SOURCE_CHAIN);
+        Browser.clickElement(WormholePage.SELECT_OTHER_SOURCE_CHAIN);
+        Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.sourceChain));
+    }
+
+    public static void unlockMetaMaskIfNeeded(boolean metaMaskWasUnlocked) {
+        if (!metaMaskWasUnlocked) {
+            Browser.unlockMetaMask();
+        }
+    }
+
+    public static void selectDestinationChain() {
+        Browser.clickElement(WormholePage.SELECT_DESTINATION_CHAIN);
+        Browser.clickElement(WormholePage.SELECT_OTHER_DESTINATION_CHAIN);
+        Browser.clickElement(WormholePage.FIND_NETWORK(TestCase.destinationChain));
+    }
+
+    public static String getDestinationTokenBalance(String destinationToken) {
+        return Browser.findElementAndWaitToHaveNumber(WormholePage.TOKEN_BALANCE_IN_TOKEN_LIST(destinationToken));
+    }
+
+
+    public static void determineEnvironment() {
+        if (isMainnetUrl(TestCase.url)) {
+            TestCase.isMainnet = true;
+        } else {
+            TestCase.isMainnet = false;
+        }
+    }
+
+    public static boolean isMainnetUrl(String url) {
+        return url.contains("mainnet") || url.contains("portalbridge.com");
+    }
+
+    public static void launchBrowser() {
+        if (TestCase.isMainnet) {
+            BrowserMainnet.launch();
+        } else {
+            Browser.launch();
+        }
+    }
+
+    public static void navigateToUrl() {
+        Browser.driver.get(TestCase.url);
+    }
+
+    public static boolean isNetlifyPage() {
+        return TestCase.url.contains("netlify.app");
+    }
+
+    public static void enterPassword() {
+        Browser.findElement(PasswordPage.passwordInput).sendKeys(Browser.env.get("WORMHOLE_PAGE_PASSWORD"));
+        Browser.findElement(PasswordPage.button).click();
+    }
+
+
+
 }
